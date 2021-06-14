@@ -72,7 +72,8 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
-<div *ngIf="showUl" class="quickMessOpt">
-  <li *ngFor="let qm of quickMessages" (click)="checkedQm = qm.id" [ngClass]="{'checked': qm.id == checkedQm}"> {{ qm.text }} </li>
-  <ion-button class="sendQuickMessage" color="danger" (click)="sendQuickMessage()"> שלח </ion-button>
-</div>
+<ion-list *ngIf="showUl" class="quickMessOpt">
+  <ion-item tappable (click)="sendQuickMessage(qm.id)" *ngFor="let qm of quickMessages" [ngClass]="{'checked': qm.id == checkedQm}"> {{ qm.text }}
+<!--  <ion-button  slot="end"> שלח </ion-button>-->
+  </ion-item>
+</ion-list>
