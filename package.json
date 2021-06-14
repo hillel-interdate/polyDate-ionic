@@ -42,6 +42,7 @@
     "@ionic/core": "^4.11.10",
     "@ionic/storage": "^2.2.0",
     "ajv": "^5.5.2",
+    "cordova-ios": "5.1.1",
     "cordova-plugin-android-permissions": "^1.0.2",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-camera": "^4.1.0",
@@ -108,8 +109,12 @@
     "plugins": {
       "cordova-sqlite-storage": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-fingerprint-aio": {},
-      "cordova-plugin-telerik-imagepicker": {},
+      "cordova-plugin-fingerprint-aio": {
+        "FACEID_USAGE_DESCRIPTION": " "
+      },
+      "cordova-plugin-telerik-imagepicker": {
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
+      },
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
@@ -157,7 +162,8 @@
       "cordova-plugin-local-notification": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }
