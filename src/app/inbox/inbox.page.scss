@@ -23,13 +23,13 @@
 }
 .ion-cart {
   border-radius: 0px;
-   background-color: white;
+  background-color: white;
   height: 135px;
   --background: #fff;
 }
 .counter {
   top: 0;
-  rihgt: 0;
+  right: 0;
 }
 
 .paying{
@@ -43,14 +43,14 @@ ion-card-content {
 }
 
 ion-content {
-  dislay: flex;
+  display: flex;
 }
 
 .message-counter {
   display: block;
   position: absolute;
   min-height: 24px;
-  min-width: 24px;
+  width: 24px;
   text-align: center;
   background: #d50312;
   border-radius: 50%;

@@ -61,10 +61,12 @@
   </div>
 
   <ion-toolbar *ngIf="messages" id="form-dialog">
-    <ion-button class="qmbtn" color="danger" (click)="ulToggle()">  הודעה מהירה </ion-button>
-    <ion-textarea [disabled]="cantWrite" id="dialog-msg" (click)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="message" placeholder=""></ion-textarea>
-    <div class="clear-both"></div>
-    <ion-button class="send-msg"   (click)="sendMessage()" color="danger">שלח</ion-button>
+    <div class="flex">
+    <ion-button class="send-msg" (click)="sendMessage()" color="danger" slot="icon-only"><ion-icon name="send"></ion-icon></ion-button>
+    <ion-textarea [disabled]="cantWrite" id="dialog-msg" (click)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="message" placeholder="">
+      <ion-button class="qmbtn"fill="clear" size="small" (click)="ulToggle()" color="dark" slot="icon-only"><ion-icon name="clipboard"></ion-icon></ion-button>
+    </ion-textarea>
+    </div>
   </ion-toolbar>
   <ion-infinite-scroll #scroll position="top"  threshold="60%" (ionInfinite)="moreMessages($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
