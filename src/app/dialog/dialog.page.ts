@@ -238,7 +238,8 @@ export class DialogPage implements OnInit{
     }
   }
 
-  sendQuickMessage() {
+  sendQuickMessage(id) {
+    this.checkedQm = id;
     // alert(1);
     // if (!this.cantWrite) {
     if (this.checkedQm > 0) {
