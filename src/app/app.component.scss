@@ -337,8 +337,11 @@ header {
   transition-duration: 100ms !important;
 }
 
-.md ion-menu .menu-inner, .ios ion-menu .menu-inner {
+.md ion-menu .menu-inner{
   top: 70px;
+  background: #39393f;
+}
+.ios ion-menu .menu-inner {
   background: #39393f;
 }
 
