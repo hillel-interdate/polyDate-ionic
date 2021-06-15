@@ -38,6 +38,7 @@
 .flex {
   display: flex;
   height: auto;
+  position: relative;
   padding: 0;
   justify-content: center;
   align-items: center;
@@ -107,8 +108,13 @@ ion-toolbar {
 
 
 .qmbtn {
-  float: left;
-  margin-left: -10px;
+  //float: left;
+  //margin-left: -10px;
+  position: absolute;
+  left: 0;
+  bottom: 50%;
+  z-index: 31;
+  transform: translateY(60%);
 }
 
 .messages {
