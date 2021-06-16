@@ -10,7 +10,7 @@
 ion-menu {
   height: calc(100% - 114px);
   /* margin: auto; */
-  margin-top: 50px;
+  margin-top: calc(50px + var(--ion-safe-area-top));
   z-index: 2;
 }
 
