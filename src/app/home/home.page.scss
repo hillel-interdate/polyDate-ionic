@@ -478,18 +478,18 @@ ul.profile-btn .btn div {
   margin: -10px, 0;
 }
 
-ion-select:before {
-  content: "edit";
-  width: 50px;
-  height: 30px;
-  position: absolute;
-  font-size: 0px;
-  top: 0px;
-  left: 0px;
-  z-index: 999;
-  background-color: #fff;
-  border-radius: 5px;
-}
+//ion-select:before {
+//  content: "edit";
+//  width: 50px;
+//  height: 30px;
+//  position: absolute;
+//  font-size: 0px;
+//  top: 0px;
+//  left: 0px;
+//  z-index: 999;
+//  background-color: #fff;
+//  border-radius: 5px;
+//}
 
 //.ion-list {
 //  position: relative;
@@ -509,7 +509,7 @@ ion-content {
   //right: 0;
   //left: 0;
   //top: 45px;
-  padding-top: 90px;
+  padding-top: calc(50px + var(--ion-safe-area-top) + 50px);
 }
 
 .paying {
