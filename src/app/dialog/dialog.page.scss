@@ -2,7 +2,11 @@
 .text-input-md {
   margin: 2px 0 0 10px;
 }
-
+.user-block{
+  position: fixed;
+  right: 16px;
+  left: 16px;
+}
 .usr_msg ion-card-content {
   padding: 0;
 }
@@ -120,7 +124,7 @@ ion-toolbar {
 .messages {
   margin: 0 auto 0;
   width: 84%;
-  height: calc(100% - 231px);
+  //height: calc(100% - 231px);
   overflow: auto;
 }
 
