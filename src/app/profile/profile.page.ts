@@ -44,12 +44,14 @@ export class ProfilePage implements OnInit {
               public route: ActivatedRoute,
               public keyboard: Keyboard,
               private changeRef: ChangeDetectorRef,
-              public platform: Platform) {
+              public platform: Platform,
+              ) {
+
   }
 
 
     ngOnInit() {
-         this.route.queryParams.subscribe((params: any) => {
+        this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
                 this.user = JSON.parse(params.data).user;
 
@@ -61,7 +63,7 @@ export class ProfilePage implements OnInit {
                     }
                 ];
                 console.log(this.user);
-                this.getUesr();
+                this.getUser();
             } else {
                 this.api.storage.get('user_data').then(userData => {
                     console.log(userData.user_id);
@@ -77,14 +79,13 @@ export class ProfilePage implements OnInit {
                     ];
                     console.log(userData);
                     this.myProfile = true;
-                    this.getUesr();
+                    this.getUser();
                     this.api.hideLoad();
                 });
             }
         });
 
         console.log(this.texts);
-
     }
 
 
@@ -118,11 +119,38 @@ export class ProfilePage implements OnInit {
 
     }
 
-    getUesr() {
+    getUser() {
         console.log('this.user.id: ');
         console.log(this.user.id);
-        this.api.http.get(this.api.apiUrl + '/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data:any) => {
-           this.user = data;
+        if (typeof this.api.usersCache[this.user.id] !== 'undefined') {
+            this.user = this.api.usersCache[this.user.id];
+        }
+        let userId = this.user.id;
+        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data:any) => {
+           //this.user = this.api.usersCache[this.user.id] = data;
+            this.api.usersCache[this.user.id] = data;
+            for (let key in data) {
+                console.log(key);
+                if(key == 'photos'){
+                    // for (let i of data[key]) {
+                    //     if (i != '0') {
+                    //         this.user[key].push(data[key][i]);
+                    //     }
+                    for(let i = 0; i < data[key].length; i++) {
+                        if(this.user[key].length > i){
+                            this.user[key][i] = data[key][i];
+                        }else {
+                            this.user[key].push(data[key][i]);
+                        }
+                    }
+                        //this.user[key] = data[key];
+
+                }else if(key != 'id') {
+                    console.log(key);
+                    this.user[key] = data[key];
+                }
+                // Use `key` and `value`
+            }
            this.user.formKeys = this.getKeys(data.form);
            this.formReportAbuse = data.formReportAbuse;
            this.changeRef.detectChanges();

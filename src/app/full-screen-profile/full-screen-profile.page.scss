@@ -10,22 +10,24 @@ ion-content {
 
 
 .close {
-  width: 40px;
-  height: 40px;
-  right: 18px;
-  top: 15px;
+  width: 41px;
+  height: 41px;
+  right: 10px;
+  top: 10px;
   position: absolute;
   z-index: 9999;
-img{
-  margin-top: 5px;
-  margin-right: 5px;
-}
+  padding: 10px;
+
+  img {
+    margin-top: 5px;
+    margin-right: 5px;
+  }
 }
 
 .profile-buttons .favorite-profile-btn,
 .profile-buttons .like-profile-btn,
 .profile-buttons .message-profile-btn {
-  background: rgba(233,232,229,0.5);
+  background: rgba(233, 232, 229, 0.5);
   width: 49px;
   height: 49px;
   margin-bottom: 5px;
@@ -47,7 +49,7 @@ ion-slides {
 }
 
 .swiper-slide img {
-  margin-bottom:19%;
+  margin-bottom: 19%;
 }
 
 ion-slide {
@@ -58,9 +60,9 @@ ion-slide {
   color: #fff;
 }
 
-.video-chat-btn{
+.video-chat-btn {
   background-image: url(../../assets/img/video/v-chat.png);
-  background-position:  center;
+  background-position: center;
   background-repeat: no-repeat;
   width: 49px;
   height: 49px;

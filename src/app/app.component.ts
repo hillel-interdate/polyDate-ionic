@@ -667,6 +667,7 @@ export class AppComponent {
 
   getBanner() {
     this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
+    // this.api.http.get('https://polydate.co.il/app_dev.php/open_api/v4/banner_test?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
       console.log(this.banner);
     });
@@ -743,11 +744,9 @@ export class AppComponent {
   getBingo(test = false) {
     console.log('in bingo function');
     const date = new Date();
-    this.api.storage.get('bingoCheck').then( data => {
-      console.log('in get bingo check: ', data);
-      const storageDate = new Date(data);
-      if (test || (date.getDay() > storageDate.getDay() || date.getMonth() > storageDate.getMonth() || date.getFullYear() > storageDate.getFullYear())) {
-        console.log('in if is another day');
+    this.api.storage.get('bingoCheck').then( storageDate => {
+    if (test || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
+
         this.api.storage.get('user_data').then((val) => {
           if (val) {
             this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
@@ -759,10 +758,13 @@ export class AppComponent {
                 this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
                 });
               }
-              const dd = String(date.getDate()).padStart(2, '0');
-              const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
-              const today = dd + '/' + mm + '/' + date.getFullYear();
-              this.api.storage.set('bingoCheck', today).then(bingoCheckData => {
+
+              const dateArray = {
+                day: date.getDay(),
+                month: date.getMonth(),
+                year: date.getFullYear(),
+              };
+              this.api.storage.set('bingoCheck', dateArray).then(bingoCheckData => {
                 console.log('bingoCheckData: ');
                 console.log(bingoCheckData);
               });
@@ -791,10 +793,12 @@ export class AppComponent {
         console.log(this.new_message);
         if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
           // alert(1);
-          this.new_message = data.messages[0];
-          console.log(data);
-          console.log(this.new_message);
-          console.log(this.new_message && this.new_message.is_not_sent_today == true);
+          if(data.messages.length > 0) {
+            this.new_message = data.messages[0];
+            console.log(data);
+            console.log(this.new_message);
+            console.log(this.new_message && this.new_message.is_not_sent_today == true);
+          }
           if (typeof this.new_message == 'object') {
             this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
 
