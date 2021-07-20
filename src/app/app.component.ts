@@ -356,8 +356,10 @@ export class AppComponent {
     if ((this.is_login && this.banner && this.banner.hideLogin.includes(this.api.pageName))
         || (!this.is_login && this.banner && this.banner.hideLogout.includes(this.api.pageName))) {
       $('.link-banner').hide();
+      $('.side-menu').removeClass('banner-up');
     } else {
       $('.link-banner').show();
+      $('.side-menu').addClass('banner-up');
     }
 
   }

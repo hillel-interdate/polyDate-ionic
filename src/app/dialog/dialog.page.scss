@@ -127,7 +127,9 @@ ion-toolbar {
   //height: calc(100% - 231px);
   overflow: auto;
 }
-
+.ios .messages{
+  padding-top: 90px;
+}
 
 .item-md ion-avatar[item-left], .item-md ion-thumbnail[item-left],
 .item-ios ion-avatar[item-left], .item-ios ion-thumbnail[item-left] {
