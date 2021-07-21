@@ -42,6 +42,15 @@
                 </div>
                 <div class="err">{{ err[formKeys[i]]?.errors }}</div>
             </div>
+            <div class="input number" *ngIf="form[field].type === 'number'">
+                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
+                </div>
+                <div>
+                    <ion-input (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="ion-input" type="text" ngDefaultControl [(ngModel)]="form[field].value" required inputmode="numeric" pattern="[0-9]{1,}">
+                    </ion-input>
+                </div>
+                <div class="err">{{ err[formKeys[i]]?.errors }}</div>
+            </div>
             <div class="input text" *ngIf="form[field].type === 'textarea'">
                 <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
                 </div>
