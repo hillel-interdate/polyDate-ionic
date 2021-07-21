@@ -212,9 +212,9 @@ export class RegistrationPage implements OnInit {
             this.user.relationshipType = this.form.relationshipType.value;
             this.user.lookingFor = this.form.lookingFor.value;
             this.user.origin = this.form.origin.value;
-            this.user.lookingForDetails = this.form.lookingForDetails.value;
-            this.user.relationshipTypeDetails = this.form.relationshipTypeDetails.value;
-            this.user.sexOrientationDetails = this.form.sexOrientationDetails.value;
+            // this.user.lookingForDetails = this.form.lookingForDetails.value;
+            // this.user.relationshipTypeDetails = this.form.relationshipTypeDetails.value;
+            // this.user.sexOrientationDetails = this.form.sexOrientationDetails.value;
             this.user.smoking = this.form.smoking.value;
             this.user.birthday = {
                 day: parseInt(date_arr[2]),
@@ -233,9 +233,9 @@ export class RegistrationPage implements OnInit {
                     relationshipType: this.form.relationshipType.value,
                     lookingFor: this.form.lookingFor.value,
                     origin: this.form.origin.value,
-                    lookingForDetails: this.form.lookingForDetails.value,
-                    relationshipTypeDetails: this.form.relationshipTypeDetails.value,
-                    sexOrientationDetails: this.form.sexOrientationDetails.value,
+                    // lookingForDetails: this.form.lookingForDetails.value,
+                    // relationshipTypeDetails: this.form.relationshipTypeDetails.value,
+                    // sexOrientationDetails: this.form.sexOrientationDetails.value,
                     smoking: this.form.smoking.value,
                     birthday: {
                         day: parseInt(date_arr[2]),
