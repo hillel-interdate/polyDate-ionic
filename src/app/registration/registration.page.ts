@@ -23,7 +23,7 @@ import {IonContent} from '@ionic/angular';
     selector: 'page-registration',
     templateUrl: 'registration.page.html',
     styleUrls: ['registration.page.scss'],
-    //providers: [Storage]
+    // providers: [Storage]
 })
 
 export class RegistrationPage implements OnInit {
@@ -75,7 +75,7 @@ export class RegistrationPage implements OnInit {
 
     getFacebookData() {
         this.route.queryParams.subscribe((params: any) => {
-            let data = JSON.parse(params.params);
+            const data = JSON.parse(params.params);
             // alert(data);
             console.log(data);
             if (data.user) {
@@ -110,10 +110,10 @@ export class RegistrationPage implements OnInit {
         await modal.present();
 
         modal.onDidDismiss().then(data => {
-             if(data.data) {
+             if (data.data) {
                 this.form[fieldTitle].value = data.data.value;
                 this.usersChooses[fieldTitle] = data.data.label;
-              ;
+              
             }
         });
 
@@ -148,14 +148,14 @@ export class RegistrationPage implements OnInit {
     onOpenKeyboard()  {
         $('.footerMenu').hide();
         $('.container').css({
-            'margin': '11px auto 197px!important'
+            margin: '11px auto 197px!important'
         });
     }
 
 
     onHideKeyboard() {
       $('.container').css({
-          'margin': '11px auto 69px!important'
+          margin: '11px auto 69px!important'
       });
       $('.footerMenu').show();
     }
@@ -194,7 +194,7 @@ export class RegistrationPage implements OnInit {
             // data = JSON.stringify(data);
 
         } else if (this.form.step == 2) {
-            var date_arr = ['', '', ''];
+            let date_arr = ['', '', ''];
             console.log(this.birth);
             if (typeof this.birth != 'undefined') {
                 date_arr = this.birth.split('-');
@@ -271,16 +271,19 @@ export class RegistrationPage implements OnInit {
         }
         console.log(data);
        // alert(JSON.stringify(this.user));
-        this.api.http.post(this.api.openUrl + '/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res:any) => {
+        this.api.http.post(this.api.openUrl + '/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res: any) => {
             this.validate(res);
         }), err => this.api.hideLoad();
+    }
+    clickEnter(e: KeyboardEvent) {
+        console.log(e);
     }
 
 
     validate(response) {
         console.log('form step: ' + this.form.step);
         this.err = [];
-        if(parseInt(response.id) > 0) { // step 4
+        if (parseInt(response.id) > 0) { // step 4
 
             console.log(response, this.user);
             console.log(this.user.username, this.user.password);
@@ -327,9 +330,9 @@ export class RegistrationPage implements OnInit {
             if (this.form.step == 2) {
                  // delete option gey for womans ond lesbit for mans
 
-                if(this.user.gender == 1 || this.user.gender == 4) {
+                if (this.user.gender == 1 || this.user.gender == 4) {
                  this.form.sexOrientation.choices.splice(2, 1);
-                } else if(this.user.gender == 2 || this.user.gender == 3) {
+                } else if (this.user.gender == 2 || this.user.gender == 3) {
                     this.form.sexOrientation.choices.splice(1, 1);
                 }
                 // this.form.agree = false;
@@ -347,20 +350,20 @@ export class RegistrationPage implements OnInit {
                 console.log('usersChooses: ' + JSON.stringify(this.usersChooses));
             }
 
-            //alert('will scroll to top');
+            // alert('will scroll to top');
             this.content.scrollToTop(0);
 
         } else {
             console.log('in the invaf=lid');
           //  if(this.form.step == response.user.form.step) {
-                if (this.form.step == 1) {
+            if (this.form.step == 1) {
                     response.user.form.password.first = this.form.password.first;
                     response.user.form.password.second = this.form.password.second;
                     // response.user.form.agree = this.form.agree;
                     // response.user.form.agreeSendEmails = this.form.agreeSendEmails;
-                } else if(this.form.step == 2){
+                } else if (this.form.step == 2) {
                     response.user.form.lookingFor = this.form.lookingFor;
-                } else if(this.form.step == 3){
+                } else if (this.form.step == 3) {
                     console.log('in the 3 step');
                     response.user.form.agree = this.form.agree;
                     response.user.form.contactGender = this.form.contactGender;
@@ -368,11 +371,11 @@ export class RegistrationPage implements OnInit {
                     // response.user.form.interests = this.form.interests;
                     // response.user.form.animals = this.form.animals;
                 }
-                this.form = response.user.form;
-                this.formKeys = this.getKeys(this.form);
-                setTimeout( () => {
+            this.form = response.user.form;
+            this.formKeys = this.getKeys(this.form);
+            setTimeout( () => {
                     console.log('in et timeout');
-                    let y = this.form.step == 3 ? $('.border-red').offset().top : $('.border-red').offset().top ;
+                    const y = this.form.step == 3 ? $('.border-red').offset().top : $('.border-red').offset().top ;
                     console.log(y);
                     // alert('will scroll to point');
                     this.content.scrollToPoint(null, y, 300);
@@ -382,10 +385,9 @@ export class RegistrationPage implements OnInit {
 
 
             this.err = response.user.errors.form.children;
-            if(this.err.length > 1) {
+            if (this.err.length > 1) {
                 this.errKeys = Object.keys(this.err);
-            }
-            else {
+            } else {
                 this.allfields = 'יש למלא את כל השדות המסומנים בכוכבית';
             }
             console.log(this.err);
@@ -400,7 +402,7 @@ export class RegistrationPage implements OnInit {
     getPage(id) {
         const navigationExtras: NavigationExtras = {
             state: {
-                id: id
+                id
             }
         };
         // alert(id);

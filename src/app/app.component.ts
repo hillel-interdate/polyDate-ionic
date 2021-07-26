@@ -681,7 +681,7 @@ export class AppComponent {
     goTo() {
         this.api.http.get(this.api.openUrl + '/banner/click?id=' + this.banner.id, this.api.header).subscribe(() => {
             if (!(this.platform.is('cordova') && this.platform.is('ios'))) {
-                window.open(this.banner.link, '_system', );
+                window.open(this.banner.link, '_system',);
             } else {
                 window.location.href = this.banner.link;
             }
@@ -895,7 +895,11 @@ export class AppComponent {
                             {
                                 text: data.updateText,
                                 handler: res => {
-                                    this.market.open('il.co.polydate');
+                                    if (data.link) {
+                                        window.location.href = data.link;
+                                    } else {
+                                        this.market.open('il.co.polydate');
+                                    }
                                     that.getAppVersion();
                                 }
                             }
@@ -1068,7 +1072,7 @@ export class AppComponent {
                 });
 
 
-                window.addEventListener('native.keyboardhide', function() {
+                window.addEventListener('native.keyboardhide', function () {
                     // let page = el.nav.getActive();
                     // $('.footerMenu, .back-btn').show();
                     $('ion-content').css({height: '100%'});
@@ -1077,14 +1081,14 @@ export class AppComponent {
                     if (that.api.pageName == 'DialogPage') {
                         $('.back-btn').show();
                         $('.footerMenu').hide();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $('.ios .user-block').css({
                                 'margin-top': '27px'
                             });
                         }, 600);
                     } else {
                         $('.footerMenu, .back-btn').show();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $('.scroll-content, .fixed-content').css({'margin-bottom': '0px'});
                         }, 500);
                     }
