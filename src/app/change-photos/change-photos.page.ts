@@ -297,6 +297,7 @@ export class ChangePhotosPage implements OnInit{
      this.imagePicker.getPictures({ maximumImagesCount: 1}).then(
         (file_uris) => {
          // alert('in ok');
+          console.log(file_uris);
           this.uploadPhoto(file_uris[0]);
         },
 
@@ -339,15 +340,16 @@ export class ChangePhotosPage implements OnInit{
 
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.PictureSourceType.CAMERA,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       cameraDirection: this.camera.Direction.FRONT,
-
+      correctOrientation: true,
       targetWidth: 900,
       targetHeight: 600,
       allowEdit: false,
-      sourceType: 1
+      sourceType: 1,
+      //saveToPhotoAlbum: true
     };
 
     this.camera.getPicture(options).then((imageData) => {

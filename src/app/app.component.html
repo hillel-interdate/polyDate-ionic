@@ -48,6 +48,7 @@
         </ion-list>
     </ion-content>
 
+
 </ion-menu>
 
 
@@ -56,6 +57,7 @@
 *****************************          start menu 2   (settings)  ***********************************************************
 *******************************************************************************************************************
 -->
+
 
 <ion-menu side="end" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()"
           (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2">
@@ -76,7 +78,6 @@
         </ion-list>
     </ion-content>
 
-
 </ion-menu>
 
 
@@ -85,6 +86,7 @@
 *****************************          start menu 3  (lists)   ***********************************************************
 *******************************************************************************************************************
 -->
+
 
 <ion-menu side="end" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()"
           (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3">
@@ -107,6 +109,7 @@
             <app-social [social]="social" [pltClass]="platform.is('ios')?'ios':'android'"></app-social>
         </ion-list>
     </ion-content>
+
 </ion-menu>
 
 

@@ -58,7 +58,11 @@ export class SelectModalPage implements OnInit {
     if (this.multiple && this.allChoices.length > 0) {
       this.modalCtrl.dismiss(this.allChoices);
     } else {
-      this.modalCtrl.dismiss('');
+      if(this.choseNow){
+        this.modalCtrl.dismiss(this.choseNow);
+      }else {
+        this.modalCtrl.dismiss('');
+      }
     }
   }
 
