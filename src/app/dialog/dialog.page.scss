@@ -10,7 +10,7 @@
 }
 
 .ios .user-block {
-  margin-top: 25px;
+  margin-top: 25px !important;
 }
 
 .usr_msg ion-card-content {
@@ -196,7 +196,8 @@ ion-toolbar {
 .back-btn {
   top: 114px;
 }
-.ios .back-btn{
+
+.ios .back-btn {
 
 }
 

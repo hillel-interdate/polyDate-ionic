@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class SocialComponent implements OnInit {
 
   @Input() social;
+  @Input() pltClass;
   constructor() { }
 
   ngOnInit() {}

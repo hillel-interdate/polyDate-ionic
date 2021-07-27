@@ -669,7 +669,9 @@ ion-footer.footer-md::before,
 ion-footer.footer-ios::before {
   background-image: none;
 }
-
+.ios .social{
+  padding-bottom: 80px;
+}
 
 
 /********/
