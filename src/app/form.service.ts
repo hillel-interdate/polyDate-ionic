@@ -35,21 +35,30 @@ export class FormService {
 
     modal.onDidDismiss().then(data => {
       console.log(data);
-      if (data.data) {
+      if (typeof data.data == 'object') {
 
         if (isMultipleField) {
           const value = [];
           let label = '';
+
           for (const key of data.data) {
-            value.push(key.value);
-            label += label === '' ? key.label : ', ' + key.label;
+            if(typeof key == 'object') {
+              value.push(key.value);
+              label += label === '' ? key.label : ', ' + key.label;
+            }
           }
+
           form[fieldTitle].value = value;
           usersChooses[fieldTitle] = label;
         } else {
           form[fieldTitle].value = data.data.value;
           usersChooses[fieldTitle] = data.data.label;
           console.log(usersChooses);
+        }
+      }else {
+        if (data.data === '') {
+          form[fieldTitle].value = '';
+          usersChooses[fieldTitle] = '';
         }
       }
     });

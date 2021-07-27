@@ -64,7 +64,7 @@
     </div>
     <ion-spinner class="bg" *ngIf="!user?.form?.city"></ion-spinner>
     <div class="content" #content>
-      <div class="notif" *ngIf="!user.canWriteTo">{{ user.textCantWrite }}</div>
+      <div class="notif" *ngIf="!user.canWriteTo && myId != user?.id">{{ user.textCantWrite }}</div>
       <div class="pmtitle">
         <div *ngIf="user?.isPaying" class="paying"></div>
         <div *ngIf="user?.isNew" class="new-user"></div>
