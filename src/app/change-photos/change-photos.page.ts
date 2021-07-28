@@ -53,7 +53,6 @@ export class ChangePhotosPage implements OnInit{
     this.api.pageName = 'ChangePhotosPage';
 
     this.route.queryParams.subscribe((params: any) => {
-      console.log(params);
       this.new_user = params.new_user ? true : false;
 
       const that = this;
@@ -108,7 +107,6 @@ export class ChangePhotosPage implements OnInit{
 
   getPageData(afterUpload = false) {
     this.api.http.get(this.api.apiUrl + '/photos/json.json', this.api.setHeaders(true)).subscribe((data: any) => {
-      console.log(data);
       if (!afterUpload) {
         const currentPhotoCount = this.photos ? this.photos.length : 0;
         const newPhotoCount = data.photos ? data.photos.length : 0;
@@ -118,13 +116,12 @@ export class ChangePhotosPage implements OnInit{
       }
 
       this.dataPage = data;
-      console.log('dataPage: ');
-      console.log(this.dataPage);
       this.description = data.texts.description;
       this.photos = Object.keys(this.dataPage.photos);
       this.showOnHomepage = data.showOnHomepage;
       this.changeRef.detectChanges();
-      console.log(  this.dataPage.photos );
+
+
       $(window).resize();
 
       if (this.photos) {
@@ -133,7 +130,6 @@ export class ChangePhotosPage implements OnInit{
         let main = false;
 
         for (const img of this.dataPage.photos) {
-          console.log(img);
           if (img.isMain) {
             main = true;
           }
@@ -142,9 +138,6 @@ export class ChangePhotosPage implements OnInit{
           }
         }
         if (!main && valid.length > 0) {
-          console.log(valid);
-          console.log(valid[0].id);
-          console.log(this.photos);
           const position = this.dataPage.photos.indexOf(valid[0]);
           this.dataPage.photos[position].isMain = true;
           this.postPageData('mainImage', valid[0]);
@@ -169,12 +162,10 @@ export class ChangePhotosPage implements OnInit{
 
 
   postPageData(type, params) {// not active
-    console.log('POstpageData active', params);
     if (type == 'privateImage') {
       params.isPrivate = true;
       var data = JSON.stringify({setPrivate: params.id});
     } else if (type == 'mainImage') {
-      console.log('Param', params);
       var data = JSON.stringify({setMain: params.id});
 
     } else if ('deletePage') {
@@ -187,10 +178,10 @@ export class ChangePhotosPage implements OnInit{
     this.api.http.post(this.api.apiUrl + '/photos.json', data, this.api.setHeaders(true, this.username, this.password)).subscribe((data:any) => {
 
       // this.api.hideLoad();
-      console.log(this.photos);
+
       this.getPageData();
     }, err => {
-      console.log("Oops!");
+      console.log("Oops!"+ err);
       this.api.hideLoad();
     });
   }
@@ -198,10 +189,7 @@ export class ChangePhotosPage implements OnInit{
 
 
    edit(photo) {
-
     let mainOpt = [];
-
-    console.log(photo);
     if (!photo.isMain && photo.isValid) {
 
       mainOpt.push({
@@ -236,7 +224,7 @@ export class ChangePhotosPage implements OnInit{
       role: 'destructive',
       icon: 'close',
       handler: () => {
-        console.log('Cancel clicked');
+
       }
     });
 
@@ -281,7 +269,7 @@ export class ChangePhotosPage implements OnInit{
 
 
   openGallery() {
-    console.log(this.checkIfMax());
+
     if (this.checkIfMax())  return;
     //alert('in open gallery');
     let options: ImagePickerOptions = {
@@ -297,7 +285,6 @@ export class ChangePhotosPage implements OnInit{
      this.imagePicker.getPictures({ maximumImagesCount: 1}).then(
         (file_uris) => {
          // alert('in ok');
-          console.log(file_uris);
           this.uploadPhoto(file_uris[0]);
         },
 
@@ -353,7 +340,6 @@ export class ChangePhotosPage implements OnInit{
     };
 
     this.camera.getPicture(options).then((imageData) => {
-      console.log('image data: ' + imageData);
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
@@ -383,6 +369,7 @@ export class ChangePhotosPage implements OnInit{
   }
 
   uploadPhoto(url) {
+    console.log({url});
       this.api.showLoad();
       const options: FileUploadOptions = {
         fileKey: 'photo',
@@ -396,7 +383,7 @@ export class ChangePhotosPage implements OnInit{
       const fileTransfer: FileTransferObject = this.transfer.create();
      // alert(options);
       fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {
-        console.log(entry);
+        console.log({entry});
         if (entry.response.errorMessage) {
           this.api.toastCreate(entry.response.errorMessage);
           this.api.hideLoad();
@@ -412,7 +399,6 @@ export class ChangePhotosPage implements OnInit{
   }
 
   setPrivate(userPhoto) {
-    console.log(userPhoto);
     const data = {
       action: userPhoto.isPrivate ? 'private' : 'unprivate',
       photo: userPhoto.id,
