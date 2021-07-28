@@ -75,11 +75,11 @@ export class ApiQuery {
               public events: Events,
   ) {
 
-    this.url = 'https://dev.polydate.co.il/';
+    this.url = 'https://polydate.co.il';
 
     // this.url =     'https:/dev.polydate.co.il/';
-    this.apiUrl =  'https:/polydate.co.il/api/v4/he';
-    this.openUrl = 'https:/polydate.co.il/open_api/v4/he';
+    // this.apiUrl =  'https:/polydate.co.il/api/v4/he';
+    // this.openUrl = 'https:/polydate.co.il/open_api/v4/he';
     //
     this.apiUrl = 'https://polydate.co.il/api/v4/he';
     this.openUrl = 'https://polydate.co.il/open_api/v4/he';
