@@ -21,6 +21,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="orientation" value="portrait" />
     <preference name="WKWebViewOnly" value="true" />
+    <preference name="target-device" value="handset" />
     <platform name="android">
         <preference name="AndroidLaunchMode" value="singleTask" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
