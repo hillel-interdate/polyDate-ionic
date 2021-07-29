@@ -11,7 +11,9 @@
 }
 
 .content {
-  padding-bottom: 20px;
+  padding-bottom: 30px;
+  height: calc(100vh - 200px);
+  overflow: auto;
 }
 
 .messages {
@@ -20,4 +22,13 @@
 
 .isRead {
   background-color: #e4e4e4;
+}
+
+.dialog-avatar {
+  margin: 5px;
+  line-height: 40px;
+  background: left center no-repeat;
+  background-size: 40px auto;
+  text-align: center;
+  width: 100%;
 }

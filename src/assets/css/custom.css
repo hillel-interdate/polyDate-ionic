@@ -139,3 +139,8 @@ iframe + .close-video div button{
     color: green !important;
     font-weight: bold !important;
 }
+
+ion-action-sheet .action-sheet-group .action-sheet-title.sc-ion-action-sheet-md {
+    height: auto !important;
+    min-height: 60px;
+}
