@@ -98,8 +98,8 @@ export class HomePage implements OnInit {
             console.log(this.api.back);
 
 
-            this.api.back = false;
-            if(this.api.password){
+            //this.api.back = false;
+            if(this.api.password && !this.api.back){
                 this.getUsers(true);
             }
             console.log('users run from constructor');
