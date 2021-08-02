@@ -6,8 +6,7 @@ import * as $ from 'jquery';
 
 import { ChangeDetectorRef } from '@angular/core';
 import {error, log} from "util";
-
-declare var Peer;
+import Peer from "peerjs";
 
 @Component({
   selector: 'page-dialog',
@@ -264,10 +263,15 @@ export class DialogPage implements OnInit {
 
   ionViewWillLeave() {
     clearInterval(this.checkChat);
-    this.api.peerjs[this.myPeer].disconnect();
+    // this.api.peerjs[this.myPeer].disconnect();
+    this.api.peerjs[this.myPeer].destroy();
+    delete this.api.peerjs[this.myPeer];
     $('.footerMenu').show();
     $(document).off();
     this.peerConnectionApp.close();
+    this.peerConnection.close();
+    delete this.peerConnectionApp;
+    delete this.peerConnection;
   }
 
   toProfilePage() {
@@ -380,26 +384,38 @@ export class DialogPage implements OnInit {
 
   peerInit() {
     console.log('this.api.peerjs[this.myPeer]', this.api.peerjs[this.myPeer]);
-    this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
-      host: 'peerjs.wee.co.il',
-      port: 9000,
-      secure: true,
-      path: '/peerjs',
-      debug: 2,
-    });
+
+      this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
+        host: 'peerjs.wee.co.il',
+        port: 9000,
+        secure: true,
+        path: '/peerjs',
+        debug: 2,
+      });
+
     // alert(2);
-    // this.tryConnect();
+    // let that = this;
+    // setTimeout(function () {
+    //   that.tryConnect();
+    // },1000);
+
     this.api.peerjs[this.myPeer].on('open', (id) => {
       console.log('my open id: ', id);
       this.tryConnect();
     });
     this.api.peerjs[this.myPeer].on('connection', (connection => {
       console.log('receive conentin', connection);
-      this.peerConnectionApp = connection;
+      console.log(connection['peer']);
+      if(connection['peer'] == this.peerToUserApp) {
+        this.peerConnectionApp = connection;
+      }else{
+        this.peerConnection = connection;
+      }
       this.peerSubscribes();
     }));
     this.api.peerjs[this.myPeer].on('error', (err => {
       console.log('error: ', err);
+      //this.tryConnect();
     }));
   }
 
