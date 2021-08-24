@@ -97,33 +97,33 @@ export class AppComponent {
     this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
       this.social = data.social;
       this.initMenuItems(data.menu);
+      this.keyboard.hide();
+      this.closeMsg();
+      this.initializeApp();
+      this.menu1Active(false);
+
+      this.api.storage.get('user_data').then((val) => {
+        console.log(val);
+        if (!val) {
+          this.menu_items = this.menu_items_logout;
+          this.router.navigate(['/login']);
+        } else {
+          this.api.setHeaders(true, val.username, val.password, true).then(data => {
+
+            this.api.userId = val.user_id;
+            this.initPushNotification();
+            this.api.checkedPage = 'online';
+            this.router.navigate(['/home']);
+            this.menu_items = this.menu_items_login;
+            // this.getBingo();
+            this.api.setLocation();
+            this.api.getThereForPopup();
+
+          });
+        }
+      });
     });
-    this.keyboard.hide();
-    this.closeMsg();
-    this.initializeApp();
-    this.menu1Active(false);
 
-    this.api.storage.get('user_data').then((val) => {
-      // console.log(val);
-      if (!val) {
-        this.menu_items = this.menu_items_logout;
-        this.router.navigate(['/login']);
-      } else {
-        this.api.setHeaders(true, val.username, val.password, true).then(data => {
-
-          this.api.userId = val.user_id;
-          this.initPushNotification();
-          this.api.checkedPage = 'online';
-          this.router.navigate(['/home']);
-          this.menu_items = this.menu_items_login;
-          // this.getBingo();
-          this.api.setLocation();
-          this.api.getThereForPopup();
-
-        });
-
-      }
-    });
 
     this.events.subscribe('status:login', () => {
       this.initPushNotification();
@@ -132,7 +132,10 @@ export class AppComponent {
     this.events.subscribe('statistics:updated', () => {
       this.getStatistics();
     });
-
+    let that = this;
+    setTimeout(function () {
+      that.api.getLocation();
+    },1000);
 
   }
 
@@ -304,50 +307,50 @@ export class AppComponent {
   }
 
   getStatistics() {
-    this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
+      this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
 
-      const statistics = data.statistics;
-      // console.log(statistics);
+        const statistics = data.statistics;
+        // console.log(statistics);
 
-      // First Sidebar Menu
-      this.menu_items[3].count = statistics.newNotificationsNumber;
-      this.menu_items[0].count = statistics.newMessagesNumber;
-      this.menu_items[1].count = statistics.showPhoto;
-      // // Contacts Sidebar Menu
-      this.menu_items_contacts[0].count = statistics.viewed;
-      this.menu_items_contacts[1].count = statistics.viewedMe;
-      this.menu_items_contacts[2].count = statistics.connected;
-      this.menu_items_contacts[3].count = statistics.connectedMe;
-      this.menu_items_contacts[4].count = statistics.favorited;
-      this.menu_items_contacts[5].count = statistics.favoritedMe;
-      this.menu_items_contacts[6].count = statistics.blacklisted;
-      //Footer Menu
-      this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
-      this.menu_items_footer2[2].count = 0;
-      this.menu_items_footer1[3].count = statistics.newMessagesNumber;
-      this.menu_items_footer2[0].count = statistics.favorited;
-      this.menu_items_footer2[1].count = statistics.favoritedMe;
-      this.api.isPay = data.isPay;
-      this.api.isMan = data.isMan;
-      this.api.isActivated = data.isActivated;
-      this.avatar = data.mainPhoto;
+        // First Sidebar Menu
+        this.menu_items[3].count = statistics.newNotificationsNumber;
+        this.menu_items[0].count = statistics.newMessagesNumber;
+        this.menu_items[1].count = statistics.showPhoto;
+        // // Contacts Sidebar Menu
+        this.menu_items_contacts[0].count = statistics.viewed;
+        this.menu_items_contacts[1].count = statistics.viewedMe;
+        this.menu_items_contacts[2].count = statistics.connected;
+        this.menu_items_contacts[3].count = statistics.connectedMe;
+        this.menu_items_contacts[4].count = statistics.favorited;
+        this.menu_items_contacts[5].count = statistics.favoritedMe;
+        this.menu_items_contacts[6].count = statistics.blacklisted;
+        //Footer Menu
+        this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
+        this.menu_items_footer2[2].count = 0;
+        this.menu_items_footer1[3].count = statistics.newMessagesNumber;
+        this.menu_items_footer2[0].count = statistics.favorited;
+        this.menu_items_footer2[1].count = statistics.favoritedMe;
+        this.api.isPay = data.isPay;
+        this.api.isMan = data.isMan;
+        this.api.isActivated = data.isActivated;
+        this.avatar = data.mainPhoto;
 
-      if (!data.isActivated) {
-        if (!this.canEnterNotActivatedUser.includes(this.api.pageName)) {
-          // alert(1)
-          this.router.navigate(['/activation']);
+        if (!data.isActivated) {
+          if (!this.canEnterNotActivatedUser.includes(this.api.pageName)) {
+            // alert(1)
+            this.router.navigate(['/activation']);
+          }
         }
-      }
 
-      this.bannerStatus();
+        this.bannerStatus();
 
-    }, err => {
-      console.log(err);
-      //403
-      if(err.status == 403) {
-        this.clearLocalStorage();
-      }
-    });
+      }, err => {
+        console.log(err);
+        //403
+        if(err.status == 403) {
+          this.clearLocalStorage();
+        }
+      });
   }
 
 
@@ -675,8 +678,10 @@ export class AppComponent {
   getBanner() {
     this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
     // this.api.http.get('https://polydate.co.il/app_dev.php/open_api/v4/banner_test?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
-      this.banner = data.banner;
-      console.log(this.banner);
+      if(data.banner){
+        this.banner = data.banner;
+        console.log(this.banner);
+      }
     });
   }
 
@@ -751,7 +756,7 @@ export class AppComponent {
   getBingo(test = false) {
     console.log('in bingo function');
     const date = new Date();
-    this.api.storage.get('bingoCheck').then( storageDate => {
+    this.api.storage.get('bingoCheck').then( (storageDate) => {
     if (test || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
 
         this.api.storage.get('user_data').then((val) => {
@@ -795,38 +800,11 @@ export class AppComponent {
 
   getMessage() {
     if (this.api.username && this.api.username !== 'null' && this.api.username !== 'noname') {
-      this.api.http.get(this.api.apiUrl + '/new/messages', this.api.setHeaders(true)).subscribe((data: any) => {
-        const timeout = data.timeout;
-        console.log(this.new_message);
-        if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
-          // alert(1);
-          if(data.messages.length > 0) {
-            this.new_message = data.messages[0];
-            console.log(data);
-            console.log(this.new_message);
-            console.log(this.new_message && this.new_message.is_not_sent_today == true);
-          }
-          if (typeof this.new_message == 'object') {
-            this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
-
-            });
-
-          }
-        }
-        if (this.menu_items[0].count < data.newMessagesNumber) {
-          this.events.publish('messages:new', data);
-        }
-        // this.new_message = data;
-        this.menu_items[3].count = data.newNotificationsNumber;
-        this.menu_items[0].count = data.newMessagesNumber;
-        this.menu_items_footer1[2].count = data.newNotificationsNumber;
-        this.menu_items_footer1[3].count = data.newMessagesNumber;
-
-      }, err => {
-        if(err.status == 403) {
-          this.clearLocalStorage();
-        }
-      });
+        let params: any = '';
+        if(this.api.location){
+          params = '?latitude=' + this.api.location.latitude + '&longitude=' + this.api.location.longitude;
+        };
+        this.getMessOnline(params);
     }
 
     clearTimeout(this.newMessagesTimeout);
@@ -834,6 +812,41 @@ export class AppComponent {
       this.getMessage();
       // console.log(this.api.timeouts.newMessage);
     }, this.api.timeouts.newMessage);
+  }
+
+  getMessOnline(params){
+    this.api.http.get(this.api.apiUrl + '/new/messages'+params, this.api.setHeaders(true)).subscribe((data: any) => {
+      const timeout = data.timeout;
+      console.log(this.new_message);
+      if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
+        // alert(1);
+        if(data.messages.length > 0) {
+          this.new_message = data.messages[0];
+          console.log(data);
+          console.log(this.new_message);
+          console.log(this.new_message && this.new_message.is_not_sent_today == true);
+        }
+        if (typeof this.new_message == 'object') {
+          this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
+
+          });
+
+        }
+      }
+      if (this.menu_items[0].count < data.newMessagesNumber) {
+        this.events.publish('messages:new', data);
+      }
+      // this.new_message = data;
+      this.menu_items[3].count = data.newNotificationsNumber;
+      this.menu_items[0].count = data.newMessagesNumber;
+      this.menu_items_footer1[2].count = data.newNotificationsNumber;
+      this.menu_items_footer1[3].count = data.newMessagesNumber;
+
+    }, err => {
+      if(err.status == 403) {
+        this.clearLocalStorage();
+      }
+    });
   }
 
   checkStatus() {

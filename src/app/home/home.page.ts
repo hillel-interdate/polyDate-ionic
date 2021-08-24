@@ -65,6 +65,11 @@ export class HomePage implements OnInit {
         // this.api.audioWait.src = 'https://www.richdate.co.il/landline_phone_ring.mp3';
         // this.api.audioWait.loop = true;
         // this.api.audioWait.load();
+        this.api.storage.get('user_data').then((val) => {
+            if(val) {
+                this.getUsers();
+            }
+        });
     }
 
 
@@ -100,10 +105,11 @@ export class HomePage implements OnInit {
 
             //this.api.back = false;
             if(this.api.password && !this.api.back){
+                this.users = [];
                 this.getUsers(true);
             }
             console.log('users run from constructor');
-            this.getLocation();
+            // this.getLocation();
 
             if (!this.api.checkedPage || this.api.checkedPage == '' || this.api.checkedPage == 'logout') {
                 this.api.checkedPage = 'online';
@@ -358,27 +364,33 @@ export class HomePage implements OnInit {
             //console.log(test);
             this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
 
-            this.users = data.users;
-            this.texts = data.texts;
-            this.user_counter = data.users.length;
-            this.form_filter = data.filters;
-            this.filter = data.filter;
-            if (data.users.length < 10) {
-                this.loader = false;
-            } else {
-                this.loader = true;
-            }
+                this.users = data.users;
+                this.texts = data.texts;
+                this.user_counter = data.users.length;
+                this.form_filter = data.filters;
+                this.filter = data.filter;
+                if (data.users.length < 10) {
+                    this.loader = false;
+                } else {
+                    this.loader = true;
+                }
 
-            this.changeRef.detectChanges();
-            // alert(3);
-            this.api.hideLoad();
-            this.content.scrollToTop(0);
+                this.changeRef.detectChanges();
+                // alert(3);
+                this.api.hideLoad();
+                this.content.scrollToTop(0);
 
 
-        }, err => {
-            // alert( 'getUsers data error: '  + JSON.stringify(err));
-            this.api.hideLoad();
-        });
+            }, err => {
+                // alert( 'getUsers data error: '  + JSON.stringify(err));
+                if(err.status == 403) {
+                    // this.api.setHeaders(false, null, null);
+                    // // Removing data storage
+                    // this.api.storage.remove('user_data');
+                    // this.router.navigate(['/login']);
+                }
+                this.api.hideLoad();
+            });
 
         } else {
             this.api.hideLoad();
@@ -387,9 +399,6 @@ export class HomePage implements OnInit {
     }
 
     getLocation() {
-
-        this.geolocation.getCurrentPosition().then(pos => {
-        });
 
     }
 

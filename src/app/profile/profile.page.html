@@ -76,7 +76,8 @@
           {{user?.username}}, 
         
         </strong>
-        <span>{{user?.region_name}}</span>
+<!--        <span>{{user?.region_name}}</span>-->
+        <span *ngIf="user?.form?.distance != ''" class="distance">{{user?.form?.distance}} ממך</span>
       </div>
 
 <!--      <div *ngIf="user?.iam" class="pmdetail cf">-->

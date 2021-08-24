@@ -6,7 +6,9 @@ import * as $ from 'jquery';
 
 import { ChangeDetectorRef } from '@angular/core';
 import {error, log} from "util";
-import Peer from "peerjs";
+// import Peer from "peerjs";
+// import * as Peer from "peerjs";
+declare var Peer;
 
 @Component({
   selector: 'page-dialog',
@@ -45,6 +47,8 @@ export class DialogPage implements OnInit {
 
   peerToUser: string;
   peerToUserApp: string;
+
+  clicked: any = false;
 
   myPeer;
   // showTyping = true;
@@ -107,6 +111,7 @@ export class DialogPage implements OnInit {
     } else {
       this.scrollToBottom(100);
     }
+    this.clicked = true;
   }
 
   back() {
@@ -373,6 +378,11 @@ export class DialogPage implements OnInit {
       buttons: [
         {
           text: this.cantWriteMessage.btns.ok,
+          handler: () => {
+            if(this.cantWriteMessage.link && this.cantWriteMessage.link != '') {
+              this.router.navigate([this.cantWriteMessage.link]);
+            }
+          }
         }
       ]
     }).then(alert => alert.present());
@@ -383,40 +393,49 @@ export class DialogPage implements OnInit {
   }
 
   peerInit() {
-    console.log('this.api.peerjs[this.myPeer]', this.api.peerjs[this.myPeer]);
+    let that = this;
+    //setTimeout(function () {
+      console.log('this.api.peerjs[this.myPeer]', that.api.peerjs[that.myPeer]);
+      //alert(typeof(Peer));
+        that.api.peerjs[that.myPeer] = new Peer(that.myPeer, {
+          // host: 'peerjs.wee.co.il',
+          // port: 9000,
+          // secure: true,
+          // path: '/peerjs',
+          // debug: 0,
+        });
+        //if(typeof this.api.peerjs[this.myPeer] == 'object') {
+          //alert(JSON.parse(this.api.peerjs[this.myPeer]));
+        //}
+        //console.log(this.api.peerjs[this.myPeer]);
+      // alert(2);
 
-      this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
-        host: 'peerjs.wee.co.il',
-        port: 9000,
-        secure: true,
-        path: '/peerjs',
-        debug: 2,
+        //alert(JSON.parse(that.api.peerjs[that.myPeer]));
+
+
+      that.api.peerjs[that.myPeer].on('open', (id) => {
+        console.log('my open id: ', id);
+       // alert('my open id: ' + id);
+        that.tryConnect();
       });
-
-    // alert(2);
-    // let that = this;
-    // setTimeout(function () {
-    //   that.tryConnect();
-    // },1000);
-
-    this.api.peerjs[this.myPeer].on('open', (id) => {
-      console.log('my open id: ', id);
-      this.tryConnect();
-    });
-    this.api.peerjs[this.myPeer].on('connection', (connection => {
-      console.log('receive conentin', connection);
-      console.log(connection['peer']);
-      if(connection['peer'] == this.peerToUserApp) {
-        this.peerConnectionApp = connection;
-      }else{
-        this.peerConnection = connection;
-      }
-      this.peerSubscribes();
-    }));
-    this.api.peerjs[this.myPeer].on('error', (err => {
-      console.log('error: ', err);
-      //this.tryConnect();
-    }));
+      that.api.peerjs[that.myPeer].on('connection', (connection => {
+        console.log('receive conentin', connection);
+        console.log(connection['peer']);
+        //alert('connect');
+        if(connection['peer'] == that.peerToUserApp) {
+          that.peerConnectionApp = connection;
+        }else{
+          that.peerConnection = connection;
+        }
+        that.peerSubscribes();
+      }));
+      that.api.peerjs[that.myPeer].on('error', (err => {
+        console.log('error: ', err);
+        //this.tryConnect();
+        //alert('error');
+        //alert(err.type);
+      }));
+    //},1000);
   }
 
   peerSubscribes() {
@@ -488,12 +507,18 @@ export class DialogPage implements OnInit {
 
   peerMessage(message) {
     console.log(message);
+    //if(){
+      message['allowedToRead'] = this.allowedToReadMessage;
+    //}
     this.messages.push(message);
     this.scrollToBottom(300);
-    this.setMessageAsRead(message.id);
-    message.action = 'read';
-    this.helperSend(JSON.stringify({id: message.id, action: 'read'}));
-
+    if(this.allowedToReadMessage) {
+      this.setMessageAsRead(message.id);
+      message.action = 'read';
+      this.helperSend(JSON.stringify({id: message.id, action: 'read'}));
+    }else{
+      this.helperSend(JSON.stringify({id: message.id, action: 'notRead'}));
+    }
   }
 
   // sendTyping() {

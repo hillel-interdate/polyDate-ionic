@@ -19,7 +19,7 @@ import {notifications} from "ionicons/icons";
 })
 export class InboxPage {
 
-    users: Array<{ id: string,
+    users: any;/*Array<{ id: string,
         message: string,
         username: string,
         newMessagesNumber: string,
@@ -28,35 +28,72 @@ export class InboxPage {
         photo: string,
         contactIsPaying: boolean,
         date: string
-    }>;
-    texts: { no_results: string };
+    }>;*/
+    texts: any; /*{ no_results: string };*/
     interval: any;
 
     notifications: any;
+    prop: any = {
+        perPage: 20,
+        page: 1
+    };
+
+    chatWith: any;
+    loader:any = true;
 
 
     constructor(public router: Router,
                 public alertCtrl: AlertController,
                 public api: ApiQuery,
-                public events: Events) {}
-
-
-    ionViewWillEnter() {
-        this.api.pageName = 'InboxPage';
-        if (!this.api.back) {
-            this.api.showLoad();
-        } else {
-            this.api.back = true;
-        }
-
-        this.getDialogs();
-        //  this.interval = setInterval(() => this.getDialogs(), 10000)
+                public events: Events) {
         this.events.subscribe('messages:new', (data) => {
             // alert(1);
-            this.getDialogs();
+            // this.moreUsers();
             // this.users = data.messages;
         });
 
+    }
+
+
+    ionViewWillEnter() {
+        if (!this.api.back) {
+            // this.api.showLoad();
+        } else {
+            this.api.back = true;
+        }
+        if(this.users) {
+            this.moreUsers();
+        }else{
+            this.getDialogs();
+        }
+
+        //  this.interval = setInterval(() => this.getDialogs(), 10000)
+
+
+        if(this.chatWith){
+            let index = this.users.indexOf(this.chatWith);
+            if(this.chatWith.uid == 0){
+                this.users.slice(index, 1);
+            }else {
+                // console.log(this.users.indexOf(this.chatWith));
+
+                this.api.http.get(this.api.apiUrl + '/users/' + this.chatWith.uid + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
+                    if (data.dialog) {
+                        // console.log(index);
+                        // console.log(this.users.indexOf(this.users[index]));
+                        // console.log(this.users[index]);
+                        //this.users[index] = data.res;
+                        this.users[index].date = data.dialog.date;
+                        this.users[index].message = data.dialog.message;
+                        this.users[index].newMessagesNumber = data.dialog.newMessagesNumber;
+                        // console.log(this.users[index]);
+                    } else {
+                        this.users.slice(index, 1);
+                    }
+                });
+            }
+        }
+        this.api.pageName = 'InboxPage';
     }
 
     ionViewWillLeave() {
@@ -74,15 +111,58 @@ export class InboxPage {
     }
 
     getDialogs() {
-        this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
+        this.prop.page = 1;
+        this.api.http.get(this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page, this.api.setHeaders(true)).subscribe((data:any) => {
             console.log(data);
-            this.users = data.dialogs;
+            if (data.dialogs.length < this.prop.perPage) {
+                this.loader = false;
+            }
+            //this.users = data.dialogs;
+            this.users = [];
+            for (let person of data.dialogs) {
+                //if(person.visibleMessagesNumber > 0){
+                    this.users.push(person);
+                //}
+            }
             this.texts = data.texts;
             this.notifications = data.notifications;
             console.log(this.notifications);
             this.api.hideLoad();
+            let that = this;
+            setTimeout(function () {
+                if(that.api.pageName == 'InboxPage') {
+                    that.moreUsers();
+                }
+            },1000);
         }, err => this.api.hideLoad());
 
+    }
+
+    moreUsers() {
+        if (this.loader) {
+            this.prop.page++;
+
+            this.api.http.get(this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page, this.api.setHeaders(true)).subscribe((data: any) => {
+                if (data.dialogs.length < this.prop.perPage) {
+                    this.loader = false;
+                }
+                if(!this.users){
+                    this.users = [];
+                }
+                for (let person of data.dialogs) {
+                    //if(person.visibleMessagesNumber > 0 && this.users[this.users.length - 1]['user']['userId'] != person['user']['userId']){
+                        this.users.push(person);
+                    //}
+                }
+
+                let that = this;
+                setTimeout(function () {
+                    that.moreUsers();
+                },1000);
+
+            });
+
+        }
     }
 
     // checkDialogs() {
@@ -103,6 +183,7 @@ export class InboxPage {
     toDialogPage(user) {
         console.log(user);
         // user.id = user.fromUser;
+        this.chatWith = user;
         this.api.data['user'] = user;
         this.router.navigate(['/dialog']);
     }

@@ -6,6 +6,7 @@
   .usr_msg ion-card-content {
     padding: 0;
   }
+
   .date {
     text-align: center;
     font-size: 10px;
@@ -153,6 +154,13 @@
   padding: 0px 4px 0 17px;
   margin:1px 0px 18px 0;
 
+}
+.usr_msg{
+  padding-top: 5px;
+  padding-left: 55px;
+}
+.usr_msg.other-msg{
+  padding-left: 17px;
 }
 ion-toolbar {
   z-index:1000;
@@ -313,6 +321,11 @@ ion-content {
     left: 18px;
   }
 
+}
+.not-allowed{
+  margin: 5px 8px;
+  font-size: 14px;
+  color: #000;
 }
 
 

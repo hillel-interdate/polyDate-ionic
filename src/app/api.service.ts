@@ -60,6 +60,7 @@ export class ApiQuery {
   isMan: boolean;
   peerjs: any = [];
   usersCache: any = [];
+  location: any;
 
   constructor(public storage: Storage,
               public loadingCtrl: LoadingController,
@@ -84,11 +85,21 @@ export class ApiQuery {
     this.openUrl = 'https://polydate.co.il/open_api/v4/he';
 
     this.footer = true;
-    this.version = platform.is('android') ? 11 : 1; // change at 13.06.21 to android 9 for version 1.1.0
+    this.version = 13; // change at 13.06.21 to android 9 for version 1.1.0
     // alert('version: ' + this.version);
 
   }
 
+  getLocation(){
+    this.geolocation.getCurrentPosition().then(pos => {
+      if(pos){
+        this.location = {
+          'latitude': pos.coords.latitude,
+          'longitude': pos.coords.longitude
+        };
+      };
+    });
+  }
 
   safeHtml(html) {
     return this.sanitizer.bypassSecurityTrustHtml(html);
