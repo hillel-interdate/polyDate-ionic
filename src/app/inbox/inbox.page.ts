@@ -61,11 +61,11 @@ export class InboxPage {
         } else {
             this.api.back = true;
         }
-        if(this.users) {
-            this.moreUsers();
-        }else{
+        // if(this.users) {
+        //     this.moreUsers();
+        // }else{
             this.getDialogs();
-        }
+        // }
 
         //  this.interval = setInterval(() => this.getDialogs(), 10000)
 
