@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SubscriptionPage } from './subscription.page';
 
-
+import { VipModalPage } from './vip-modal.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SubscriptionPage
+    component: VipModalPage
   }
 ];
 
@@ -15,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SubscriptionPageRoutingModule {}
+export class VipModalPageRoutingModule {}

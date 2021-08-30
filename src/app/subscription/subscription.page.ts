@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiQuery} from '../api.service';
+import {ModalController} from '@ionic/angular';
+import {VipModalPage} from "../vip-modal/vip-modal.page";
+import {SelectModalPage} from "../select-modal/select-modal.page";
+
+
 
 @Component({
   selector: 'app-subscription',
@@ -15,7 +20,10 @@ export class SubscriptionPage implements OnInit {
   coupon = '';
   couponMessage: string;
 
-  constructor(public api: ApiQuery) {
+  constructor(
+      public api: ApiQuery,
+      private modalController: ModalController
+  ) {
     this.api.http.get(api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
       this.page = data;
       // this.page = false;
@@ -25,17 +33,24 @@ export class SubscriptionPage implements OnInit {
   ngOnInit() {
   }
 
-  subscribe(payment) {
-    this.browser = this.api.iab.create(this.page.url + '&amount=1&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount)
-        + '&coupon=' + this.coupon);
-    this.checkPaymentInterval = setInterval(() => {
-      this.checkPayment();
-    }, 100000);
-    const that = this;
-    setTimeout(() => {
-      clearInterval(this.checkPaymentInterval);
-    }, 300000); // 300000 = 5 minute
-    return false;
+  async subscribe(payment) {
+
+    const modal = await this.modalController.create({
+      component: VipModalPage,
+      componentProps: {}
+    });
+    modal.present();
+    //
+    // this.browser = this.api.iab.create(this.page.url + '&amount=1&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount)
+    //     + '&coupon=' + this.coupon);
+    // this.checkPaymentInterval = setInterval(() => {
+    //   this.checkPayment();
+    // }, 10000);
+    // const that = this;
+    // setTimeout(() => {
+    //   clearInterval(this.checkPaymentInterval);
+    // }, 300000); // 300000 = 5 minute
+    // return false;
   }
 
   ionViewWillEnter() {

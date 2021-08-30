@@ -61,20 +61,20 @@ export class InboxPage {
         } else {
             this.api.back = true;
         }
-        if(this.users) {
-            this.moreUsers();
-        }else{
-            this.getDialogs();
-        }
+        // if (this.users) {
+        //     this.moreUsers();
+        // } else {
+        this.getDialogs();
+        // }
 
         //  this.interval = setInterval(() => this.getDialogs(), 10000)
 
 
-        if(this.chatWith){
-            let index = this.users.indexOf(this.chatWith);
-            if(this.chatWith.uid == 0){
+        if (this.chatWith) {
+            const index = this.users.indexOf(this.chatWith);
+            if (this.chatWith.uid == 0) {
                 this.users.slice(index, 1);
-            }else {
+            } else {
                 // console.log(this.users.indexOf(this.chatWith));
 
                 this.api.http.get(this.api.apiUrl + '/users/' + this.chatWith.uid + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
@@ -82,7 +82,7 @@ export class InboxPage {
                         // console.log(index);
                         // console.log(this.users.indexOf(this.users[index]));
                         // console.log(this.users[index]);
-                        //this.users[index] = data.res;
+                        // this.users[index] = data.res;
                         this.users[index].date = data.dialog.date;
                         this.users[index].message = data.dialog.message;
                         this.users[index].newMessagesNumber = data.dialog.newMessagesNumber;
@@ -117,23 +117,23 @@ export class InboxPage {
             if (data.dialogs.length < this.prop.perPage) {
                 this.loader = false;
             }
-            //this.users = data.dialogs;
+            // this.users = data.dialogs;
             this.users = [];
             for (let person of data.dialogs) {
-                //if(person.visibleMessagesNumber > 0){
+                // if(person.visibleMessagesNumber > 0){
                     this.users.push(person);
-                //}
+                // }
             }
             this.texts = data.texts;
             this.notifications = data.notifications;
             console.log(this.notifications);
             this.api.hideLoad();
-            let that = this;
-            setTimeout(function () {
-                if(that.api.pageName == 'InboxPage') {
+            const that = this;
+            setTimeout(() => {
+                if (that.api.pageName == 'InboxPage') {
                     that.moreUsers();
                 }
-            },1000);
+            }, 1000);
         }, err => this.api.hideLoad());
 
     }
@@ -149,16 +149,16 @@ export class InboxPage {
                 if(!this.users){
                     this.users = [];
                 }
-                for (let person of data.dialogs) {
-                    //if(person.visibleMessagesNumber > 0 && this.users[this.users.length - 1]['user']['userId'] != person['user']['userId']){
+                for (const person of data.dialogs) {
+                    // if(person.visibleMessagesNumber > 0 && this.users[this.users.length - 1]['user']['userId'] != person['user']['userId']){
                         this.users.push(person);
-                    //}
+                    // }
                 }
 
-                let that = this;
-                setTimeout(function () {
+                const that = this;
+                setTimeout(() => {
                     that.moreUsers();
-                },1000);
+                }, 1000);
 
             });
 
@@ -197,10 +197,10 @@ export class InboxPage {
                 {
                     text: 'כן',
                     handler: () => {
-                        this.api.storage.get('user_data').then(user_data => {
-                            if (user_data) {
+                        this.api.storage.get('user_data').then(userData => {
+                            if (userData) {
                                 const data = {
-                                    user_id: user_data.user_id,
+                                    user_id: userData.user_id,
                                     contact_id: dialog.id
                                 };
                                 this.api.showLoad();

@@ -145,6 +145,10 @@ const routes: Routes = [
     path: 'messenger-notifications',
     loadChildren: () => import('./messenger-notifications/messenger-notifications.module').then( m => m.MessengerNotificationsPageModule)
   },
+  {
+    path: 'vip-modal',
+    loadChildren: () => import('./vip-modal/vip-modal.module').then( m => m.VipModalPageModule)
+  },
 ];
 // { path: 'subscription', loadChildren: './subscription/subscription.module#SubscriptionPageModule' },
 
