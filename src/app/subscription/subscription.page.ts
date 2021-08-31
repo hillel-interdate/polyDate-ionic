@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiQuery} from '../api.service';
+import {Platform} from "@ionic/angular";
 
 @Component({
   selector: 'app-subscription',
@@ -15,7 +16,7 @@ export class SubscriptionPage implements OnInit {
   coupon = '';
   couponMessage: string;
 
-  constructor(public api: ApiQuery) {
+  constructor(public api: ApiQuery, public plt: Platform) {
     this.api.http.get(api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
       this.page = data;
       // this.page = false;

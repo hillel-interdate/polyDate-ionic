@@ -1,0 +1,9 @@
+ion-item{
+  --background: #dbdbd26b;
+  --inner-padding-bottom: 0.5rem;
+  --padding-top: 0.5rem;
+}
+ion-item:last-child{
+ --border-width: 0;
+  --border-style: none;
+}

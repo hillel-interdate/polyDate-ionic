@@ -30,6 +30,10 @@
                 </div>
                 <div (click)="openPage(menu_items_settings[2])" class="username">{{ api.username }}</div>
             </div>
+            <div class="menu-item" (click)="openPage(safetyMenuItem)">
+                <ion-icon name="medkit"></ion-icon>
+                <span class="menu-text">שומרים עליכם!</span>
+            </div>
 
             <div *ngFor="let menu_item of menu_items">
                 <div *ngIf="(menu_item._id == 'subscription' && !api.isPay && api.isMan) || menu_item._id != 'subscription'"

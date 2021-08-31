@@ -145,6 +145,10 @@ const routes: Routes = [
     path: 'messenger-notifications',
     loadChildren: () => import('./messenger-notifications/messenger-notifications.module').then( m => m.MessengerNotificationsPageModule)
   },
+  {
+    path: 'safety',
+    loadChildren: () => import('./safety/safety.module').then( m => m.SafetyPageModule)
+  },
 ];
 // { path: 'subscription', loadChildren: './subscription/subscription.module#SubscriptionPageModule' },
 

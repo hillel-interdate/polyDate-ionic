@@ -73,6 +73,7 @@ export class AppComponent {
     newMessagesTimeout: any;
 
     canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
+    public safetyMenuItem: { _id: string; title: string; url: string };
 
 
     constructor(public platform: Platform,
@@ -500,6 +501,11 @@ export class AppComponent {
                 count: ''
             },
         ];
+        this.safetyMenuItem = {
+            _id: 'safety',
+            title: 'safety',
+            url: '/safety',
+        };
 
         this.menu_items_footer2 = [
             {
@@ -728,8 +734,6 @@ export class AppComponent {
             }
 
             // this.nav.push(page.component, {page: page, action: 'list', params: params});
-            console.log(this.router.url);
-            console.log(page.url);
             if (this.menu.isOpen('menu1') || this.menu.isOpen('menu2') || this.menu.isOpen('menu3')) {
 
                 const navigationExtras: NavigationExtras = {
@@ -1156,7 +1160,7 @@ export class AppComponent {
                 setTimeout(() => {
                     this.api.storage.get('user_data').then(val => {
                         if (!val) {
-                            if (this.api.pageName != 'PasswordRecoveryPage' && this.api.pageName != 'RegistrationPage' && this.api.pageName != 'PagePage' && this.api.pageName != 'ContactUsPage') {
+                            if (this.api.pageName != 'PasswordRecoveryPage' && this.api.pageName != 'RegistrationPage' && this.api.pageName != 'PagePage' && this.api.pageName != 'ContactUsPage' && this.api.pageName != 'SafetyPage') {
                                 this.router.navigate(['/login']);
                                 this.is_login = false;
                                 this.menu_items = this.menu_items_logout;
