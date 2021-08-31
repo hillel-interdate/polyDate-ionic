@@ -194,21 +194,7 @@ export class HomePage implements OnInit {
         $(document).off();
     }
 
-    itemTapped(user) {
-        console.log(user);
-        if (this.scrolling == false) {
-            user.fullPhoto = user.photo;
-             const navigationExtras: NavigationExtras = {
-                 queryParams: {
-                     data: JSON.stringify({
-                         user: user
-                     })
-                 }
-             };
-             this.api.route.navigate(['/profile'], navigationExtras);
-            // this.router.navigate(['/activation']);
-        }
-    }
+
 
     filterStatus() {
        this.options.filter = this.options.filter === 1 ? 0 : 1;
@@ -229,102 +215,10 @@ export class HomePage implements OnInit {
 
     toDialog(user) {
         this.api.data['user'] = user;
-        this.router.navigate(['/dialog']);
+        this.router.navigate(['/dialog'], {state: {user: user}});
     }
 
-    addLike(user) {
 
-        if (user.isAddLike == false) {
-
-            user.isAddLike = true;
-            this.api.toastCreate(' עשית לייק ל' + user.username, 2500);
-
-            let params = JSON.stringify({
-                toUser: user.id,
-            });
-
-            this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-            }, err => {
-            });
-        } else {
-
-        }
-    }
-
-    block(user, bool) {
-
-
-        let params;
-
-        if (user.isAddBlackListed == false && bool == true) {
-
-            user.isAddBlackListed = true;
-
-
-            params = {
-                list: 'Favorite',
-                action: 'delete'
-            };
-
-        } else if (user.isAddBlackListed == true && bool == false) {
-
-            user.isAddBlackListed = false;
-
-            params = {
-                list: 'BlackList',
-                action: 'delete'
-            };
-        }
-
-        if (this.users.length == 1) {
-            this.user_counter = 0;
-        }
-
-        // Remove user from list
-        this.users.splice(this.users.indexOf(user), 1);
-        this.events.publish('statistics:updated');
-
-
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.loader =  true;
-            this.api.toastCreate(data.success, 2500);
-            console.log('in there');
-            if(data.users.length >= 9) {
-                this.loader = false;
-            }
-            // alert('page = 1 | 2');
-            this.params.page = 1;
-        });
-    }
-
-    addFavorites(user, bool = false) {
-
-        if (user.isAddFavorite == false) {
-            user.isAddFavorite = true;
-            var params = JSON.stringify({
-                list: 'Favorite'
-            });
-        } else {
-            if(this.params.list == 'favorited') {
-               bool = true;
-            }
-            user.isAddFavorite = false;
-            var params = JSON.stringify({
-                list: 'Favorite',
-                action: 'delete'
-            });
-        }
-
-
-        if (bool) {
-            this.users.splice(this.users.indexOf(user), 1);
-        }
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.api.toastCreate(data.success, 2500);
-            this.events.publish('statistics:updated');
-        });
-
-    }
 
 
     ClickSortInput() {

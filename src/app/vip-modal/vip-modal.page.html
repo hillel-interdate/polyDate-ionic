@@ -1,27 +1,24 @@
 <ion-header>
   <ion-toolbar class="toolbar-color">
-    <ion-title> מנוי VIP </ion-title>
-    <div class="subtitle">
-      תגדיל בפחות משקל ליום ותהנה כפול!
-      ! VIP בוא ליהנות ממגוון הטבות פרימיום מיוחדות רק למנויי
-    </div>
+    <ion-title [innerHTML]="vipTexts.title"> </ion-title>
+    <div class="subtitle" [innerHTML]="vipTexts.subtitle"></div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="big-icon"></div>
   <div class="big-sub-title">
+    <div class="icon"></div>
     <div class="red"></div>
     <div class="white"></div>
+
     <div class="profile-changes"></div>
     <ul class="vip-bonuses">
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
+      <li *ngFor="let bonus of vipTexts.bonuses"> {{ bonus }} </li>
     </ul>
     <div class="btns">
-      <ion-button class="red" color="danger" expand="block"> red text</ion-button>
-      <ion-button class="outline" expand="block" fill="outline"></ion-button>
+      <ion-button (click)="close(true)" color="danger" expand="block"> {{vipTexts.buttons.updateToVip}} </ion-button>
+      <ion-button (click)="close(false)" color="danger" expand="block"  fill="outline">{{ vipTexts.buttons.cancel }}</ion-button>
     </div>
   </div>
 </ion-content>

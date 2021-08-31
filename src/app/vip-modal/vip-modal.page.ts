@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-vip-modal',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VipModalPage implements OnInit {
 
-  constructor() { }
+  constructor(
+      private modalCtrl: ModalController
+  ) { }
+
+  @Input('vipTexts') vipTexts;
 
   ngOnInit() {
+
+  }
+
+
+
+  close(isVip: boolean) {
+    this.modalCtrl.dismiss(isVip);
   }
 
 }

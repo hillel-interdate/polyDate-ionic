@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiQuery} from '../api.service';
 import {ModalController} from '@ionic/angular';
-import {VipModalPage} from "../vip-modal/vip-modal.page";
-import {SelectModalPage} from "../select-modal/select-modal.page";
+import {VipModalPage} from '../vip-modal/vip-modal.page';
+import {SelectModalPage} from '../select-modal/select-modal.page';
 
 
 
@@ -37,7 +37,9 @@ export class SubscriptionPage implements OnInit {
 
     const modal = await this.modalController.create({
       component: VipModalPage,
-      componentProps: {}
+      componentProps: {
+        vipTexts: this.page.vipTexts,
+      }
     });
     modal.present();
     //

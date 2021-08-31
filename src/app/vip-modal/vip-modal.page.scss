@@ -1,0 +1,43 @@
+ion-title {
+  color: var(--ion-color-danger);
+  text-align: center;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.vip-bonuses {
+  list-style: none;
+  width: 80%;
+  margin: 20px auto;
+  line-height: 25px;
+
+  li:before{
+    background: url(../../assets/img/vip-popup-check.png) no-repeat;
+    padding-right: 27px;
+    background-size: contain;
+    padding-top: 6px;
+    content: " ";
+    margin-left: 10px;
+  }
+
+}
+
+main {
+ //background-color: #949494;
+ background-color: #5c5d67;
+}
+
+.icon {
+  background-image: url(../../assets/img/vip-popup-icon.png);
+  height: 141px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: 14px 0;
+}
