@@ -41,3 +41,11 @@ main {
   background-size: contain;
   margin: 14px 0;
 }
+
+.profile-changes {
+  display: flex;
+}
+
+.vip, .no-vip {
+  width: 50%;
+}

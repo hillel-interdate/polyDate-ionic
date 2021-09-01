@@ -65,8 +65,11 @@ export class HomePage implements OnInit {
         // this.api.audioWait.src = 'https://www.richdate.co.il/landline_phone_ring.mp3';
         // this.api.audioWait.loop = true;
         // this.api.audioWait.load();
+
+        // alert(2)
         this.api.storage.get('user_data').then((val) => {
-            if(val) {
+
+            if (val) {
                 this.getUsers();
             }
         });
@@ -238,7 +241,7 @@ export class HomePage implements OnInit {
         this.api.back = false;
             this.content.scrollToTop(500);
             console.log('users run from sort');
-           //alert('clickes');
+           // alert('clickes');
             this.getUsers();
         //    this.clicked = false;
         //}

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ApiQuery} from '../../api.service';
 import {NavigationExtras} from '@angular/router';
 import {Events} from '@ionic/angular';
+import {ShortUser} from "../../interfaces/short-user";
 
 @Component({
   selector: 'app-short-profile',
@@ -10,7 +11,7 @@ import {Events} from '@ionic/angular';
 })
 export class ShortProfileComponent implements OnInit {
 
-  @Input('user') user;
+  @Input('user') user: ShortUser;
   @Input('params') params;
   @Input('texts') texts;
 
@@ -19,7 +20,10 @@ export class ShortProfileComponent implements OnInit {
       private events: Events,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('from comp');
+    console.log(this.user);
+  }
 
   itemTapped(user) {
     console.log(user);
@@ -86,11 +90,11 @@ export class ShortProfileComponent implements OnInit {
 
 
     this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-      this.loader = true;
+      // this.loader = true;
       this.api.toastCreate(data.success, 2500);
       console.log('in there');
       if (data.users.length >= 9) {
-        this.loader = false;
+        // this.loader = false;
       }
       // alert('page = 1 | 2');
       this.params.page = 1;

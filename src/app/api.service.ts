@@ -251,7 +251,7 @@ export class ApiQuery {
       console.log(this.callAlert);
 
       if (this.callAlert && this.callAlert != null) {
-        alert(2);
+        // alert(2);
         this.callAlert.dismiss();
         this.callAlert = null;
       }

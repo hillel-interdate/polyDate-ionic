@@ -9,10 +9,17 @@
   <div class="big-icon"></div>
   <div class="big-sub-title">
     <div class="icon"></div>
-    <div class="red"></div>
-    <div class="white"></div>
+    <div class="red">{{vipTexts.bigSubTitles.red}}</div>
+    <div class="white">{{vipTexts.bigSubTitles.white}}</div>
 
-    <div class="profile-changes"></div>
+    <div class="profile-changes">
+      <div class="vip">
+        <app-short-profile [user]="vipUser" [params]="params"></app-short-profile>
+      </div>
+      <div class="no-vip">
+        <app-short-profile [user]="payUser" [params]="params"></app-short-profile>
+      </div>
+    </div>
     <ul class="vip-bonuses">
       <li *ngFor="let bonus of vipTexts.bonuses"> {{ bonus }} </li>
     </ul>

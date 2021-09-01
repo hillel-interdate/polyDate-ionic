@@ -24,10 +24,10 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import {SocialComponent} from './components/social/social.component';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
-import {VipModalPageModule} from "./vip-modal/vip-modal.module";
+import {VipModalPageModule} from './vip-modal/vip-modal.module';
 
 @NgModule({
-    declarations: [AppComponent, SocialComponent],
+  declarations: [AppComponent, SocialComponent],
   entryComponents: [],
   imports: [
     // HttpModule,
