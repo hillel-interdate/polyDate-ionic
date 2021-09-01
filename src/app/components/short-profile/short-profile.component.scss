@@ -231,3 +231,12 @@ ul {
   background-color: black;
   color:white;
 }
+
+ion-card.vip {
+  border: 2px solid #f1c722;
+  box-shadow: 1px -1px 6px 1px;
+
+  .user-section {
+    border: 1px solid #ffcb00;
+  }
+}
