@@ -1,7 +1,7 @@
-<ion-card class="usr_profile" [class.d-none]="user?.hide">
+<ion-card class="usr_profile" [class.d-none]="user?.hide" [class.vip]="user?.isVip">
 
   <div class="user-section" [ngClass]="{'disabled': !user?.canWriteTo}">
-    <div *ngIf="user?.isPaying" class="paying"></div>
+    <div *ngIf="user?.isPaying" class="paying" [class.vip]="user?.isVip"></div>
     <div *ngIf="user?.isOnline == true" class="online"></div>
     <div *ngIf="user?.isNew" class="new-user"></div>
     <div *ngIf="user?.isVerify" class="verify"></div>

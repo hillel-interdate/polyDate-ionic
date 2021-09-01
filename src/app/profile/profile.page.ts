@@ -6,6 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {Platform} from '@ionic/angular';
 import * as $ from 'jquery';
+import {User} from '../interfaces/user';
 
 /*
  Generated class for the Profile page.
@@ -26,10 +27,7 @@ export class ProfilePage implements OnInit {
 
   isAbuseOpen: any = false;
 
-  user: any = {
-      isAddBlackListed: false,
-      isAddVerify: true
-  };
+  user: User;
   texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
 
   formReportAbuse: { title: any, buttons: { cancel: any, submit: any }, text: { label: any, name: any, value: any } } =

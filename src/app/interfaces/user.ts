@@ -35,14 +35,15 @@ export interface User {
     isNew: boolean;
     isOnline: boolean;
     isPaying: boolean;
+    isVip: boolean;
     isVerify: boolean;
     noPhoto: string;
     photoStatus: string;
     photos: [{
         cropedImage: string
-        face: string
-        fullImage: string
-        id: number
+        face?: string
+        fullImage?: string
+        id?: number
         isMain: boolean
         isPrivate: boolean
         isValid: boolean

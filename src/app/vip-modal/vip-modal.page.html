@@ -11,7 +11,7 @@
     <div class="icon"></div>
     <div class="red">{{vipTexts.bigSubTitles.red}}</div>
     <div class="white">{{vipTexts.bigSubTitles.white}}</div>
-
+  </div>
     <div class="profile-changes">
       <div class="vip">
         <app-short-profile [user]="vipUser" [params]="params"></app-short-profile>
@@ -27,5 +27,4 @@
       <ion-button (click)="close(true)" color="danger" expand="block"> {{vipTexts.buttons.updateToVip}} </ion-button>
       <ion-button (click)="close(false)" color="danger" expand="block"  fill="outline">{{ vipTexts.buttons.cancel }}</ion-button>
     </div>
-  </div>
 </ion-content>

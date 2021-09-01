@@ -21,17 +21,21 @@
     margin-bottom: 10px;
 }
 
-.paying{
+.paying {
     position: absolute;
-    background-image: url('https://www.greendate.co.il/images/main-pg-queen-icon.png');
+    background-image: url('https://polydate.co.il/images/silver-pay-icon.png');
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100%;
-    width: 48px;
-    height: 33px;
-    left: 0px;
-    top: 0px;
+    background-size: contain;
+    width: 50px;
+    height: 57px;
+    left: 0;
+    bottom: 80px;
     z-index: 10;
+}
+
+.paying.vip {
+    background-image: url(' https://www.polydate.co.il/images/main/vip.png');
 }
 
 #the_area {

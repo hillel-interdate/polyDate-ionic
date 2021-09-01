@@ -66,7 +66,7 @@
     <div class="content" #content>
       <div class="notif" *ngIf="!user.canWriteTo && myId != user?.id">{{ user.textCantWrite }}</div>
       <div class="pmtitle">
-        <div *ngIf="user?.isPaying" class="paying"></div>
+        <div *ngIf="user?.isPaying" class="paying" [class.vip]="user?.isVip"></div>
         <div *ngIf="user?.isNew" class="new-user"></div>
         <div *ngIf="user?.isVerify" class="verify"></div>
         <div *ngIf="user?.isOnline" class="online-user"></div>

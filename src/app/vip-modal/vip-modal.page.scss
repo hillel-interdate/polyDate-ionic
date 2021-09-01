@@ -49,3 +49,16 @@ main {
 .vip, .no-vip {
   width: 50%;
 }
+
+.big-sub-title {
+  text-align: center;
+
+  .red {
+    color: var(--ion-color-danger);
+    font-size: 32px;
+  }
+
+  .white {
+    font-size: 21px;
+  }
+}
