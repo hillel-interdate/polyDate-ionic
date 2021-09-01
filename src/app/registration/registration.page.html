@@ -20,6 +20,9 @@
     </div>
 
     <div class="container">
+        <div *ngIf="form?.step ==1 && safety" class="ion-padding">
+            {{safety}}
+        </div>
         <div *ngFor="let field of formKeys; let i = index" [attr.data-index]="i">
 
             <div *ngIf="form[field].name == 'sign_up_three[contactGender]'">

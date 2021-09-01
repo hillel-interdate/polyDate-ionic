@@ -82,7 +82,7 @@ export class ApiQuery {
     // this.openUrl = 'https:/polydate.co.il/open_api/v4/he';
     //
     this.apiUrl = 'https://polydate.co.il/api/v4/he';
-    this.openUrl = 'https://polydate.co.il/open_api/v4/he';
+    this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
 
     this.footer = true;
     this.version = platform.is('android') ? 11 : 1; // change at 13.06.21 to android 9 for version 1.1.0
