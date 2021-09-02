@@ -40,7 +40,7 @@
                         <div class="remove" ><ion-icon name="create"></ion-icon></div>
                     </div>
                     <div class="small-status-text {{ dataPage?.photos[photo].isValid ? 'valid' : 'waiting' }}">
-                        {{ dataPage?.photos[photo].statusText }}
+                        {{ dataPage?.texts.allowingPhotoText[dataPage?.photos[photo].isValid] }}
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
                         <div class="remove" ><ion-icon name="create"></ion-icon></div>
                     </div>
                     <div class="small-status-text {{ dataPage?.photos[photo].isValid ? 'valid' : 'waiting' }}">
-                        {{ dataPage?.photos[photo].statusText }}
+                        {{ dataPage?.texts.allowingPhotoText[dataPage?.photos[photo].isValid] }}
                     </div>
                 </div>
             </div>

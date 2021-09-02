@@ -5,19 +5,19 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {RouterModule, Routes} from '@angular/router';
 
-const routes: Routes = [
-    {
-        path: '123/dfg',
-        component: ShortProfileComponent
-    }
-];
+// const routes: Routes = [
+//     {
+//         path: 'vcfg',
+//         component: ShortProfileComponent
+//     }
+// ];
 @NgModule({
     declarations: [ShortProfileComponent],
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        RouterModule.forChild(routes)
+        RouterModule
     ],
     exports: [ShortProfileComponent],
 

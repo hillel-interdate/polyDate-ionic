@@ -32,7 +32,17 @@ export class ChangePhotosPage implements OnInit{
   password: any;
   new_user = false;
   checkImages: any;
-  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean, statusText: string}> };
+  dataPage: {
+    noPhoto: any,
+    texts: any,
+    photos: Array<{
+      _id: string,
+      face: string,
+      isValid: string,
+      isMain: boolean,
+      url: any,
+      isPrivate: boolean
+    }> };
   description: any;
   showOnHomepage: boolean;
 

@@ -1,4 +1,5 @@
 import {SingeUserProperty} from './singe-user-property';
+import {Photo} from "./photo";
 
 export interface User {
     age: number;
@@ -28,6 +29,7 @@ export interface User {
     };
     formReportAbuse: any;
     id: number;
+    hebrewUsername: boolean;
     isAddBlackListed: boolean;
     isAddFavorite: boolean;
     isAddLike: boolean;
@@ -39,16 +41,7 @@ export interface User {
     isVerify: boolean;
     noPhoto: string;
     photoStatus: string;
-    photos: [{
-        cropedImage: string
-        face?: string
-        fullImage?: string
-        id?: number
-        isMain: boolean
-        isPrivate: boolean
-        isValid: boolean
-        statusText?: string
-    }];
+    photos: Photo[];
     textCantWrite: string;
     texts: any;
     username: string;
