@@ -423,6 +423,7 @@ export class ChangePhotosPage implements OnInit{
         mimeType: 'image/jpg',
         headers: {
           ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
+          'version': this.api.version.toString()
         },
       };
       const fileTransfer: FileTransferObject = this.transfer.create();

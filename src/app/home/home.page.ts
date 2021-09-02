@@ -67,7 +67,9 @@ export class HomePage implements OnInit {
         // this.api.audioWait.load();
         this.api.storage.get('user_data').then((val) => {
             if(val) {
-                this.getUsers();
+                this.api.setHeaders(true, val.username, val.password, true).then(data =>{
+                    this.getUsers();
+                });
             }
         });
     }
@@ -179,19 +181,11 @@ export class HomePage implements OnInit {
             this.getUsers();
         });
 
-        $(document).on('backbutton', () => {
-            if (this.router.url == '/home') {
-                navigator['app'].exitApp();
-            } else {
-              this.api.onBack();
-            }
-        });
-
     }
 
     ionViewWillLeave() {
         this.events.unsubscribe('logo:click');
-        $(document).off();
+        //$(document).off();
     }
 
     itemTapped(user) {
