@@ -1,4 +1,5 @@
 export interface ShortUser {
+    id?: number;
     hide?: boolean;
     canWriteTo: boolean;
     isPaying: boolean;

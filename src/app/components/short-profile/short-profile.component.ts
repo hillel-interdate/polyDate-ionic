@@ -21,8 +21,8 @@ export class ShortProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('from comp');
-    console.log(this.user);
+    // console.log('params');
+    // console.log(this.params);
   }
 
   itemTapped(user: ShortUser) {

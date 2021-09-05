@@ -192,12 +192,12 @@ export class ProfilePage implements OnInit {
         console.log(userId);
         console.log(this.api.usersCache);
 
-        const url = this.user.photos[0].url;
+        // const url = this.user.photos[0].url;
 
         this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data: any) => {
-            if (this.user.photos.length > 0 && this.myId != userId) {
-                data.photos[0].url = url;
-            }
+            // if (this.user.photos.length > 0 && this.myId != userId) {
+            //     data.photos[0].url = url;
+            // }
             this.api.usersCache[userId] = this.user = data;
 
             this.userFormKeys = this.getKeys(data.form);

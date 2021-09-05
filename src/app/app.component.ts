@@ -124,6 +124,21 @@ export class AppComponent implements AfterViewInit {
       });
     });
 
+    $(document).on('backbutton', () => {
+      //if(this.api.pageName == 'LoginPage' || this.api.pageName == 'HomePage') {
+
+      console.log(this.router.url);
+      console.log(this.api.pageName);
+      if (this.router.url == '/home' || this.api.pageName == 'LoginPage') {
+        console.log('leave');
+        navigator['app'].exitApp();
+
+      } else {
+        console.log('back');
+        this.api.onBack();
+      }
+      //}
+    });
 
     this.events.subscribe('status:login', () => {
       this.initPushNotification();
@@ -367,10 +382,17 @@ export class AppComponent implements AfterViewInit {
 
 
   clearLocalStorage() {
-    this.api.setHeaders(false, null, null);
-    // Removing data storage
-    this.api.storage.remove('user_data');
-    this.router.navigate(['/login']);
+    if(this.api.password) {
+      this.api.http.post(this.api.openUrl + '/logins.json', '', this.api.setHeaders(true)).subscribe(data => {
+      }, err => {
+        if(err.status == 403) {
+          this.api.setHeaders(false, null, null);
+          // Removing data storage
+          this.api.storage.remove('user_data');
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
 
   initMenuItems(menu) {

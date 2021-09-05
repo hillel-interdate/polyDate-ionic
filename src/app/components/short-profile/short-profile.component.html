@@ -34,11 +34,12 @@
           <!--Like-->
         </div>
 
-        <div *ngIf="!api.videoShow && params?.list != 'favorite_me'" class="btn" (click)="addFavorites(user)">
+        <div *ngIf="!api.videoShow && params?.list != 'favorite_me' && params?.list != 'black'" class="btn" (click)="addFavorites(user)">
           <li id="{{user?.isAddFavorite ? 'remove-green' :'add-green'}}"></li>
           <div>{{user?.isAddFavorite ? texts?.remove : texts?.add}}</div>
         </div>
 
+        <!--is this is favorite_me list wee can only remove, cant add again-->
         <div *ngIf="!api.videoShow && params?.list == 'favorite_me'" tappable  class="btn" (click)="!user?.isAddFavorite && addFavorites(user)">
           <li id="add-green" [ngClass]="{'disabled': user?.isAddFavorite}"></li>
           <div>{{texts?.add}}</div>
