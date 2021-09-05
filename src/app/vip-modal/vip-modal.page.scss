@@ -79,3 +79,20 @@ ion-content {
 .button-outline {
   color: #fff;
 }
+
+ion-button {
+  max-width: 80%;
+  margin: 10px auto;
+}
+
+.outline-btn {
+  border: 2px solid var(--ion-color-danger);
+  color: #fff;
+  --background: transparent;
+  font-size: 16px;
+}
+
+.upgrade-btn {
+  font-size: 20px;
+  font-weight: 600;
+}

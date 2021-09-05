@@ -20,6 +20,7 @@ export class VipModalPage implements OnInit {
   @Input('vipTexts') vipTexts;
   @Input('payment') payment;
   @Input('vipPricePerMonth') vipPricePerMonth;
+  @Input('texts') texts;
 
   payUser: ShortUser;
   vipUser: ShortUser;
@@ -28,6 +29,7 @@ export class VipModalPage implements OnInit {
 
   ngOnInit() {
     this.setDefaults();
+    console.log(this.texts);
 
     let myUser;
     if (this.api.usersCache[this.api.userId]) {
@@ -57,7 +59,7 @@ export class VipModalPage implements OnInit {
     this.payUser.isVerify = user.isVerify;
     this.payUser.isNew = user.isNew;
     this.payUser.username = user.username;
-    this.payUser.photo = this.api.url + user.photos[0].face;
+    this.payUser.photo = user.photos[0].face;
     this.payUser.distance = user.form.distance;
     if (typeof user.form.region_name.value === 'string') {
       this.payUser.region_name = user.form.region_name.value;
@@ -75,7 +77,7 @@ export class VipModalPage implements OnInit {
     this.vipUser.isVerify = user.isVerify;
     this.vipUser.isNew = user.isNew;
     this.vipUser.username = user.username;
-    this.vipUser.photo = this.api.url + user.photos[0].face;
+    this.vipUser.photo = user.photos[0].face;
     this.vipUser.distance = user.form.distance;
 
     if (typeof user.form.region_name.value === 'string') {

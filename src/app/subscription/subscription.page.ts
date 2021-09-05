@@ -41,6 +41,7 @@ export class SubscriptionPage implements OnInit {
         vipTexts: this.page.vipTexts,
         payment,
         vipPricePerMonth: this.page.vipPricePerMonth,
+        texts: this.page.vipTexts.actionButtonsText,
       }
     });
     modal.present().then();

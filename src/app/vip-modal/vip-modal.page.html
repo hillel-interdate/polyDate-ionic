@@ -14,17 +14,17 @@
   </div>
     <div class="profile-changes">
       <div class="vip">
-        <app-short-profile [user]="vipUser" [params]="params"></app-short-profile>
+        <app-short-profile [user]="vipUser" [params]="params" [texts]="texts"></app-short-profile>
       </div>
       <div class="no-vip">
-        <app-short-profile [user]="payUser" [params]="params"></app-short-profile>
+        <app-short-profile [user]="payUser" [params]="params" [texts]="texts"></app-short-profile>
       </div>
     </div>
     <ul class="vip-bonuses">
       <li *ngFor="let bonus of vipTexts.bonuses"> {{ bonus }} </li>
     </ul>
     <div class="btns">
-      <ion-button (click)="close(true)" color="danger" expand="block"> {{vipTexts.buttons.updateToVip}} </ion-button>
-      <ion-button (click)="close(false)" color="danger" expand="block"  fill="outline">{{ vipTexts.buttons.cancel }}</ion-button>
+      <ion-button (click)="close(true)" class="upgrade-btn" color="danger" expand="block"> {{vipTexts.buttons.updateToVip}} </ion-button>
+      <ion-button (click)="close(false)" class="outline-btn" expand="block" >{{ vipTexts.buttons.cancel }}</ion-button>
     </div>
 </ion-content>
