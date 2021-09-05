@@ -129,7 +129,7 @@ export class AppComponent {
 
       console.log(this.router.url);
       console.log(this.api.pageName);
-        if (this.router.url == '/home' || this.api.pageName == 'LoginPage') {
+        if (this.router.url == '/home' || this.api.pageName == 'LoginPage' || (this.router.url == '/login' && this.api.pageName == 'HomePage')) {
           console.log('leave');
           navigator['app'].exitApp();
 
