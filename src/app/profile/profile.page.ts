@@ -96,18 +96,37 @@ export class ProfilePage implements OnInit {
       };
         this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
-                this.user = JSON.parse(params.data).user;
+                const passedUser = JSON.parse(params.data).user;
+                if (this.api.usersCache[passedUser.id]) {
+                    this.user = this.api.usersCache[passedUser.id];
+                    this.userFormKeys = this.getKeys(this.user.form);
+                } else {
+                    this.user.photos = [
+                        {
+                            id: 0,
+                            isMain: true,
+                            isValid: true,
+                            url: passedUser.photo,
+                            face: '',
+                            isPrivate: false,
+                        }
+                    ];
+                    this.user.age = passedUser.age;
+                    this.user.username = passedUser.username;
+                    this.user.id = passedUser.id;
+                    this.user.canWriteTo = passedUser.canWriteTo;
+                    this.user.form.region_name = passedUser.region_name;
+                    this.user.form.distance = passedUser.distance;
+                    this.user.isPaying = passedUser.isPaying;
+                    this.user.isAddBlackListed = passedUser.isAddBlackListed;
+                    this.user.isAddFavorite = passedUser.isAddFavorite;
+                    this.user.isAddLike = passedUser.isAddLike;
+                    this.user.isNew = passedUser.isNew;
+                    this.user.isOnline = passedUser.isOnline;
+                    this.user.isPaying = passedUser.isPaying;
+                    this.user.isVerify = passedUser.isVerify;
+                }
 
-                this.user.photos = [
-                    {
-                        id: 0,
-                        isMain: true,
-                        isValid: true,
-                        url: this.user.photos[0].url,
-                        face: '',
-                        isPrivate: false,
-                    }
-                ];
                 console.log(this.user);
                 this.getUser();
             } else {
@@ -170,17 +189,16 @@ export class ProfilePage implements OnInit {
 
     getUser() {
         const userId = this.user.id;
-        if (typeof this.api.usersCache[userId] !== 'undefined') {
-            this.user = this.api.usersCache[userId];
-        }
+        console.log(userId);
+        console.log(this.api.usersCache);
+
         const url = this.user.photos[0].url;
 
-        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data:any) => {
-            this.api.usersCache[userId] = data;
+        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data: any) => {
             if (this.user.photos.length > 0 && this.myId != userId) {
                 data.photos[0].url = url;
             }
-            this.user = data;
+            this.api.usersCache[userId] = this.user = data;
 
             this.userFormKeys = this.getKeys(data.form);
             this.formReportAbuse = data.formReportAbuse;

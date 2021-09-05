@@ -316,10 +316,11 @@
   }
 
   .verify {
-    background: url(../../assets/img/icons/verify.png) center no-repeat;
-    width: 49px;
+    background: url(../../assets/img/icons/verify.png) no-repeat;
+    width: 57px;
     height: 49px;
     float: left;
+    background-position: top right;
   }
 
   .icon {

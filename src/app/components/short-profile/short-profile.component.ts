@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ApiQuery} from '../../api.service';
 import {NavigationExtras} from '@angular/router';
 import {Events} from '@ionic/angular';
-import {ShortUser} from "../../interfaces/short-user";
+import {ShortUser} from '../../interfaces/short-user';
 
 @Component({
   selector: 'app-short-profile',
@@ -25,14 +25,14 @@ export class ShortProfileComponent implements OnInit {
     console.log(this.user);
   }
 
-  itemTapped(user) {
-    console.log(user);
+  itemTapped(user: ShortUser) {
+    // console.log(user);
     // if (this.scrolling == false) {
-    user.fullPhoto = user.photo;
+    user.url = user.photo;
     const navigationExtras: NavigationExtras = {
       queryParams: {
         data: JSON.stringify({
-          user: user
+          user
         })
       }
     };

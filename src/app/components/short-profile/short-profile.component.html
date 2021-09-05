@@ -18,7 +18,7 @@
         </div>
         <div class="row">
           <span class="location">{{user?.region_name}}</span>
-          <span class="distance">{{user?.distance}}</span>
+          <span *ngIf="user?.distance" class="distance">{{user?.distance}} ק"מ </span>
           <div class="clear-both"></div>
         </div>
       </ion-card-title>

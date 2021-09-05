@@ -10,6 +10,7 @@ export interface ShortUser {
     isAddBlackListed: boolean;
     isVip: boolean;
     photo: string;
+    url?: string; // url = copy of photo
     username: string;
     age: number;
     region_name: string;

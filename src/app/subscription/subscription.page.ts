@@ -39,20 +39,33 @@ export class SubscriptionPage implements OnInit {
       component: VipModalPage,
       componentProps: {
         vipTexts: this.page.vipTexts,
+        payment,
+        vipPricePerMonth: this.page.vipPricePerMonth,
       }
     });
-    modal.present();
-    //
-    // this.browser = this.api.iab.create(this.page.url + '&amount=1&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount)
-    //     + '&coupon=' + this.coupon);
-    // this.checkPaymentInterval = setInterval(() => {
-    //   this.checkPayment();
-    // }, 10000);
-    // const that = this;
-    // setTimeout(() => {
-    //   clearInterval(this.checkPaymentInterval);
-    // }, 300000); // 300000 = 5 minute
-    // return false;
+    modal.present().then();
+
+    modal.onDidDismiss().then((data: any) => {
+      const newPayment = data.data.newPayment;
+      console.log(data);
+      const payUrl = this.page.url + '&amount=1&payPeriod=' + newPayment.period + '&prc=' + btoa(newPayment.amount)
+          + '&coupon=' + this.coupon + '&isVip=' + Number(newPayment.isVip);
+      this.browser = this.api.iab.create(payUrl);
+
+      this.checkPaymentInterval = setInterval(() => {
+          this.checkPayment();
+
+       }, 10000);
+
+      const that = this;
+
+      setTimeout(() => {
+        clearInterval(that.checkPaymentInterval);
+      }, 300000); // 300000 = 5 minute
+
+      return false;
+
+    });
   }
 
   ionViewWillEnter() {

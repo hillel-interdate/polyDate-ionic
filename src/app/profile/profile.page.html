@@ -25,7 +25,7 @@
     <img src="../../assets/img/icons/padd.png">
   </div>
 
-  <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>
+<!--  <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>-->
 
   <div *ngIf="user?.isAddFavorite" class=" favorite-profile-btn remove" (click)="addFavorites(user)" ><img src="../../assets/img/icons/cap.png"></div>
   
@@ -79,7 +79,7 @@
         
         </strong>
 <!--        <span>{{user?.region_name}}</span>-->
-        <span *ngIf="user?.form?.distance != ''" class="distance">{{user?.form?.distance}} ממך</span>
+        <span *ngIf="user?.form?.distance" class="distance">{{user?.form?.distance}} ק"מ ממך</span>
       </div>
 
 <!--      <div *ngIf="user?.iam" class="pmdetail cf">-->

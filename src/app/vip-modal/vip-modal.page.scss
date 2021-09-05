@@ -17,13 +17,17 @@ ion-title {
   margin: 20px auto;
   line-height: 25px;
 
-  li:before{
+  li:before {
     background: url(../../assets/img/vip-popup-check.png) no-repeat;
     padding-right: 27px;
     background-size: contain;
     padding-top: 6px;
     content: " ";
     margin-left: 10px;
+  }
+  
+  li {
+    color: #fff;
   }
 
 }
@@ -35,7 +39,7 @@ main {
 
 .icon {
   background-image: url(../../assets/img/vip-popup-icon.png);
-  height: 141px;
+  height: 90px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -61,4 +65,17 @@ main {
   .white {
     font-size: 21px;
   }
+}
+
+ion-content {
+  --background: #5c5d67;
+}
+
+.white {
+  font-size: 20px;
+  color: #fff;
+}
+
+.button-outline {
+  color: #fff;
 }

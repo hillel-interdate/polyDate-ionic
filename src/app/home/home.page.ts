@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {ShortUser} from '../interfaces/short-user';
 
 
 
@@ -38,7 +39,7 @@ export class HomePage implements OnInit {
     user_counter: any = 0;
     form_filter: any;
     filter: any = {filter: '', visible: ''};
-    users: any;
+    users: ShortUser[];
     texts: any;
     params: any = {action: 'online', filter: '', page: 1, list: ''};
     params_str: any;
@@ -212,7 +213,7 @@ export class HomePage implements OnInit {
         //     // $('.ion-list').css({
         //     //     'height': '95%'
         //     // });
-        //}
+        // }
 
     }
 
