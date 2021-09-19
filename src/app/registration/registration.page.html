@@ -20,7 +20,7 @@
     </div>
 
     <div class="container">
-        <div *ngIf="form?.step ==1 && safety" class="ion-padding">
+        <div *ngIf="form?.step ==1 && safety" class="ion-padding ion-margin-bottom safety">
             {{safety}}
         </div>
         <div *ngFor="let field of formKeys; let i = index" [attr.data-index]="i">

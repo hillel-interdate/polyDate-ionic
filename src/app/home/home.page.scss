@@ -16,23 +16,14 @@ ion-card {
   background-color: black;
   color: white;
 
-  .location {
-    float: right;
-  }
+
 
   .distance {
-    float: left;
     margin-left: 15px;
   }
 }
 
-.age {
-  font-size: 13px;
-  display: inline;
-  margin-right: 5px;
-  line-height: 32px;
-  font-weight: bold;
-}
+
 
 .list-md {
   margin-top: 35px;
@@ -300,6 +291,7 @@ ion-card {
 .row {
   background-color: black;
   color: white;
+  display:flex;
 }
 
 ion-card {
@@ -314,18 +306,24 @@ ion-card {
 }
 
 .name {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   padding-right: 5px;
   margin-right: 2px;
-  line-height: 31px;
-  float: right;
+  line-height: 2rem;
+}
+
+.age {
+  font-size: 16px;
+  margin-right: 5px;
+  line-height: 2rem;
+  font-weight: bold;
 }
 
 .location {
-  font-size: 13px;
-  padding-right: 5px;
-  clear: both;
+  font-size: 16px;
+  line-height: 2rem;
+  padding-inline: 5px;
 }
 
 .ion-card-title {
@@ -402,12 +400,8 @@ ion-card-title {
 
 .distance {
   font-weight: bold;
-  position: absolute;
-  left: 8px;
-  bottom: 2px;
-  line-height: 14px;
-  direction: rtl;
-  font-size: 14px;
+  line-height: 2rem;
+  font-size: 16px;
 }
 
 ul.profile-btn {

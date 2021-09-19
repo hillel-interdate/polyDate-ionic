@@ -61,7 +61,7 @@ export class RegistrationPage implements OnInit {
     ngOnInit() {
         this.api.showLoad();
         this.api.http.post(this.api.openUrl + '/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
-            this.safety = res.user.safety;
+            this.safety = res.user.form.safetyNotice;
             this.form = res.user.form;
             // this.form.email.value = this.email;
             this.formKeys = Object.keys(this.form); this.api.hideLoad();
