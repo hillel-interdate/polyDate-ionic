@@ -157,7 +157,13 @@ ion-toolbar {
   font-size: 1.8rem;
   position: absolute;
   bottom: 0px;
+  left: 47px;
+}
+
+.flag-icon{
+  position: absolute;
   left: 27px;
+  bottom: 4px;
 }
 
 .trash-icon {
@@ -348,7 +354,7 @@ ion-content {
     font-size: 1.8rem;
     position: absolute;
     bottom: -3px;
-    left: 18px;
+    left: 39px;
   }
 
 }

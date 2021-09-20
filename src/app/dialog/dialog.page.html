@@ -65,6 +65,7 @@
             <ion-icon *ngIf="msg.delivered == false" name="checkmark" class="v-ios-icon"></ion-icon>
             <ion-icon color="primary" *ngIf="user?.id != msg.from && msg.isRead" name="done-all"
                       class="v-ios-icon"></ion-icon>
+            <ion-icon class="flag-icon" (click)="reportMessage(msg, i)" name="flag"></ion-icon>
             <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
         </ion-card>
     </div>
