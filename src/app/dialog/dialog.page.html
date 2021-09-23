@@ -20,7 +20,7 @@
   <ion-card class="user-block">
     <ion-list lines="none">
     <ion-item>
-      <p class="dialog-avatar"  (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + api.url + user.contactImage  + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
+      <p class="dialog-avatar"  (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + api.url + user?.contactImage  + ')'}">{{texts?.a_conversation_with}} {{texts?.name}}</p>
     </ion-item>
     </ion-list>
   </ion-card>

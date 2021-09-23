@@ -35,6 +35,9 @@ export class SubscriptionPage implements OnInit {
 
   async subscribe(payment) {
 
+    if (typeof payment.noVipAmount == 'undefined') {
+      payment.noVipAmount = payment.amount;
+    }
     const modal = await this.modalController.create({
       component: VipModalPage,
       componentProps: {

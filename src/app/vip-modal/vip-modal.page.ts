@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
 import {ShortUser} from '../interfaces/short-user';
-import {User} from "../interfaces/user";
-import {Observable} from "rxjs";
+import {User} from '../interfaces/user';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-vip-modal',
@@ -35,18 +35,25 @@ export class VipModalPage implements OnInit {
     if (this.api.usersCache[this.api.userId]) {
       myUser = this.api.usersCache[this.api.userId];
       this.setUser(myUser);
-      this.setUser(myUser);
     } else {
 
       // @ts-ignore
       // tslint:disable-next-line:no-shadowed-variable
       this.api.http.get(this.api.apiUrl + '/users/' + this.api.userId, this.api.header).subscribe((myUser: User) => {
         this.setUser(myUser);
-        this.setUser(myUser);
       });
     }
   }
 
+  ionViewWillEnter() {
+    $(document).on('backbutton', () => {
+      this.modalCtrl.dismiss();
+    });
+  }
+
+  ionViewWillLeave() {
+    $(document).off();
+  }
 
   setUser(user: User) {
     // console.log(user);
@@ -59,7 +66,7 @@ export class VipModalPage implements OnInit {
     this.payUser.isVerify = user.isVerify;
     this.payUser.isNew = user.isNew;
     this.payUser.username = user.username;
-    this.payUser.photo = user.photos[0].face;
+    this.payUser.photo = user.photos[0].face.includes('polydate') ? user.photos[0].face :  this.api.url + user.photos[0].face;
     this.payUser.distance = user.form.distance;
     if (typeof user.form.region_name.value === 'string') {
       this.payUser.region_name = user.form.region_name.value;
@@ -77,7 +84,7 @@ export class VipModalPage implements OnInit {
     this.vipUser.isVerify = user.isVerify;
     this.vipUser.isNew = user.isNew;
     this.vipUser.username = user.username;
-    this.vipUser.photo = user.photos[0].face;
+    this.vipUser.photo = user.photos[0].face.includes('polydate') ? user.photos[0].face :  this.api.url + user.photos[0].face;
     this.vipUser.distance = user.form.distance;
 
     if (typeof user.form.region_name.value === 'string') {
@@ -91,7 +98,7 @@ export class VipModalPage implements OnInit {
 
   close(isVip: boolean) {
     if (isVip) {
-      this.payment.amount += (this.payment.period * 29);
+      this.payment.amount = (this.payment.noVipAmount + this.payment.period * 29);
     }
     this.payment.isVip = isVip;
     // console.log( this.payment);

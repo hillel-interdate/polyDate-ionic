@@ -83,6 +83,13 @@ export class LoginPage implements OnInit {
     //  alert('view');
     this.api.pageName = 'LoginPage';
     $('.footerMenu').hide();
+
+    $(document).on('backbutton', () => {
+
+        navigator['app'].exitApp();
+
+    });
+
     this.api.storage.get('username').then((username) => {
       this.form.login.username.value = username;
       this.user.name = username;
@@ -268,10 +275,10 @@ export class LoginPage implements OnInit {
 
   validate(response) {
     this.errors = '';
-    if(response.status) {
+    if (response.status) {
       this.api.isPay = response.isPay;
       this.api.isMan = response.isMan;
-      if (response.status != 'not_activated') {
+      if (response.status !== 'not_activated') {
         this.fbId = '';
         this.api.userId = response.id;
         this.api.storage.set('user_data', {
@@ -353,6 +360,7 @@ export class LoginPage implements OnInit {
     this.api.footer = true;
     console.log('login page will liiv');
     $('.footerMenu').show();
+    $(document).off();
 
   }
 

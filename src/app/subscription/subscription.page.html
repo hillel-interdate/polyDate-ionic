@@ -15,7 +15,7 @@
         <div class="wrap-pay">
           <div class="chackbox"><span></span></div>
           <div class="title">{{ payment.title }}</div>
-          <div class="price">₪{{ payment.amount }}</div>
+          <div class="price">₪{{ payment.noVipAmount ? payment.noVipAmount : payment.amount }}</div>
           <div class="description">{{ payment.text }}</div>
           <div class="month-price">
             <span class="dollar">₪</span><span>{{ payment.price }}</span>

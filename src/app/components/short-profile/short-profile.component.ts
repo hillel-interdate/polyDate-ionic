@@ -41,6 +41,11 @@ export class ShortProfileComponent implements OnInit {
     // }
   }
 
+  toDialog(user) {
+    this.api.data['user'] = user;
+    this.api.route.navigate(['/dialog']);
+  }
+
   addLike(user) {
 
     if (!user.isAddLike) {

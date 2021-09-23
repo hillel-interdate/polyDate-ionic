@@ -25,6 +25,7 @@
 
 
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
+<!--    <button (click)="checkUnique()"> click to test from noe untill the last result if there a copies of profiles</button>-->
     <div class="ion-list">
 
       <app-short-profile *ngFor="let user of users" [user]="user" [params]="params" [texts]="texts"></app-short-profile>

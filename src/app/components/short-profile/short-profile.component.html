@@ -23,7 +23,7 @@
         </div>
       </ion-card-title>
       <ul class="profile-btn">
-        <div tappable class="btn" [routerLink]="['/dialog']" [queryParams]="{state: {user: user}}">
+        <div tappable class="btn" (click)="toDialog(user)">
           <li id="mobmsg"></li>
           <div>{{texts?.message}}</div>
         </div>

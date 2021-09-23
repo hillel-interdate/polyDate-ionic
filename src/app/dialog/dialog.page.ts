@@ -83,7 +83,7 @@ export class DialogPage implements OnInit {
       this.allowedToReadMessage = data.allowedToReadMessage;
       this.payment = data.payment;
 
-      for(let i = 0; i < this.messages.length; i++) {
+      for (let i = 0; i < this.messages.length; i++) {
         if (this.messages[i].isRead == false) {
           this.notReadMessage.push(this.messages[i].id);
         }

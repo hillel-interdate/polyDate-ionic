@@ -19,8 +19,8 @@
   }
 
   .hebrew-name-age {
-    position: relative;
-    bottom: -4px;
+    //position: relative;
+    //bottom: -4px;
   }
 
   .user-age {
@@ -32,6 +32,7 @@
     display: inline;
     margin-right: 4px;
     font-size: 20px;
+    vertical-align: baseline;
   }
   .profile-ion-buttons {
     text-align: left;
@@ -141,7 +142,7 @@
     position: absolute;
     background-size: cover;
     left: 8px;
-    top: -6px;
+    top: -11px;
     z-index: 999;
   }
 
@@ -282,8 +283,8 @@
     z-index: 9999
   }
 
-  .paying {
-    top: 23px;
+  .paying, .paying.vip {
+    top: 16px;
   }
 
 
@@ -365,4 +366,8 @@
     font-weight: bold;
     display: inline !important;
     margin: 0 5px;
+  }
+
+  .float-right {
+    float: right;
   }
