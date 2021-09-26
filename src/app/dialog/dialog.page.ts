@@ -136,7 +136,8 @@ export class DialogPage implements OnInit {
             if (!this.showUl) {
                 const actionSheet = await this.actionSheetController.create({
                     cssClass: 'floating',
-                    buttons: buttons
+                    // @ts-ignore
+                    buttons
                 });
                 await actionSheet.present();
                 this.checkedQm = 0;
@@ -146,7 +147,7 @@ export class DialogPage implements OnInit {
         }
     }
 
-    sendQuickMessage(id): boolean|void|Promise<boolean> {
+    sendQuickMessage(id): boolean|void|Promise<boolean| void> {
         this.checkedQm = id;
         // alert(1);
         // if (!this.cantWrite) {
