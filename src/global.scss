@@ -743,6 +743,10 @@ ion-footer.footer-ios::before {
 .floating .action-sheet-wrapper{
   margin-block-end: 12vh;
 }
+.floating .action-sheet-group *{
+  background-color: #f5f2f2;
+  color: #666;
+}
 
 @media (max-width: 375px) {
 
