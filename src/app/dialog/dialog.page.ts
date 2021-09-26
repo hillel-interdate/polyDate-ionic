@@ -1,10 +1,11 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
-import {AlertController, Events, IonContent} from '@ionic/angular';
+import {ActionSheetController, AlertController, Events, IonContent} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
 import {Router, NavigationExtras} from '@angular/router';
 import * as $ from 'jquery';
 
 import {ChangeDetectorRef} from '@angular/core';
+import {ActionSheetButton} from '@ionic/core';
 
 declare var Peer;
 
@@ -31,7 +32,7 @@ export class DialogPage implements OnInit {
     messData: any;
     allowedToReadMessage: any;
     showUl: any = false;
-    quickMessages: [];
+    quickMessages: [{ text: string, id: string }];
     checkedQm: number;
     cantWrite = false;
     contactWasChecked = false;
@@ -55,6 +56,7 @@ export class DialogPage implements OnInit {
                 public changeRef: ChangeDetectorRef,
                 public events: Events,
                 public alertCtrl: AlertController,
+                public actionSheetController: ActionSheetController,
     ) {
     }
 
@@ -123,12 +125,20 @@ export class DialogPage implements OnInit {
         });
     }
 
-    ulToggle() {
+    async ulToggle() {
         if (this.cantWrite) {
             this.showCantWriteAlert();
         } else {
             this.showUl = !this.showUl;
+            const buttons = this.quickMessages.map(message => {
+                return {text: message.text, handler: () => this.sendQuickMessage(message.id)} as (string | ActionSheetButton);
+            });
             if (!this.showUl) {
+                const actionSheet = await this.actionSheetController.create({
+                    cssClass: 'floating',
+                    buttons: buttons
+                });
+                await actionSheet.present();
                 this.checkedQm = 0;
             } else {
                 this.checkIfCanWrite();
@@ -136,7 +146,7 @@ export class DialogPage implements OnInit {
         }
     }
 
-    sendQuickMessage(id) {
+    sendQuickMessage(id): boolean|void|Promise<boolean> {
         this.checkedQm = id;
         // alert(1);
         // if (!this.cantWrite) {

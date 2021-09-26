@@ -182,6 +182,9 @@ ion-cart {
   border-radius: 0px;
   padding: 0px 4px 0 17px;
   margin: 1px 0px 18px 0;
+  ion-icon{
+    font-size: 22px;
+  }
 
 }
 
@@ -320,6 +323,7 @@ ion-content {
   margin-right: 0;
 }
 
+
 @keyframes mercuryTypingAnimation {
   0% {
     transform: translateY(0px);
@@ -354,7 +358,7 @@ ion-content {
     font-size: 1.8rem;
     position: absolute;
     bottom: -3px;
-    left: 39px;
+    left: 22px;
   }
 
 }

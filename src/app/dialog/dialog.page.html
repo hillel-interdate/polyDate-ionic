@@ -65,7 +65,7 @@
             <ion-icon *ngIf="msg.delivered == false" name="checkmark" class="v-ios-icon"></ion-icon>
             <ion-icon color="primary" *ngIf="user?.id != msg.from && msg.isRead" name="done-all"
                       class="v-ios-icon"></ion-icon>
-            <ion-icon class="flag-icon" (click)="reportMessage(msg, i)" name="flag"></ion-icon>
+            <ion-icon *ngIf="user?.id == msg.from" class="flag-icon" (click)="reportMessage(msg, i)" name="flag"></ion-icon>
             <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
         </ion-card>
     </div>
@@ -87,9 +87,9 @@
     </ion-infinite-scroll>
 
 </ion-content>
-<ion-list *ngIf="showUl" class="quickMessOpt">
-    <ion-item tappable (click)="sendQuickMessage(qm.id)" *ngFor="let qm of quickMessages"
-              [ngClass]="{'checked': qm.id == checkedQm}"> {{ qm.text }}
-        <!--  <ion-button  slot="end"> שלח </ion-button>-->
-    </ion-item>
-</ion-list>
+<!--<ion-list *ngIf="showUl" class="quickMessOpt">-->
+<!--    <ion-item tappable (click)="sendQuickMessage(qm.id)" *ngFor="let qm of quickMessages"-->
+<!--              [ngClass]="{'checked': qm.id == checkedQm}"> {{ qm.text }}-->
+<!--        &lt;!&ndash;  <ion-button  slot="end"> שלח </ion-button>&ndash;&gt;-->
+<!--    </ion-item>-->
+<!--</ion-list>-->

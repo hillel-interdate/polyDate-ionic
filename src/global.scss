@@ -739,6 +739,11 @@ ion-footer.footer-ios::before {
   margin-right: 10px;
 }
 
+
+.floating .action-sheet-wrapper{
+  margin-block-end: 12vh;
+}
+
 @media (max-width: 375px) {
 
   .footer-menu .menu-two li {
