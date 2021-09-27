@@ -57,10 +57,9 @@
                                   [ngClass]="{'long-name': user.username?.length >= 12 }">{{user.username + ', '}}</span>
                                 <span class="age">{{user.age}}</span>
                             </div>
-                            <div class="row">
-                                <span class="location">{{user.region_name}}</span>
+                            <div class="row location">
+                                <span class="location">{{user.region_name}}, </span>
                                 <span class="distance">{{user.distance}}</span>
-                                <div class="clear-both"></div>
                             </div>
                         </ion-card-title>
                         <ul class="profile-btn">
