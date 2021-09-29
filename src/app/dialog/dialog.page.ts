@@ -371,7 +371,6 @@ export class DialogPage implements OnInit {
             isSent = true;
             that.peerConnection.send(message);
         }
-        console.log(isSent);
         if (!isSent) {
             setTimeout(() => {
                 that.helperSend(message);
