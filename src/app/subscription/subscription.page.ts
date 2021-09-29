@@ -80,6 +80,7 @@ export class SubscriptionPage implements OnInit {
     this.api.http.get(this.api.apiUrl + '/user/paying', this.api.header).subscribe((res: any) => {
       if (res.paying) {
         this.browser.close();
+        clearInterval(this.checkPaymentInterval);
         this.api.route.navigate(['/home']);
       }
     });

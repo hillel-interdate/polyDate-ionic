@@ -23,15 +23,15 @@
 
 .paying {
     position: absolute;
-    background-image: url('https://polydate.co.il/images/silver-pay-icon.png');
+    background-image: url('https://polydate.co.il/images/silver-pay-icon.png?v=4');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    width: 50px;
     height: 57px;
-    left: 0;
-    bottom: 80px;
     z-index: 10;
+    width: 30px;
+    left: 6px;
+    bottom: 57px;
 }
 
 .paying.vip {

@@ -176,7 +176,7 @@ export class HomePage implements OnInit {
         // }));
 
         this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
-            if ((this.api.pageName == 'LoginPage') || (params.params.filter !== this.params.filter || this.params.action !== params.params.action)) {
+            if ((this.api.pageName == 'LoginPage') || ( (params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
                 this.ngOnInit();
                 this.getUsers();
             }
