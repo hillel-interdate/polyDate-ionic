@@ -43,6 +43,7 @@ export class HomePage implements OnInit {
     scrolling = false;
     clicked: any;
     subscription: any;
+    private paramsSubs: any;
 
 
     constructor(public api: ApiQuery,
@@ -114,20 +115,46 @@ export class HomePage implements OnInit {
 
 
     ionViewWillEnter() {
-        this.api.pageName = 'HomePage';
+
+
+        // this.route.queryParams.subscribe((state => {
+        //     console.log(state);
+        //     if (state.fromLogin) {
+        //         this.ngOnInit();
+        //         this.getUsers();
+        //         return true;
+        //     }
+        // }));
+
+        this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
+            if ((this.api.pageName === 'LoginPage') || ( (params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
+                this.ngOnInit();
+                this.getUsers();
+            }
+        });
+
+        $(document).on('backbutton', () => {
+            if (this.router.url === '/home') {
+                navigator['app'].exitApp();
+            } else {
+                this.api.onBack();
+            }
+        });
+
         this.events.subscribe('logo:click', () => {
-            if (this.params.filter == 'online' || this.params.filter == 'search') {
+            if (this.params.filter === 'online' || this.params.filter === 'search') {
                 this.content.scrollToTop(200).then();
             } else {
                 this.blocked_img = false;
                 this.params = {
                     action: 'online',
                     page: 1,
+                    filter: 'lastActivity',
                     list: ''
                 };
-                this.params_str = JSON.stringify(this.params);
                 this.loader = true;
                 this.getUsers();
+
             }
         });
 
@@ -136,18 +163,13 @@ export class HomePage implements OnInit {
             this.getUsers();
         });
 
-        $(document).on('backbutton', () => {
-            if (this.router.url == '/home') {
-                navigator['app'].exitApp();
-            } else {
-                this.api.onBack();
-            }
-        });
-
+        this.api.pageName = 'HomePage';
     }
 
     ionViewWillLeave() {
+        this.paramsSubs.unsubscribe();
         this.events.unsubscribe('logo:click');
+        this.events.unsubscribe('footer:click');
         $(document).off();
     }
 
