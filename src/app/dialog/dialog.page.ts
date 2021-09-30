@@ -48,8 +48,7 @@ export class DialogPage implements OnInit {
     peerToUserApp: string;
 
     myPeer;
-    // showTyping = true;
-    // showTypingTimeout: any;
+
 
     constructor(public api: ApiQuery,
                 public router: Router,
@@ -96,9 +95,8 @@ export class DialogPage implements OnInit {
     }
 
     scrollToBottom(t, s = 300) {
-        const that = this;
         setTimeout(() => {
-            that.content.scrollToBottom(s);
+            this.content.scrollToBottom(s).then(() => console.log('scrolling to bottom'));
             $('.messages').scrollTop(99999);
         }, t);
     }
@@ -108,6 +106,7 @@ export class DialogPage implements OnInit {
             this.showCantWriteAlert();
         } else {
             this.scrollToBottom(100);
+            console.log('on open keyboard');
         }
     }
 
@@ -350,9 +349,8 @@ export class DialogPage implements OnInit {
         this.peerToUser = 'poly' + this.user.id + '_' + this.api.userId;
         this.peerToUserApp = 'polyApp' + this.user.id + '_' + this.api.userId;
 
-        const that = this;
         setTimeout(() => {
-            that.peerInit();
+            this.peerInit();
         }, 1000);
 
     }
@@ -360,20 +358,19 @@ export class DialogPage implements OnInit {
 
     helperSend(message) {
 
-        const that = this;
         let isSent = false;
-        if (that.peerConnectionApp != null && that.peerConnectionApp.send && typeof that.peerConnectionApp.send != 'undefined') {
+        if (this.peerConnectionApp != null && this.peerConnectionApp.send && typeof this.peerConnectionApp.send != 'undefined') {
             isSent = true;
-            that.peerConnectionApp.send(message);
+            this.peerConnectionApp.send(message);
         }
 
-        if (that.peerConnection != null && that.peerConnection.send && typeof that.peerConnection.send != 'undefined') {
+        if (this.peerConnection != null && this.peerConnection.send && typeof this.peerConnection.send != 'undefined') {
             isSent = true;
-            that.peerConnection.send(message);
+            this.peerConnection.send(message);
         }
         if (!isSent) {
             setTimeout(() => {
-                that.helperSend(message);
+                this.helperSend(message);
             }, 1000);
         }
     }
@@ -387,10 +384,6 @@ export class DialogPage implements OnInit {
                 message.text = data.message.text;
 
                 if (!data.userHasFreePoints) {
-                    // for (let i = 0; i < this.messages.length; i++) {
-                    //   this.messages[i].hasPoints = 0;
-                    // }
-                    //
                     for (const otherMessage of this.messages) {
                         otherMessage.hasPoints = 0;
                     }
@@ -429,23 +422,17 @@ export class DialogPage implements OnInit {
     }
 
     peerInit() {
-        console.log('this.api.peerjs[this.myPeer]', this.api.peerjs[this.myPeer]);
-        this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
-            host: 'peerjs.wee.co.il',
-            port: 9000,
-            secure: true,
-            path: '/peerjs',
-            debug: 2,
-        });
-        // alert(2);
-        // this.tryConnect();
+        this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {});
+
         this.api.peerjs[this.myPeer].on('open', (id) => {
-            console.log('my open id: ', id);
             this.tryConnect();
         });
         this.api.peerjs[this.myPeer].on('connection', (connection => {
-            console.log('receive conentin', connection);
-            this.peerConnectionApp = connection;
+            if (connection.peer == this.peerToUserApp) {
+                this.peerConnectionApp = connection;
+            } else {
+                this.peerConnection = connection;
+            }
             this.peerSubscribes();
         }));
         this.api.peerjs[this.myPeer].on('error', (err => {
@@ -455,58 +442,36 @@ export class DialogPage implements OnInit {
 
     peerSubscribes() {
         if (this.peerConnectionApp) {
-            this.peerConnectionApp.on('data', data => {
-                data = JSON.parse(data);
-                console.log('data: ', data);
-                if (data.action == 'new') {
-                    // this.showTyping = false;
-                    this.peerMessage(data);
-                } else if (data.action == 'read') {
-                    for (const message of this.messages) {
-                        if (message.id == data.id) {
-                            message.isRead = true;
-                            break;
-                        }
-                    }
-                }
-                /*else if (data.action == 'typing') {
-                  this.showTyping = true;
-                  clearTimeout(this.showTypingTimeout);
-                  setTimeout(() => {
-                    this.showTyping = false;
-                  }, 3000);
-                }*/
-            });
+           this.consumePeerSignal(this.peerConnectionApp);
         }
 
         if (this.peerConnection) {
-            this.peerConnection.on('data', data => {
-                data = JSON.parse(data);
-                console.log('data: ', data);
-                if (data.action === 'new') {
-                    // this.showTyping = false;
-                    this.peerMessage(data);
-                } else if (data.action === 'read') {
-                    for (const message of this.messages) {
-                        if (message.id == data.id) {
-                            message.isRead = true;
-                            break;
-                        }
-                    }
-                }
-            });
+            this.consumePeerSignal(this.peerConnection);
         }
     }
 
+    private consumePeerSignal(connection: any): void {
+        connection.on('data', data => {
+            data = JSON.parse(data);
+            if (data.action === 'new') {
+                this.peerMessage(data);
+            } else if (data.action === 'read') {
+                for (const message of this.messages) {
+                    if (message.id === data.id) {
+                        message.isRead = true;
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
     tryConnect() {
-        console.log('in try connection');
         if (!this.peerConnectionApp) {
-            console.log('in reconnect to ', this.peerToUserApp);
             this.peerConnectionApp = this.api.peerjs[this.myPeer].connect(this.peerToUserApp);
         }
 
         if (!this.peerConnection) {
-            console.log('in reconnect to ', this.peerToUser);
             this.peerConnection = this.api.peerjs[this.myPeer].connect(this.peerToUser);
         }
 
@@ -521,21 +486,16 @@ export class DialogPage implements OnInit {
     }
 
     peerMessage(message) {
-        console.log(message);
+        message.allowedToRead = this.allowedToReadMessage;
         this.messages.push(message);
         this.scrollToBottom(300);
-        this.setMessageAsRead(message.id);
-        message.action = 'read';
-        this.helperSend(JSON.stringify({id: message.id, action: 'read'}));
-
+        if (this.allowedToReadMessage) {
+            this.setMessageAsRead(message.id);
+            message.action = 'read';
+            this.helperSend(JSON.stringify({id: message.id, action: 'read'}));
+        } else {
+            this.helperSend(JSON.stringify({id: message.id, action: 'notRead'}));
+        }
     }
-
-    // sendTyping() {
-    //   if (this.message.length > 0) {
-    //     this.peerConnectionApp.send(JSON.stringify({
-    //       action: 'typing',
-    //     }));
-    //   }
-    // }
 
 }
