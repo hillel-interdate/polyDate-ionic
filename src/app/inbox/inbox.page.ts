@@ -19,16 +19,7 @@ import {notifications} from "ionicons/icons";
 })
 export class InboxPage {
 
-    users: any;/*Array<{ id: string,
-        message: string,
-        username: string,
-        newMessagesNumber: string,
-        faceWebPath: string,
-        noPhoto: string,
-        photo: string,
-        contactIsPaying: boolean,
-        date: string
-    }>;*/
+    dialogs: any;
     texts: any; /*{ no_results: string };*/
     interval: any;
 
@@ -49,7 +40,7 @@ export class InboxPage {
         this.events.subscribe('messages:new', (data) => {
             // alert(1);
             // this.moreUsers();
-            // this.users = data.messages;
+            // this.dialogs = data.messages;
         });
 
     }
@@ -61,34 +52,34 @@ export class InboxPage {
         } else {
             this.api.back = true;
         }
-        // if(this.users) {
+        // if (this.dialogs) {
         //     this.moreUsers();
-        // }else{
-            this.getDialogs();
+        // } else {
+        this.getDialogs();
         // }
 
         //  this.interval = setInterval(() => this.getDialogs(), 10000)
 
 
-        if(this.chatWith){
-            let index = this.users.indexOf(this.chatWith);
-            if(this.chatWith.uid == 0){
-                this.users.slice(index, 1);
-            }else {
-                // console.log(this.users.indexOf(this.chatWith));
+        if (this.chatWith) {
+            const index = this.dialogs.indexOf(this.chatWith);
+            if (this.chatWith.uid == 0) {
+                this.dialogs.slice(index, 1);
+            } else {
+                // console.log(this.dialogs.indexOf(this.chatWith));
 
                 this.api.http.get(this.api.apiUrl + '/users/' + this.chatWith.uid + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
                     if (data.dialog) {
                         // console.log(index);
-                        // console.log(this.users.indexOf(this.users[index]));
-                        // console.log(this.users[index]);
-                        //this.users[index] = data.res;
-                        this.users[index].date = data.dialog.date;
-                        this.users[index].message = data.dialog.message;
-                        this.users[index].newMessagesNumber = data.dialog.newMessagesNumber;
-                        // console.log(this.users[index]);
+                        // console.log(this.dialogs.indexOf(this.dialogs[index]));
+                        // console.log(this.dialogs[index]);
+                        // this.dialogs[index] = data.res;
+                        this.dialogs[index].date = data.dialog.date;
+                        this.dialogs[index].message = data.dialog.message;
+                        this.dialogs[index].newMessagesNumber = data.dialog.newMessagesNumber;
+                        // console.log(this.dialogs[index]);
                     } else {
-                        this.users.slice(index, 1);
+                        this.dialogs.slice(index, 1);
                     }
                 });
             }
@@ -112,28 +103,28 @@ export class InboxPage {
 
     getDialogs() {
         this.prop.page = 1;
-        this.api.http.get(this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page, this.api.setHeaders(true)).subscribe((data:any) => {
+        this.api.http.get(this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page, this.api.setHeaders(true)).subscribe((data: any) => {
             console.log(data);
             if (data.dialogs.length < this.prop.perPage) {
                 this.loader = false;
             }
-            //this.users = data.dialogs;
-            this.users = [];
-            for (let person of data.dialogs) {
-                //if(person.visibleMessagesNumber > 0){
-                    this.users.push(person);
-                //}
+            // this.dialogs = data.dialogs;
+            this.dialogs = [];
+            for (const person of data.dialogs) {
+                // if(person.visibleMessagesNumber > 0){
+                    this.dialogs.push(person);
+                // }
             }
             this.texts = data.texts;
             this.notifications = data.notifications;
             console.log(this.notifications);
             this.api.hideLoad();
-            let that = this;
-            setTimeout(function () {
-                if(that.api.pageName == 'InboxPage') {
+            const that = this;
+            setTimeout(() => {
+                if (that.api.pageName === 'InboxPage') {
                     that.moreUsers();
                 }
-            },1000);
+            }, 1000);
         }, err => this.api.hideLoad());
 
     }
@@ -141,44 +132,30 @@ export class InboxPage {
     moreUsers() {
         if (this.loader) {
             this.prop.page++;
+            const url = this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page;
 
-            this.api.http.get(this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page, this.api.setHeaders(true)).subscribe((data: any) => {
+            this.api.http.get(url, this.api.setHeaders(true)).subscribe((data: any) => {
                 if (data.dialogs.length < this.prop.perPage) {
                     this.loader = false;
                 }
-                if(!this.users){
-                    this.users = [];
+                if (!this.dialogs) {
+                    this.dialogs = [];
                 }
-                for (let person of data.dialogs) {
-                    //if(person.visibleMessagesNumber > 0 && this.users[this.users.length - 1]['user']['userId'] != person['user']['userId']){
-                        this.users.push(person);
-                    //}
+                for (const person of data.dialogs) {
+                    // if(person.visibleMessagesNumber > 0 && this.dialogs[this.dialogs.length - 1]['user']['userId'] != person['user']['userId']){
+                        this.dialogs.push(person);
+                    // }
                 }
 
-                let that = this;
-                setTimeout(function () {
+                const that = this;
+                setTimeout(() => {
                     that.moreUsers();
-                },1000);
+                }, 1000);
 
             });
 
         }
     }
-
-    // checkDialogs() {
-    //     this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
-    //         if (data.dialogs.length != this.users.length) {
-    //             this.users = data.dialogs;
-    //         } else {
-    //             for(let x = 0; x < data.dialogs.length; x++) {
-    //                 if(this.users[x].message != data[x].message ) {
-    //                     this.users[x]. message = data[x].message;
-    //                 }
-    //             }
-    //         }
-    //     });
-    // }
-
 
     toDialogPage(user) {
         console.log(user);
@@ -197,18 +174,18 @@ export class InboxPage {
                 {
                     text: 'כן',
                     handler: () => {
-                        this.api.storage.get('user_data').then(user_data => {
-                            if (user_data) {
+                        this.api.storage.get('user_data').then(userData => {
+                            if (userData) {
                                 const data = {
-                                    user_id: user_data.user_id,
+                                    user_id: userData.user_id,
                                     contact_id: dialog.id
                                 };
                                 this.api.showLoad();
                                 this.api.http.post(this.api.apiUrl + '/deletes/inboxes.json', data, this.api.header).subscribe((res: any) => {
                                     if (res.deleted) {
-                                        this.users.splice(index, 1);
+                                        this.dialogs.splice(index, 1);
                                         this.ionViewWillEnter();
-                                        console.log(this.users);
+                                        console.log(this.dialogs);
                                         this.api.hideLoad();
                                     } else {
                                         this.api.hideLoad();

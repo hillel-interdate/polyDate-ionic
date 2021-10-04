@@ -19,8 +19,8 @@
   }
 
   .hebrew-name-age {
-    position: relative;
-    bottom: -4px;
+    //position: relative;
+    //bottom: -4px;
   }
 
   .user-age {
@@ -32,6 +32,7 @@
     display: inline;
     margin-right: 4px;
     font-size: 20px;
+    vertical-align: baseline;
   }
   .profile-ion-buttons {
     text-align: left;
@@ -140,8 +141,8 @@
     height: 26px;
     position: absolute;
     background-size: cover;
-    left: 8px;
-    top: -6px;
+    right: 19px;
+    top: -14px;
     z-index: 999;
   }
 
@@ -282,8 +283,13 @@
     z-index: 9999
   }
 
-  .paying {
-    top: 23px;
+  .paying, .paying.vip {
+    top: -23px;
+    width: 50px;
+    height: 57px;
+    left: 8px;
+    bottom: 56px;
+    z-index: 10;
   }
 
 
@@ -316,10 +322,11 @@
   }
 
   .verify {
-    background: url(../../assets/img/icons/verify.png) center no-repeat;
-    width: 49px;
+    background: url(../../assets/img/icons/verify.png) no-repeat;
+    width: 57px;
     height: 49px;
     float: left;
+    background-position: top right;
   }
 
   .icon {
@@ -364,4 +371,8 @@
     font-weight: bold;
     display: inline !important;
     margin: 0 5px;
+  }
+
+  .float-right {
+    float: right;
   }

@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 
 import { ChangeDetectorRef } from '@angular/core';
 import {error, log} from "util";
+import {ShortUser} from "../interfaces/short-user";
 // import Peer from "peerjs";
 // import * as Peer from "peerjs";
 declare var Peer;
@@ -82,7 +83,7 @@ export class DialogPage implements OnInit {
       this.allowedToReadMessage = data.allowedToReadMessage;
       this.payment = data.payment;
 
-      for(let i = 0; i < this.messages.length; i++) {
+      for (let i = 0; i < this.messages.length; i++) {
         if (this.messages[i].isRead == false) {
           this.notReadMessage.push(this.messages[i].id);
         }
@@ -280,10 +281,28 @@ export class DialogPage implements OnInit {
   }
 
   toProfilePage() {
+    const user: ShortUser = {
+      id: this.user.id,
+      age: 0,
+      canWriteTo: !this.cantWrite,
+      distance: '',
+      isAddBlackListed: false,
+      isAddFavorite: false,
+      isAddLike: false,
+      isNew: false,
+      isOnline: this.user.is_online,
+      isPaying: this.user.is_paying,
+      isVerify: false,
+      isVip: false,
+      photo: this.user.fullPhoto,
+      region_name: '',
+      username: this.user.nick_name
+    };
+    console.log(this.user);
     const navigationExtras: NavigationExtras = {
       queryParams: {
         data: JSON.stringify({
-          user: this.user
+          user
         })
       }
     };

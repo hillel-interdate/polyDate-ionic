@@ -1,4 +1,7 @@
 
+
+
+
 .banner {
   position: absolute;
   bottom: 65px;
@@ -731,3 +734,14 @@ html,body {
 .margin-top{
   margin-top: 20px;
 }
+/******************** colors ***********************/
+
+.ion-color-black {
+  --ion-color-base: var(--ion-color-black);
+  --ion-color-base-rgb: var(--ion-color-black-rgb);
+  --ion-color-contrast: var(--ion-color-black-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-black-contrast-rgb);
+  --ion-color-shade: var(--ion-color-black-shade);
+  --ion-color-tint: var(--ion-color-black-tint);
+}
+/******************** end colors ***********************/

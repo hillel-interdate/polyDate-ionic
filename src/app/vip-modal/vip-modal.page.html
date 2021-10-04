@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar class="toolbar-color">
+    <ion-title [innerHTML]="vipTexts.title"> </ion-title>
+    <div class="subtitle" [innerHTML]="vipTexts.subtitle"></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="big-icon"></div>
+  <div class="big-sub-title">
+    <div class="icon"></div>
+    <div class="red">{{vipTexts.bigSubTitles.red[payment.period]}}</div>
+    <div class="white">{{vipTexts.bigSubTitles.white}}</div>
+  </div>
+    <div class="profile-changes">
+      <div class="vip">
+        <app-short-profile [user]="vipUser" [params]="params" [texts]="texts"></app-short-profile>
+      </div>
+      <div class="no-vip">
+        <app-short-profile [user]="payUser" [params]="params" [texts]="texts"></app-short-profile>
+      </div>
+    </div>
+    <ul class="vip-bonuses">
+      <li *ngFor="let bonus of vipTexts.bonuses"> {{ bonus }} </li>
+    </ul>
+    <div class="btns">
+      <ion-button (click)="close(true)" class="upgrade-btn" color="danger" expand="block"> {{vipTexts.buttons.updateToVip}} </ion-button>
+      <ion-button (click)="close(false)" class="outline-btn" expand="block" >{{ vipTexts.buttons.cancel }}</ion-button>
+    </div>
+</ion-content>

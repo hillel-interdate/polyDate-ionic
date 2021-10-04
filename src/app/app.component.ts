@@ -1,4 +1,4 @@
-import {Component, NgZone, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, NgZone, ViewChild} from '@angular/core';
 import {
   Platform,
   AlertController,
@@ -22,7 +22,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import {Deeplinks} from "@ionic-native/deeplinks/ngx";
+import {Deeplinks} from '@ionic-native/deeplinks/ngx';
+import {LoginPage} from "./login/login.page";
 
 
 @Component({
@@ -37,7 +38,7 @@ import {Deeplinks} from "@ionic-native/deeplinks/ngx";
 
 
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
   @ViewChild(IonNav, {static: false}) nav: IonNav;
   @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
@@ -63,8 +64,8 @@ export class AppComponent {
   // texts: any = {};
   new_message: any;
   message: any = {};
-  avatar: string = '';
-  stats: string = '';
+  avatar = '';
+  stats = '';
   interval: any = true;
   social: any;
   alertPresent: boolean;
@@ -73,7 +74,7 @@ export class AppComponent {
   newMessagesTimeout: any;
 
   canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
-
+  canEnterWithoutLogin = ['PasswordRecoveryPage', 'RegistrationPage', 'PagePage', 'ContactUsPage'];
 
   constructor(public platform: Platform,
               public  menu: MenuController,
@@ -124,21 +125,21 @@ export class AppComponent {
       });
     });
 
-    $(document).on('backbutton', () => {
-      //if(this.api.pageName == 'LoginPage' || this.api.pageName == 'HomePage') {
-
-      console.log(this.router.url);
-      console.log(this.api.pageName);
-        if (this.router.url == '/home' || this.api.pageName == 'LoginPage' || (this.router.url == '/login' && this.api.pageName == 'HomePage')) {
-          console.log('leave');
-          navigator['app'].exitApp();
-
-        } else {
-          console.log('back');
-          this.api.onBack();
-        }
-      //}
-    });
+    // $(document).on('backbutton', () => {
+    //   // if(this.api.pageName == 'LoginPage' || this.api.pageName == 'HomePage') {
+    //
+    //   console.log(this.router.url);
+    //   console.log(this.api.pageName);
+    //   if (this.router.url == '/home' || this.api.pageName == 'LoginPage') {
+    //     console.log('leave');
+    //     navigator['app'].exitApp();
+    //
+    //   } else {
+    //     console.log('back');
+    //     this.api.onBack();
+    //   }
+    //   // }
+    // });
 
     this.events.subscribe('status:login', () => {
       this.initPushNotification();
@@ -147,10 +148,10 @@ export class AppComponent {
     this.events.subscribe('statistics:updated', () => {
       this.getStatistics();
     });
-    let that = this;
-    setTimeout(function () {
+    const that = this;
+    setTimeout(function() {
       that.api.getLocation();
-    },1000);
+    }, 1000);
 
   }
 
@@ -184,7 +185,7 @@ export class AppComponent {
       }
     };
     this.menu.close().then(res => console.log(this.api.pageName));
-    if(this.api.pageName == 'HomePage') {
+    if (this.api.pageName == 'HomePage') {
       // console.log(12);
       this.events.publish('logo:click');
       // this.router.navigate(['/home']);
@@ -245,7 +246,7 @@ export class AppComponent {
       vibration: true,
       visibility: 1,
     });
-    this.push.deleteChannel('PushPluginChannel').then(() => console.log('Channel deleted'));;
+    this.push.deleteChannel('PushPluginChannel').then(() => console.log('Channel deleted'));
 
     this.push.listChannels().then((channels) => console.log('List of channels', channels));
 
@@ -287,7 +288,7 @@ export class AppComponent {
         if (val) {
           this.api.setHeaders(true, val.username, val.password);
           if (pushExtraData.url == '/dialog') {
-            this.api.data['user'] = {
+            this.api.data.user = {
               id: pushExtraData.userFrom
             };
             this.router.navigate(['/dialog']);
@@ -322,7 +323,7 @@ export class AppComponent {
   }
 
   getStatistics() {
-      this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
+      this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data: any) => {
 
         const statistics = data.statistics;
         // console.log(statistics);
@@ -339,7 +340,7 @@ export class AppComponent {
         this.menu_items_contacts[4].count = statistics.favorited;
         this.menu_items_contacts[5].count = statistics.favoritedMe;
         this.menu_items_contacts[6].count = statistics.blacklisted;
-        //Footer Menu
+        // Footer Menu
         this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
         this.menu_items_footer2[2].count = 0;
         this.menu_items_footer1[3].count = statistics.newMessagesNumber;
@@ -361,8 +362,8 @@ export class AppComponent {
 
       }, err => {
         console.log(err);
-        //403
-        if(err.status == 403) {
+        // 403
+        if (err.status == 403) {
           this.clearLocalStorage();
         }
       });
@@ -382,10 +383,10 @@ export class AppComponent {
 
 
   clearLocalStorage() {
-    if(this.api.password) {
+    if (this.api.password) {
       this.api.http.post(this.api.openUrl + '/logins.json', '', this.api.setHeaders(true)).subscribe(data => {
       }, err => {
-        if(err.status == 403) {
+        if (err.status == 403) {
           this.api.setHeaders(false, null, null);
           // Removing data storage
           this.api.storage.remove('user_data');
@@ -700,7 +701,7 @@ export class AppComponent {
   getBanner() {
     this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
     // this.api.http.get('https://polydate.co.il/app_dev.php/open_api/v4/banner_test?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
-      if(data.banner){
+      if (data.banner) {
         this.banner = data.banner;
         console.log(this.banner);
       }
@@ -721,26 +722,25 @@ export class AppComponent {
 
     console.log(this.api.checkedPage);
 
-    let params = '';
+    let params;
     let logout = false;
-    if (page._id == 'logout') {
+    if (page._id === 'logout') {
       this.status = '';
       logout = true;
     }
 
-    if (page._id == 'stats') {
+    if (page._id === 'stats') {
       this.menu3Active();
     } else {
       // close the menu when clicking a link from the menu
       this.menu.close();
 
-
       // navigate to the new page if it is not the current page
-      if (page.list == 'online') {
+      if (page.list === 'online') {
         params = JSON.stringify({
           action: 'online'
         });
-      } else if (page.list == 'distance') {
+      } else if (page.list === 'distance') {
         params = JSON.stringify({
           action: 'search',
           filter: page.list
@@ -759,16 +759,17 @@ export class AppComponent {
 
         const navigationExtras: NavigationExtras = {
           queryParams: {
-            params: params,
-            page: page,
+            params,
+            page,
             action: 'list',
-            logout: logout
+            logout
           }
         };
 
-        if (this.api.pageName == 'HomePage' && (page._id == 'online' || page._id == 'near-me') ) {
+        if (this.api.pageName === 'HomePage' && (page._id === 'online' || page._id === 'near-me') ) {
           this.events.publish('footer:click', navigationExtras);
         } else {
+          console.log(navigationExtras);
           this.router.navigate([page.url], navigationExtras);
         }
       }
@@ -787,7 +788,7 @@ export class AppComponent {
               this.api.storage.set('status', this.status);
               this.avatar = data.texts.photo;
               if (data.user) {
-                this.api.data['data'] = data;
+                this.api.data.data = data;
                 this.router.navigate(['/bingo']);
                 this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
                 });
@@ -814,18 +815,18 @@ export class AppComponent {
 
   dialogPage() {
     console.log(this.new_message);
-    let user = {id: this.new_message.userId};
+    const user = {id: this.new_message.userId};
     this.closeMsg();
-    this.api.data['user'] = user;
+    this.api.data.user = user;
     this.router.navigate(['/dialog']);
   }
 
   getMessage() {
     if (this.api.username && this.api.username !== 'null' && this.api.username !== 'noname') {
         let params: any = '';
-        if(this.api.location){
+        if (this.api.location) {
           params = '?latitude=' + this.api.location.latitude + '&longitude=' + this.api.location.longitude;
-        };
+        }
         this.getMessOnline(params);
     }
 
@@ -836,13 +837,13 @@ export class AppComponent {
     }, this.api.timeouts.newMessage);
   }
 
-  getMessOnline(params){
-    this.api.http.get(this.api.apiUrl + '/new/messages'+params, this.api.setHeaders(true)).subscribe((data: any) => {
+  getMessOnline(params) {
+    this.api.http.get(this.api.apiUrl + '/new/messages' + params, this.api.setHeaders(true)).subscribe((data: any) => {
       const timeout = data.timeout;
       console.log(this.new_message);
       if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
         // alert(1);
-        if(data.messages.length > 0) {
+        if (data.messages.length > 0) {
           this.new_message = data.messages[0];
           console.log(data);
           console.log(this.new_message);
@@ -865,7 +866,7 @@ export class AppComponent {
       this.menu_items_footer1[3].count = data.newMessagesNumber;
 
     }, err => {
-      if(err.status == 403) {
+      if (err.status == 403) {
         this.clearLocalStorage();
       }
     });
@@ -916,7 +917,7 @@ export class AppComponent {
     // console.log(data.timeouts);
     // console.log(this.api.timeouts);
 
-      if (data.needUpdate) {
+    if (data.needUpdate) {
         if (data.canLater) {
           this.alertCtrl.create({
             header: data.title,
@@ -960,7 +961,7 @@ export class AppComponent {
 
         }
       }
-      setTimeout(() => {
+    setTimeout(() => {
         this.getAppVersion();
       }, this.api.timeouts.getAppVersion);
     });
@@ -999,7 +1000,7 @@ export class AppComponent {
               }, this.api.setHeaders(true)).subscribe((data: any) => {
                 // let res = data;
                 // console.log('close');
-                if(this.api.callAlert !== null) {
+                if (this.api.callAlert !== null) {
                   this.api.callAlert.dismiss();
                   this.api.callAlert = null;
                 }
@@ -1044,163 +1045,198 @@ export class AppComponent {
   ngAfterViewInit() {
     // this.keyboard.hide();
     // $(window).resize();
+    // this.router.events.subscribe((val) => {
+    //   if(val instanceof  NavigationEnd) {
+    //     $('.footerMenu').show();
+    //     this.getBanner();
+    //     this.getBingo();
+    //
+    //     setTimeout(() => {
+    //       this.keyboard.hide();
+    //       setTimeout(() => {
+    //         $('ion-content').css({'height': '100%'});
+    //       }, 100);
+    //       setTimeout(() => {
+    //         $('ion-content').css({'height': '101%'});
+    //       }, 200);
+    //       setTimeout(() => {
+    //         $('ion-content').css({'height': '100%'});
+    //       }, 300);
+    //
+    //     }, 200);
+    //
+    //
+    //     let that = this;
+    //     window.addEventListener('native.keyboardshow',  () => {
+    //       // console.log('keyboardshow');
+    //       $('.link-banner').hide();
+    //       $('.footerMenu, .back-btn').hide();
+    //       $('.back-btn').hide();
+    //
+    //
+    //       if (that.api.pageName == 'DialogPage') {
+    //         $('.banner').hide();
+    //
+    //         setTimeout(() => {
+    //           $('.ios .user-block').css({
+    //             'margin-top': '235px'
+    //           });
+    //         }, 200);
+    //       } else {
+    //         $('.banner').show();
+    //         setTimeout(() => {
+    //           $('ion-content').css({'margin-bottom': '0px'});
+    //         }, 200);
+    //
+    //       }
+    //
+    //       if(that.api.pageName == 'EditProfilePage') {
+    //         // console.log('if uf edit page');
+    //         $('.container').css({
+    //           'margin': '0 0 197px!important'
+    //         });
+    //       } else if(that.api.pageName == 'ProfilePage') {
+    //         // console.log('if uf profile page');
+    //         $('.container').css({ 'margin-bottom': '32px'});
+    //         $('.abuse-form').css({'padding-bottom': 0});
+    //         $('.content').css({'padding-bottom': 0});
+    //       }
+    //
+    //     });
+    //
+    //
+    //     window.addEventListener('native.keyboardhide', function () {
+    //       //let page = el.nav.getActive();
+    //       //$('.footerMenu, .back-btn').show();
+    //       $('ion-content').css({'height': '100%'});
+    //       that.bannerStatus();
+    //       // that.keyboard.hide();
+    //       // if (that.api.pageName == 'DialogPage') {
+    //       //   $('.back-btn').show();
+    //       //   $('.footerMenu').hide();
+    //       //   setTimeout(function () {
+    //       //     $('.ios .user-block').css({
+    //       //       'margin-top': '27px'
+    //       //     });
+    //       //   }, 600);
+    //       // } else {
+    //       //   $('.footerMenu, .back-btn').show();
+    //       //   setTimeout(function () {
+    //       //     $('.scroll-content, .fixed-content').css({'margin-bottom': '0px'});
+    //       //   }, 500);
+    //       // }
+    //       // if(that.api.pageName == 'EditProfilePage') {
+    //       //   $('.container').css({
+    //       //     'margin': '0 0 69px!important'
+    //       //   });
+    //       // } else if(that.api.pageName == 'ProfilePage') {
+    //       //   $('.container').css({ 'margin-bottom': '32px'});
+    //       //   $('.abuse-form').css({'padding-bottom': 0});
+    //       //   $('.content').css({'padding-bottom': 0});
+    //       // }
+    //
+    //     });
+    //
+    //
+    //     if (this.api.pageName == 'HomePage' && this.interval == false) {
+    //       $('.link-banner').show();
+    //       this.interval = true;
+    //       // this.getBingo();
+    //     } else  if (this.api.pageName == 'HomePage') {
+    //       if (this.api.status != '') {
+    //         this.status = this.api.status;
+    //       }
+    //     } else if (this.api.pageName == 'LoginPage') {
+    //       clearInterval(this.interval);
+    //       this.interval = false;
+    //       this.avatar = '';
+    //       this.menu_items = this.menu_items_logout;
+    //       this.is_login = false
+    //     }
+    //
+    //
+    //     //this.api.setHeaders(true);
+    //
+    //     this.api.storage.get('user_data').then((val) => {
+    //       if (val) {
+    //         if (this.status == '') {
+    //           this.status = val.status;
+    //         }
+    //         // this.checkStatus();
+    //         if (!val.status) {
+    //           this.menu_items = this.menu_items_logout;
+    //           this.is_login = false;
+    //           clearInterval(this.interval);
+    //           this.interval = false;
+    //         } else {
+    //           this.is_login = true;
+    //           this.menu_items = this.menu_items_login;
+    //           this.getStatistics();
+    //         }
+    //
+    //
+    //         if (this.api.pageName == 'HomePage') {
+    //           $('.link-banner').show();
+    //         } else if (this.api.pageName == 'LoginPage') {
+    //           $('.link-banner').hide();
+    //         }
+    //         this.bannerStatus();
+    //
+    //       }
+    //     });
+    //
+    //
+    //     setTimeout(() => {
+    //       this.api.storage.get('user_data').then(val => {
+    //         if (!val){
+    //           if(this.api.pageName != 'PasswordRecoveryPage' && this.api.pageName != 'RegistrationPage' && this.api.pageName != 'PagePage' && this.api.pageName != 'ContactUsPage'){
+    //             this.router.navigate(['/login']);
+    //             this.is_login = false;
+    //             this.menu_items = this.menu_items_logout;
+    //             clearInterval(this.interval);
+    //           }
+    //         }
+    //       });
+    //     }, 900);
+    //   }
+    // });
 
+    this.router.events.subscribe((nav) => {
 
-    this.router.events.subscribe((val) => {
-      if(val instanceof  NavigationEnd) {
-        $('.footerMenu').show();
+      if (nav instanceof  NavigationEnd) {
+
         this.getBanner();
         this.getBingo();
 
-        setTimeout(() => {
-          this.keyboard.hide();
-          setTimeout(() => {
-            $('ion-content').css({'height': '100%'});
-          }, 100);
-          setTimeout(() => {
-            $('ion-content').css({'height': '101%'});
-          }, 200);
-          setTimeout(() => {
-            $('ion-content').css({'height': '100%'});
-          }, 300);
-
-        }, 200);
-
-
-        let that = this;
-        window.addEventListener('native.keyboardshow',  () => {
-          // console.log('keyboardshow');
-          $('.link-banner').hide();
-          $('.footerMenu, .back-btn').hide();
-          $('.back-btn').hide();
-
-
-          if (that.api.pageName == 'DialogPage') {
-            $('.banner').hide();
-
-            setTimeout(() => {
-              $('.ios .user-block').css({
-                'margin-top': '235px'
-              });
-            }, 200);
-          } else {
-            $('.banner').show();
-            setTimeout(() => {
-              $('ion-content').css({'margin-bottom': '0px'});
-            }, 200);
-
-          }
-
-          if(that.api.pageName == 'EditProfilePage') {
-            // console.log('if uf edit page');
-            $('.container').css({
-              'margin': '0 0 197px!important'
-            });
-          } else if(that.api.pageName == 'ProfilePage') {
-            // console.log('if uf profile page');
-            $('.container').css({ 'margin-bottom': '32px'});
-            $('.abuse-form').css({'padding-bottom': 0});
-            $('.content').css({'padding-bottom': 0});
-          }
-
-        });
-
-
-        window.addEventListener('native.keyboardhide', function () {
-          //let page = el.nav.getActive();
-          //$('.footerMenu, .back-btn').show();
-          $('ion-content').css({'height': '100%'});
-          that.bannerStatus();
-          // that.keyboard.hide();
-          if (that.api.pageName == 'DialogPage') {
-            $('.back-btn').show();
-            $('.footerMenu').hide();
-            setTimeout(function () {
-              $('.ios .user-block').css({
-                'margin-top': '27px'
-              });
-            }, 600);
-          } else {
-            $('.footerMenu, .back-btn').show();
-            setTimeout(function () {
-              $('.scroll-content, .fixed-content').css({'margin-bottom': '0px'});
-            }, 500);
-          }
-          if(that.api.pageName == 'EditProfilePage') {
-            $('.container').css({
-              'margin': '0 0 69px!important'
-            });
-          } else if(that.api.pageName == 'ProfilePage') {
-            $('.container').css({ 'margin-bottom': '32px'});
-            $('.abuse-form').css({'padding-bottom': 0});
-            $('.content').css({'padding-bottom': 0});
-          }
-
-        });
-
-
-        if (this.api.pageName == 'HomePage' && this.interval == false) {
-          $('.link-banner').show();
-          this.interval = true;
-          // this.getBingo();
-        } else  if (this.api.pageName == 'HomePage') {
-          if (this.api.status != '') {
-            this.status = this.api.status;
-          }
-        } else if (this.api.pageName == 'LoginPage') {
-          clearInterval(this.interval);
-          this.interval = false;
+        if (this.api.pageName == 'LoginPage') {
           this.avatar = '';
           this.menu_items = this.menu_items_logout;
-          this.is_login = false
+          this.is_login = false;
         }
 
-
-        //this.api.setHeaders(true);
-
-        this.api.storage.get('user_data').then((val) => {
+        this.api.storage.get('user_data').then((val: any) => {
           if (val) {
-            if (this.status == '') {
-              this.status = val.status;
-            }
-            // this.checkStatus();
             if (!val.status) {
               this.menu_items = this.menu_items_logout;
               this.is_login = false;
-              clearInterval(this.interval);
-              this.interval = false;
             } else {
               this.is_login = true;
               this.menu_items = this.menu_items_login;
               this.getStatistics();
             }
-
-
-            if (this.api.pageName == 'HomePage') {
-              $('.link-banner').show();
-            } else if (this.api.pageName == 'LoginPage') {
-              $('.link-banner').hide();
-            }
             this.bannerStatus();
 
+          } else {
+            if (!this.canEnterWithoutLogin.includes(this.api.pageName)) {
+              this.router.navigate(['/login']);
+              this.is_login = false;
+              this.menu_items = this.menu_items_logout;
+            }
           }
         });
-
-
-        setTimeout(() => {
-          this.api.storage.get('user_data').then(val => {
-            if (!val){
-              if(this.api.pageName != 'PasswordRecoveryPage' && this.api.pageName != 'RegistrationPage' && this.api.pageName != 'PagePage' && this.api.pageName != 'ContactUsPage'){
-                this.router.navigate(['/login']);
-                this.is_login = false;
-                this.menu_items = this.menu_items_logout;
-                clearInterval(this.interval);
-              }
-            }
-          });
-        }, 900);
       }
     });
+
   }
 }
 

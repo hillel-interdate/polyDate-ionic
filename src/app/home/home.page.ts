@@ -1,5 +1,5 @@
 import {Component, ViewChild, OnInit, ElementRef} from '@angular/core';
-import {ToastController, Events, ModalController, IonRouterOutlet} from '@ionic/angular';
+import {ToastController, Events, ModalController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
 import {Geolocation } from '@ionic-native/geolocation/ngx';
 import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from '@angular/router';
@@ -10,6 +10,9 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {ShortUser} from '../interfaces/short-user';
+import {log} from "util";
+import {collectExternalReferences} from "@angular/compiler";
 
 
 
@@ -38,14 +41,16 @@ export class HomePage implements OnInit {
     user_counter: any = 0;
     form_filter: any;
     filter: any = {filter: '', visible: ''};
-    users: any;
+    users: ShortUser[];
     texts: any;
-    params: any = {action: 'online', filter: '', page: 1, list: ''};
+    params: any = {action: 'online', filter: 'lastActivity', page: 1, list: ''};
     params_str: any;
     scrolling = false;
     clicked: any;
     subscription: any;
+    paramsSubs: any;
 
+    ids: any = [];
 
     constructor(public api: ApiQuery,
                 public route: ActivatedRoute,
@@ -55,7 +60,8 @@ export class HomePage implements OnInit {
                 public splashScreen: SplashScreen,
                 public platform: Platform,
                 public changeRef: ChangeDetectorRef,
-                public iap: InAppBrowser) {
+                public iap: InAppBrowser,
+                public navCtrl: NavController) {
 
         // this.api.audioCall = new Audio();
         // this.api.audioCall.src = 'https://www.richdate.co.il/phone_ringing.mp3';
@@ -65,10 +71,12 @@ export class HomePage implements OnInit {
         // this.api.audioWait.src = 'https://www.richdate.co.il/landline_phone_ring.mp3';
         // this.api.audioWait.loop = true;
         // this.api.audioWait.load();
+
         this.api.storage.get('user_data').then((val) => {
-            if(val) {
-                this.api.setHeaders(true, val.username, val.password, true).then(data =>{
-                    this.getUsers();
+            if (val) {
+                this.api.setHeaders(true, val.username, val.password, true).then(() => {
+                    // alert(123)
+                    this.getUsers(true);
                 });
             }
         });
@@ -76,18 +84,24 @@ export class HomePage implements OnInit {
 
 
     ngOnInit() {
+        // alert('ngoninit');
         this.loader = true;
         // this.params.page = 1;
         this.route.queryParams.subscribe((params: any) => {
+            // alert(1233333);
             if (params && params.params && !this.api.back) {
                 // alert(111);
                 this.params_str = params.params;
                 this.params = JSON.parse(params.params);
-                console.log(this.params);
+
                 this.params.page = parseInt(this.params.page, 10);
-                // this.content.scrollToTop(0);
+                // @ts-ignore
+                if (typeof this.params.page !== Number) {
+                    this.params.page = 1;
+                }
+                console.log(this.params);
+                this.content.scrollToTop(0);
             } else  if (!this.api.back) {
-                // alert(22);
                 this.params =  {
                     action: 'online',
                     filter: this.api.data['filter'] ? this.api.data['filter'] : 'lastActivity',
@@ -99,26 +113,26 @@ export class HomePage implements OnInit {
             this.blocked_img = false;
             this.params_str = JSON.stringify(this.params);
             if (this.params.list == 'black' || this.params.list == 'favorited') {
-                // this.blocked_img = true;
+                this.blocked_img = true;
             }
 
             console.log(this.api.back);
 
 
-            //this.api.back = false;
-            if(this.api.password && !this.api.back){
-                this.users = [];
-                this.getUsers(true);
-            }
-            console.log('users run from constructor');
-            // this.getLocation();
+            this.api.back = false;
+            // if (this.api.password && !this.api.back) {
+            //     this.users = [];
+            //     this.getUsers(true);
+            // }
+            // console.log('users run from ngoninit');
+            this.getLocation();
 
-            if (!this.api.checkedPage || this.api.checkedPage == '' || this.api.checkedPage == 'logout') {
+            if (!this.api.checkedPage || this.api.checkedPage === '' || this.api.checkedPage === 'logout') {
                 this.api.checkedPage = 'online';
             }
             // alert(this.api.checkedPage);
         });
-// if not params and not ths params => set params and get users;
+// if not params and not this params => set params and get users;
 // if not params but yes this params then ignore;
         this.api.storage.get('deviceToken').then(token => {
             console.log(token);
@@ -126,18 +140,17 @@ export class HomePage implements OnInit {
                 this.api.sendPhoneId(token);
             }
             this.api.back = false;
-            if(!this.users) {
-                this.getUsers(true);
-            }
+            // if (!this.users) {
+                // this.getUsers(true);
+            // }
         });
 
-        $('ion-content').resize();
+        // $('ion-content').resize();
 
 
         this.api.storage.get('afterLogin').then((data: any) => {
-            console.log('afterLogin data in home:');
-            console.log(data);
-            if ( data != null ){
+
+            if ( data != null ) {
                 this.api.data['user'] = {id: data.user.id};
 
                 this.router.navigate([data.url]).then(() => {
@@ -151,25 +164,51 @@ export class HomePage implements OnInit {
 
 
     ionViewWillEnter() {
-        this.api.pageName = 'HomePage';
-        console.log(this.api.userId);
+
+
+        // this.route.queryParams.subscribe((state => {
+        //     console.log(state);
+        //     if (state.fromLogin) {
+        //         this.ngOnInit();
+        //         this.getUsers();
+        //         return true;
+        //     }
+        // }));
+
+        this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
+            if ((this.api.pageName == 'LoginPage') || ( (params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
+                this.ngOnInit();
+                this.getUsers();
+            }
+        });
+
+        $(document).on('backbutton', () => {
+            if (this.router.url == '/home') {
+                navigator['app'].exitApp();
+            } else {
+                this.api.onBack();
+            }
+        });
+
         this.events.subscribe('logo:click', () => {
             // alert(5)
             //
             // alert(this.params.filter);
-            if(this.params.filter == 'online' || this.params.filter == 'search') {
+            if (this.params.filter === 'online' || this.params.filter === 'search') {
                 this.content.scrollToTop(200);
             } else {
                 this.blocked_img = false;
                 this.params = {
                     action: 'online',
                     page: 1,
+                    filter: 'lastActivity',
                     list: ''
                 };
                 // this.router.navigate(['/home', this.params]);
-                this.params_str = JSON.stringify(this.params);
+                // this.params_str = JSON.stringify(this.params);
                 // alert(this.params_str);
                 this.loader = true;
+                console.log(this.params);
                 this.getUsers();
 
             }
@@ -181,28 +220,17 @@ export class HomePage implements OnInit {
             this.getUsers();
         });
 
+        this.api.pageName = 'HomePage';
     }
 
     ionViewWillLeave() {
+        this.paramsSubs.unsubscribe();
         this.events.unsubscribe('logo:click');
-        //$(document).off();
+        this.events.unsubscribe('footer:click');
+        $(document).off();
     }
 
-    itemTapped(user) {
-        console.log(user);
-        if (this.scrolling == false) {
-            user.fullPhoto = user.photo;
-             const navigationExtras: NavigationExtras = {
-                 queryParams: {
-                     data: JSON.stringify({
-                         user: user
-                     })
-                 }
-             };
-             this.api.route.navigate(['/profile'], navigationExtras);
-            // this.router.navigate(['/activation']);
-        }
-    }
+
 
     filterStatus() {
        this.options.filter = this.options.filter === 1 ? 0 : 1;
@@ -217,107 +245,44 @@ export class HomePage implements OnInit {
         //     // $('.ion-list').css({
         //     //     'height': '95%'
         //     // });
-        //}
+        // }
 
     }
 
     toDialog(user) {
+        console.log(user);
         this.api.data['user'] = user;
-        this.router.navigate(['/dialog']);
+        this.router.navigate(['/dialog'], {state: {user: user}});
     }
 
-    addLike(user) {
 
-        if (user.isAddLike == false) {
 
-            user.isAddLike = true;
-            this.api.toastCreate(' עשית לייק ל' + user.username, 2500);
+    checkUnique(needUpdate = false) {
 
-            let params = JSON.stringify({
-                toUser: user.id,
-            });
-
-            this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-            }, err => {
-            });
-        } else {
-
+        let stop = false;
+        if (needUpdate) {
+            this.params.page++;
+            this.params_str = JSON.stringify(this.params);
         }
-    }
+        this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true))
+            .subscribe((data: any) => {
+                if (data.users.length) {
+                    for (const user of data.users) {
+                        if (stop) {
+                            break;
+                        }
+                        if (this.ids.includes(user.id)) {
+                            // alert('!!!!!!!');
+                            stop = true;
+                        } else {
+                            this.ids.push(user.id);
+                        }
+                    }
 
-    block(user, bool) {
-
-
-        let params;
-
-        if (user.isAddBlackListed == false && bool == true) {
-
-            user.isAddBlackListed = true;
-
-
-            params = {
-                list: 'Favorite',
-                action: 'delete'
-            };
-
-        } else if (user.isAddBlackListed == true && bool == false) {
-
-            user.isAddBlackListed = false;
-
-            params = {
-                list: 'BlackList',
-                action: 'delete'
-            };
-        }
-
-        if (this.users.length == 1) {
-            this.user_counter = 0;
-        }
-
-        // Remove user from list
-        this.users.splice(this.users.indexOf(user), 1);
-        this.events.publish('statistics:updated');
-
-
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.loader =  true;
-            this.api.toastCreate(data.success, 2500);
-            console.log('in there');
-            if(data.users.length >= 9) {
-                this.loader = false;
-            }
-            // alert('page = 1 | 2');
-            this.params.page = 1;
+                    console.log(this.ids);
+                    this.checkUnique(true);
+                }
         });
-    }
-
-    addFavorites(user, bool = false) {
-
-        if (user.isAddFavorite == false) {
-            user.isAddFavorite = true;
-            var params = JSON.stringify({
-                list: 'Favorite'
-            });
-        } else {
-            if(this.params.list == 'favorited') {
-               bool = true;
-            }
-            user.isAddFavorite = false;
-            var params = JSON.stringify({
-                list: 'Favorite',
-                action: 'delete'
-            });
-        }
-
-
-        if (bool) {
-            this.users.splice(this.users.indexOf(user), 1);
-        }
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.api.toastCreate(data.success, 2500);
-            this.events.publish('statistics:updated');
-        });
-
     }
 
 
@@ -330,33 +295,36 @@ export class HomePage implements OnInit {
         this.api.data['filter'] = this.filter;
         this.loader = this.users.length < 10 ? false : true;
         this.params.page = 1;
-        this.params_str = JSON.stringify(this.params);
+        // this.params_str = JSON.stringify(this.params);
         // alert('in sirtby');
-        //if (this.clicked) {
+        if (this.clicked) {
             // alert('clicked');
-        this.api.showLoad();
-        this.api.back = false;
+            this.api.showLoad();
+            this.api.back = false;
             this.content.scrollToTop(500);
             console.log('users run from sort');
-           //alert('clickes');
+               // alert('clickes');
             this.getUsers();
-        //    this.clicked = false;
-        //}
+            this.clicked = false;
+        }
 
     }
 
     getUsers(test = false) {
         // console.log(this.params);
-        // console.log(test);
+        console.log('test');
+        if (test) {
+            // alert(321);
+        }
         this.splashScreen.hide();
         if ( !this.api.back || test === true) {
             if (!this.params.page) {
                 this.params.page = 1;
-                this.params_str = JSON.stringify(this.params);
             }
+            this.params_str = JSON.stringify(this.params);
             console.log(this.params_str);
-            //console.log(test);
-            this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
+            // console.log(test);
+            this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.header).subscribe((data: any) => {
 
                 this.users = data.users;
                 this.texts = data.texts;
@@ -368,21 +336,18 @@ export class HomePage implements OnInit {
                 } else {
                     this.loader = true;
                 }
-
                 this.changeRef.detectChanges();
-                // alert(3);
-                this.api.hideLoad();
                 this.content.scrollToTop(0);
-
+                this.api.hideLoad();
 
             }, err => {
                 // alert( 'getUsers data error: '  + JSON.stringify(err));
-                if(err.status == 403) {
+                // if (err.status == 403) {
                     // this.api.setHeaders(false, null, null);
                     // // Removing data storage
                     // this.api.storage.remove('user_data');
                     // this.router.navigate(['/login']);
-                }
+                // }
                 this.api.hideLoad();
             });
 

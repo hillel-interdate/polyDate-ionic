@@ -78,26 +78,25 @@ export class ApiQuery {
 
     this.url = 'https://polydate.co.il/';
 
-    // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
-    // this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v4/he';
+    // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v5/he';
+    // this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v5/he';
     //
-    this.apiUrl = 'https://polydate.co.il/api/v4/he';
-    this.openUrl = 'https://polydate.co.il/open_api/v4/he';
+    this.apiUrl = 'https://polydate.co.il/api/v5/he';
+    this.openUrl = 'https://polydate.co.il/open_api/v5/he';
 
     this.footer = true;
-    this.version = 15; // change at 13.06.21 to android 9 for version 1.1.0
-    // alert('version: ' + this.version);
+    this.version = 16;
 
   }
 
-  getLocation(){
+  getLocation() {
     this.geolocation.getCurrentPosition().then(pos => {
-      if(pos){
+      if (pos) {
         this.location = {
-          'latitude': pos.coords.latitude,
-          'longitude': pos.coords.longitude
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
         };
-      };
+      }
     });
   }
 
@@ -251,7 +250,7 @@ export class ApiQuery {
       console.log(this.callAlert);
 
       if (this.callAlert && this.callAlert != null) {
-        alert(2);
+        // alert(2);
         this.callAlert.dismiss();
         this.callAlert = null;
       }

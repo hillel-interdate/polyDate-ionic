@@ -32,7 +32,17 @@ export class ChangePhotosPage implements OnInit{
   password: any;
   new_user = false;
   checkImages: any;
-  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean, statusText: string}> };
+  dataPage: {
+    noPhoto: any,
+    texts: any,
+    photos: Array<{
+      _id: string,
+      face: string,
+      isValid: string,
+      isMain: boolean,
+      url: any,
+      isPrivate: boolean
+    }> };
   description: any;
   showOnHomepage: boolean;
 
@@ -293,11 +303,11 @@ export class ChangePhotosPage implements OnInit{
       height: 600,
       quality: 100
     };
-    //alert(JSON.stringify(options));
+    // alert(JSON.stringify(options));
     // this.imagePicker.getPictures(options).then((results) => {alert(results)});
 
 
-     this.imagePicker.getPictures({ maximumImagesCount: 1}).then(
+     this.imagePicker.getPictures(options).then(
         (file_uris) => {
          // alert('in ok');
           console.log(file_uris);
@@ -339,7 +349,7 @@ export class ChangePhotosPage implements OnInit{
     // }, (err) => {
     //   console.log(err);
     // });
-    if (this.checkIfMax()) return;
+    if (this.checkIfMax()) { return; }
 
 
     const options: CameraOptions = {
@@ -423,7 +433,7 @@ export class ChangePhotosPage implements OnInit{
         mimeType: 'image/jpg',
         headers: {
           ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
-          'version': this.api.version.toString()
+          version: this.api.version.toString()
         },
       };
       const fileTransfer: FileTransferObject = this.transfer.create();

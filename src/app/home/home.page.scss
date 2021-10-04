@@ -1,38 +1,11 @@
 
-ion-card {
-  width: calc(50% - 10px);
-  margin: 7px 5px;
-}
-
-
-.username-age {
-  height: 30px;
-}
-
-.wrap {
-  background-color: black;color:white;
-  .location {
-    float: right;
-  }
-  .distance {
-    float: left;
-    margin-left: 15px;
-  }
-}
-
-  .age {
-    font-size: 13px;
-    display: inline;
-    margin-right: 5px;
-    line-height: 32px;
-    font-weight: bold;
-  }
-
   .list-md {
     margin-top: 35px;
     margin-left: 5px;
     margin-right: 5px;
   }
+
+
 
   .sorting .close {
     //margin: 0;
@@ -163,28 +136,11 @@ ion-card {
     width: 100%;
     /* margin: 50px 0; */
     margin: 10px 0 26px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
-
-  .online {
-    top: 7px;
-    right: 10px;
-    height: 12px;
-    width: 12px!important;
-    background-color: #45d362;
-    position: absolute;
-    border-radius: 100%;
-  }
-
-  .card-md {
-    width: calc(56% - 20px);
-    float: left;
-  }
-
-  .card-ios {
-    width: calc(55% - 23.6px);
-    float: left;
-  }
 
   @media (max-width: 414px) {
     //.card-ios {
@@ -213,17 +169,6 @@ ion-card {
   //  }
   //}
 
-  .new-user{
-    background: url(../../assets/img/icons/new.png) no-repeat;
-    width: 26px;
-    height: 26px;
-    position: absolute;
-    background-size: cover;
-    left: 8px;
-    top: 2px;
-    z-index: 99;
-  }
-
 
 
 //.platform-ios  .sorting {
@@ -234,13 +179,7 @@ ion-card {
   font-size: 1.8em;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-.card-md + ion-card, .page-hello-ionic .card-ios + ion-card {
-  margin-top: 0;
-}
+
 
 .loader {
   margin: 0 auto;
@@ -255,168 +194,16 @@ ion-card {
   float: right;
 }
 
-.user-section > img {
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
 
-.user-section {
-  clear: both;
-}
 
 .row {
   background-color: black;
   color:white;
 }
-ion-card {
-  border-radius: 12px;
 
-}
-.long-name{
-  font-size: 12px !important;
-  margin: 0 0 0 -2px;
-  padding: 0!important;
-}
-
-.name {
-  font-size: 14px;
-  font-weight: bold;
-  padding-right: 5px;
-  margin-right: 2px;
-  line-height: 31px;
-  float: right;
-}
-
-.location {
-  font-size: 13px;
-  padding-right: 5px;
-  clear: both;
-}
-
- .ion-card-title {
-  margin: 0;
-  padding: 10px;
-  color: white;
-  height: 55px
-}
-
-ion-card-title {
-  height: 62px;
-  background: black;
-  text-align: right;
-}
-
-#mobmsg {
-  background: url(../../assets/img/icons/mobmsg.png) center no-repeat;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-}
-
-#add-green {
-  background: url(../../assets/img/icons/fav-red.png) center no-repeat;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-}
-#remove-green {
-  background: url(../../assets/img/icons/cap.png) center no-repeat;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-}
-
-#like-red {
-  background: url(../../assets/img/icons/like-red.png) center no-repeat;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-}
-
-#cap {
-  background: url(../../assets/img/icons/cap.png) center no-repeat;
-  width: 27px;
-  height: 20px;
-  background-size: contain;
-}
-
-#unblock {
-  background: url(../../assets/img/icons/unblock.png) center no-repeat;
-  width: 27px;
-  height: 20px;
-  background-size: contain;
-}
-
-.verify {
-  background: url(../../assets/img/icons/verify.png) center no-repeat;
-  height: 49px;
-  width: 50px;
-  position: absolute;
-  bottom: 99px;
-}
 
 .width3 {
   width: 33.33%;
-}
-
-.user-section {
-  border: 1px solid #404040;
-  border-radius: 12px;
-}
-
-.distance {
-  font-weight: bold;
-  position: absolute;
-  left: 8px;
-  bottom: 2px;
-  line-height: 14px;
-  direction: rtl;
-  font-size:14px;
-}
-
-ul.profile-btn {
-  height: 47px;
-  padding: 8px 0;
-  margin: 0;
-  color: black;
-}
-
-ul.profile-btn li {
-  margin-left: 15%;
-  float: none;
-  margin: 0 auto;
-}
-
-ul.profile-btn .btn {
-  margin-left: 3%;
-  width: 30%;
-  float: left;
-}
-
-ul.profile-btn .btn div {
-  font-size: 12px;
-  text-align: center;
-}
-
-.profile-btn li:last-child {
-  margin: 0;
-}
-
-.user-section {
-  position: relative;
-}
-
-.user-section > .wrap {
-  background: white;
-  border-radius: 12px;
-}
-
-.usr_profile .avatar {
-  width: 100%;
-  height: 192px;
-  background-size: contain;
-  background-position: center;
-  border-radius: 11px 11px 0 0;
 }
 
 .content-md, .content-ios {
@@ -495,18 +282,6 @@ ion-content {
   top: 45px;
 }
 
-.paying {
-  top: 28px;
-}
-
-#video-chat{
-  background: url(../../assets/img/video/camera.png) center 6px no-repeat;
-  width: 20px;
-  height: 20px;
-  background-size: 14px;
-  background-color: rgba(0,0,0,.6);
-  border-radius: 50%;
-}
 
 .search-btn {
   width: 40px;
@@ -522,3 +297,7 @@ ion-content {
   left: 13px;
   z-index: 999;
 }
+
+  app-short-profile {
+    width: 50%;
+  }

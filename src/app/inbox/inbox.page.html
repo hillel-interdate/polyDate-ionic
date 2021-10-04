@@ -13,10 +13,10 @@
 
 
 <ion-content padding>
-  <div class="no_results" *ngIf="!users?.length">{{ texts?.no_results }}</div>
+  <div class="no_results" *ngIf="!dialogs?.length">{{ texts?.no_results }}</div>
     <div class="container">
 
-        <ion-card *ngIf="notifications?.notifications.length">
+        <ion-card *ngIf="notifications?.notifications.length && notifications.notReadCount">
             <ion-card-content (click)="openNotificationsDialog()" class="system-messages">
                 <div class="usr_img" *ngIf="notifications.image" [ngStyle]="{ 'background-image': 'url('  + notifications.image + ')'}" ></div>
 <!--                <div class="usr_img"></div>-->
@@ -33,23 +33,23 @@
             </ion-card-content>
         </ion-card>
 
-      <ion-card class="ion-cart" *ngFor="let user of users; let i = index">
-<!--        <div class="paying" *ngIf="user?.contactIsPaying == '1'"></div>-->
-        <ion-card-content (click)="toDialogPage(user)">
+      <ion-card class="ion-cart" *ngFor="let dialog of dialogs; let i = index">
+        <div class="paying" *ngIf="dialog?.contactIsPaying && dialog?.contactIsPaying != '0'"></div>
+        <ion-card-content (click)="toDialogPage(dialog)">
 <!--          <div class="usr_img" *ngIf="user.photo" [ngStyle]="{ 'background-image': 'url('  + user.photoName + ')'}" ></div>-->
-          <div class="usr_img" *ngIf="user.photo" [ngStyle]="{ 'background-image': 'url(' + api.url  + user.photo + ')'}" ></div>
+          <div class="usr_img" *ngIf="dialog.photo" [ngStyle]="{ 'background-image': 'url(' + api.url  + dialog.photo + ')'}" ></div>
           <ion-card-title>
-            <div class="name">{{ user.username }}</div>
-            <div class="date">{{ user.date}}</div>
+            <div class="name">{{ dialog.username }}</div>
+            <div class="date">{{ dialog.date}}</div>
           </ion-card-title>
           <div class="message">
             <p>
-              {{ user.message | slice:0:45 }}...
+              {{ dialog.message | slice:0:45 }}...
             </p>
-            <div class="counter message-counter" *ngIf="user.newMessagesNumber > 0" >{{ user.newMessagesNumber }}</div>
+            <div class="counter message-counter" *ngIf="dialog.newMessagesNumber > 0" >{{ dialog.newMessagesNumber }}</div>
           </div>
         </ion-card-content>
-        <ion-icon class="delete-dialog-icon" (click)="deleteDialog(user, i)" name="trash"></ion-icon>
+        <ion-icon class="delete-dialog-icon" (click)="deleteDialog(dialog, i)" name="trash"></ion-icon>
       </ion-card>
 
 

@@ -30,7 +30,7 @@ export class FullScreenProfilePage implements OnInit{
     this.user = this.api.data['user'];
     this.api.storage.get('user_id').then((val) => {
       if (val) {
-        this.myId = val;
+        // this.myId = val.user_id;
       }
     });
   }

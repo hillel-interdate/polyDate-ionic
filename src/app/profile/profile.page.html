@@ -20,16 +20,16 @@
           src="../../assets/img/icons/plike.png"></div>
   <div *ngIf="user?.isAddLike" class="disabled like-profile-btn profiles-btn"><img src="../../assets/img/icons/plike.png"></div>
 
-  <div *ngIf="user?.isAddFavorite == false && user.id " (click)="addFavorites(user)"
+  <div *ngIf="user?.isAddFavorite == false && user?.id " (click)="addFavorites(user)"
        class="favorite-profile-btn profiles-btn">
     <img src="../../assets/img/icons/padd.png">
   </div>
 
-  <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>
+<!--  <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>-->
 
   <div *ngIf="user?.isAddFavorite" class=" favorite-profile-btn remove" (click)="addFavorites(user)" ><img src="../../assets/img/icons/cap.png"></div>
   
-  <div *ngIf="!user?.isAddVerify && !user.isVerify" class="addVerify" (click)="addVerify()">
+  <div *ngIf="!user?.isAddVerify && !user?.isVerify" class="addVerify" (click)="addVerify()">
 
     <div class="addVerify-image"></div>
 
@@ -51,9 +51,11 @@
       <ion-slides pager="true">
 
         <ion-slide *ngFor="let usr of user?.photos">
-          <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + usr.cropedImage + ')'}"
+          <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + usr.url + ')'}"
                (click)="fullPagePhotos(usr.isPrivate)">
-            <div *ngIf="usr.isPrivate && !usr.allowToSee && !myProfile" class="privateText" [innerHTML]="user.privateText"></div>
+            <div *ngIf="usr.isPrivate && usr.url == user.noPhoto && !myProfile" class="privateText">
+              {{user.texts.privatePhoto}} <br> {{user.texts[user.photoStatus]}}
+            </div>
               <img *ngIf="myProfile && usr.isPrivate" class="privateImageText" src="assets/img/privet.png">
           </div>
         </ion-slide>
@@ -64,20 +66,18 @@
     </div>
     <ion-spinner class="bg" *ngIf="!user?.form?.city"></ion-spinner>
     <div class="content" #content>
-      <div class="notif" *ngIf="!user.canWriteTo && myId != user?.id">{{ user.textCantWrite }}</div>
+      <div class="notif" *ngIf="!user?.canWriteTo && myId != user?.id">{{ user?.textCantWrite }}</div>
       <div class="pmtitle">
-        <div *ngIf="user?.isPaying" class="paying"></div>
+        <div *ngIf="user?.isPaying" class="paying" [class.vip]="user?.isVip"></div>
         <div *ngIf="user?.isNew" class="new-user"></div>
         <div *ngIf="user?.isVerify" class="verify"></div>
         <div *ngIf="user?.isOnline" class="online-user"></div>
-        <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}"> {{user?.age}} </span>
-         <strong style="float:right;"> 
-          
-          {{user?.username}}, 
-        
+         <strong [class.float-right]="!user?.hebrewUsername">
+          {{user?.username}},
         </strong>
+        <span class="age" [ngClass]="{'hebrew-name-age': user?.hebrewUsername}"> {{user?.age}} </span>
 <!--        <span>{{user?.region_name}}</span>-->
-        <span *ngIf="user?.form?.distance != ''" class="distance">{{user?.form?.distance}} ממך</span>
+        <span *ngIf="user?.form?.distance" class="distance">{{user?.form?.distance}} ק"מ ממך</span>
       </div>
 
 <!--      <div *ngIf="user?.iam" class="pmdetail cf">-->
@@ -88,7 +88,7 @@
         <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/edit-profile"> עריכת פרופיל </ion-button>
 
       <div class="pmdetail">
-        <div *ngFor="let field of user?.formKeys" class="pmbotul">
+        <div *ngFor="let field of userFormKeys" class="pmbotul">
           <li *ngIf="user?.form[field].value" [ngClass]="{'full': field == 'about' || field == 'looking'}"><span class="one">{{user?.form[field].label }}</span><span class="two">{{user?.form[field].value }}</span><div class="clr"></div></li>
         </div>
       </div>

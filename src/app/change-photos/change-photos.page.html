@@ -28,19 +28,19 @@
         <ion-label class="va-top mr-10">{{ dataPage?.texts.agreeOnHomePage }}</ion-label>
 
 
-        <div class="description" *ngIf="photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].face">
+        <div class="description" *ngIf="photos?.length == 1 && (dataPage?.noPhoto == dataPage?.photos[0].face || dataPage?.photos[0].face.includes(dataPage?.noPhoto))">
             <div #desk>{{safeHtml(desk)}}</div>
         </div>
         <div class="photos">
-            <div *ngFor="let photo of photos">
-                <div *ngIf="photo == 0 && dataPage?.noPhoto != dataPage?.photos[0].url"  class="main photo" (click)="edit(dataPage?.photos[photo])">
+            <div *ngFor="let photo of photos"> <!--&& dataPage?.noPhoto != dataPage?.photos[0].url-->
+                <div *ngIf="photo == 0  && !dataPage?.photos[0].face.includes(dataPage?.noPhoto)"  class="main photo" (click)="edit(dataPage?.photos[photo])">
                     <div class="wrap" >
                         <div class="photo-img" [ngStyle]="{ 'background-image': 'url(' + api.url + dataPage?.photos[photo].face + ')'}"></div>
                         <span class="num">1</span>
                         <div class="remove" ><ion-icon name="create"></ion-icon></div>
                     </div>
-                    <div class="small-status-text {{ dataPage?.photos[photo].isValid ? 'valid' : 'waiting' }}">
-                        {{ dataPage?.photos[photo].statusText }}
+                    <div class="small-status-text {{ dataPage?.photos[photo]?.isValid ? 'valid' : 'waiting' }}">
+                        {{ dataPage?.texts?.allowingPhotoText[dataPage?.photos[photo]?.isValid] }}
                     </div>
                 </div>
 
@@ -52,29 +52,29 @@
                         <div class="remove" ><ion-icon name="create"></ion-icon></div>
                     </div>
                     <div class="small-status-text {{ dataPage?.photos[photo].isValid ? 'valid' : 'waiting' }}">
-                        {{ dataPage?.photos[photo].statusText }}
+                        {{ dataPage?.texts.allowingPhotoText[dataPage?.photos[photo].isValid] }}
                     </div>
                 </div>
             </div>
 
-            <div *ngIf="photos?.length > 0 && dataPage?.noPhoto != dataPage?.photos[0].url" class="photo" (click)="add()">
+            <div *ngIf="dataPage?.photos.length > 0 &&  !dataPage?.photos[0].url.includes(dataPage?.noPhoto)" class="photo" (click)="add()">
                 <div class="wrap">
                     <div class="photo-img"
-                         [ngStyle]="{ 'background-image': 'url(' +api.url+dataPage?.noPhoto + ')'}"></div>
+                         [ngStyle]="{ 'background-image': 'url(' + api.url + dataPage?.noPhoto + ')'}"></div>
                     <span class="num">{{ dataPage?.photos?.length }}</span>
                     <span class="add"><ion-icon name="md-add"></ion-icon></span>
                 </div>
             </div>
 
-            <div *ngIf="dataPage?.noPhoto == dataPage?.photos[0].url"  class="main photo" (click)="add()">
+            <div *ngIf="dataPage?.photos[0].url.includes(dataPage?.noPhoto)"  class="main photo" (click)="add()">
                 <div class="wrap" >
-                    <div class="photo-img" [ngStyle]="{ 'background-image': 'url('+api.url+dataPage?.photos[0].url + ')'}"></div>
+                    <div class="photo-img" [ngStyle]="{ 'background-image': 'url('+ dataPage?.photos[0].url + ')'}"></div>
                     <span class="num">1</span>
                     <span class="add"><ion-icon name="md-add"></ion-icon></span>
                 </div>
             </div>
         </div>
-        <div class="description" > <!--*ngIf="!(photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].url)"-->
+        <div class="description" *ngIf="!(photos?.length == 1 && dataPage?.photos[0].url.includes(dataPage?.noPhoto))"> <!--*ngIf="!(photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].url)"-->
             <div class="clr"></div><div [innerHTML]="description"></div>
         </div>
         <!--photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].face-->

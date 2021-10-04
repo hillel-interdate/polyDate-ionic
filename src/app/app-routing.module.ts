@@ -3,11 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {ActivationPageModule} from "./activation/activation.module";
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
+
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
@@ -144,6 +140,10 @@ const routes: Routes = [
   {
     path: 'messenger-notifications',
     loadChildren: () => import('./messenger-notifications/messenger-notifications.module').then( m => m.MessengerNotificationsPageModule)
+  },
+  {
+    path: 'vip-modal',
+    loadChildren: () => import('./vip-modal/vip-modal.module').then( m => m.VipModalPageModule)
   },
 ];
 // { path: 'subscription', loadChildren: './subscription/subscription.module#SubscriptionPageModule' },
