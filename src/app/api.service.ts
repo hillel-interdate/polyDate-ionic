@@ -85,7 +85,7 @@ export class ApiQuery {
     this.openUrl = 'https://polydate.co.il/open_api/v5/he';
 
     this.footer = true;
-    this.version = 16;
+    this.version = 17;
 
   }
 
