@@ -35,7 +35,9 @@
 }
 
 .paying.vip {
-    background-image: url(' https://www.polydate.co.il/images/main/vip.png');
+    background-image: url('https://www.polydate.co.il/images/vip-icon.png');
+    width: 48px;
+    bottom: 78px;
 }
 
 #the_area {

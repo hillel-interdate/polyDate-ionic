@@ -11,8 +11,47 @@ ion-card {
   height: 30px;
 }
 
+.vip {
+
+  .avatar {
+    background-color: unset;
+  }
+
+  ion-card-title {
+    background: #ffffff47;
+    color: black;
+    border-bottom: 1px solid darkgoldenrod;
+    border-top: 1px solid darkgoldenrod;
+  }
+
+  .row {
+    background: unset;
+    color: black;
+  }
+
+  .user-section > .wrap {
+    background: transparent;
+  }
+
+  .user-section:after {
+    background: url(https://polydate.co.il/images/backgroundgold.jpg);
+    content: ' ';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    opacity: 1;
+  }
+
+  .row.username-age {
+    color: black;
+  }
+
+}
+
 .wrap {
-  background-color: black;color:white;
+  //background-color: black;
+  color:white;
+
   .location {
     float: right;
   }
@@ -90,9 +129,12 @@ ion-card {
 .ion-card-title {
   margin: 0;
   padding: 10px;
-  color: white;
+  color: black;
   height: 55px
 }
+
+
+
 
 ion-card-title {
   height: 62px;
@@ -101,7 +143,7 @@ ion-card-title {
 }
 
 #mobmsg {
-  background: url(../../../assets/img/icons/mobmsg.png) center no-repeat;
+  background: url(https://www.polydate.co.il/images/main/send-msg.png) center no-repeat;
   width: 20px;
   height: 20px;
   background-size: contain;
@@ -154,6 +196,7 @@ ion-card-title {
   border: 1px solid #404040;
   border-radius: 12px;
 }
+
 
 .distance {
   font-weight: bold;
@@ -233,10 +276,7 @@ ul {
 }
 
 ion-card.vip {
-  border: 2px solid #f1c722;
+  //border: 2px solid #f1c722;
   box-shadow: 1px -1px 6px 1px;
-
-  .user-section {
-    border: 1px solid #ffcb00;
-  }
+  z-index: 1;
 }

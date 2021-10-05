@@ -97,6 +97,7 @@
   .pmtitle.bottom {
     text-align: center;
     padding: 4px 10px 5px;
+    margin-top: -5px;
   }
 
   .pmtitle.bottom span ion-icon {
@@ -141,10 +142,17 @@
     height: 26px;
     position: absolute;
     background-size: cover;
-    right: 19px;
-    top: -14px;
+    right: 7px;
+    bottom: 76px;
     z-index: 999;
   }
+
+
+
+  .pmdetail {
+    background: #e9e8e5;
+  }
+
 
   .profile-buttons .favorite-profile-btn,
   .profile-buttons .like-profile-btn,
@@ -292,6 +300,12 @@
     z-index: 10;
   }
 
+  .paying.vip {
+    top: -3px;
+    left: 7px;
+    width: 46px;
+  }
+
 
   .privateText {
     position: absolute;
@@ -375,4 +389,25 @@
 
   .float-right {
     float: right;
+  }
+
+  .vip {
+
+    ion-content {
+      --background: url(https://polydate.co.il/images/backgroundgold.jpg);
+    }
+
+    .pmdetail {
+      background: #e9e8e5;
+    }
+
+    .content {
+      width: 97%;
+      margin: auto;
+    }
+
+  }
+
+  ion-content.vip {
+    --background: url(https://polydate.co.il/images/backgroundgold.jpg);
   }
