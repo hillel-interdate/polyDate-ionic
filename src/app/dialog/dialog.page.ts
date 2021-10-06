@@ -89,16 +89,16 @@ export class DialogPage implements OnInit {
             this.scrollToBottom(500, 0);
             this.addMoreMessages = this.messages.length < 30 ? false : true;
         }, err => {
-            console.log('Oops!');
+            console.log({err});
         });
         setTimeout(() => {
-            console.log(this.messages);
         }, 8000);
     }
 
     scrollToBottom(t, s = 300) {
         setTimeout(() => {
-            this.content.scrollToBottom(s).then(() => console.log('scrolling to bottom'));
+            this.content.scrollToBottom(s).then(() => {
+            });
             $('.messages').scrollTop(99999);
         }, t);
     }
@@ -346,7 +346,6 @@ export class DialogPage implements OnInit {
             region_name: '',
             username: this.user.nick_name
         };
-        console.log(this.user);
         const navigationExtras: NavigationExtras = {
             queryParams: {
                 data: JSON.stringify({
@@ -445,7 +444,7 @@ export class DialogPage implements OnInit {
             this.peerSubscribes();
         }));
         this.api.peerjs[this.myPeer].on('error', (err => {
-            console.log('error: ', err);
+            console.log({err});
         }));
     }
 
@@ -453,7 +452,6 @@ export class DialogPage implements OnInit {
         if (this.peerConnectionApp) {
             this.peerConnectionApp.on('data', data => {
                 data = JSON.parse(data);
-                console.log('data: ', data);
                 if (data.action == 'new') {
                     // this.showTyping = false;
                     this.peerMessage(data);
