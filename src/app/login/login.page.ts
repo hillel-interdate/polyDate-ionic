@@ -85,9 +85,13 @@ export class LoginPage implements OnInit {
     }
 
     ionViewWillEnter() {
-        //  alert('view');
         this.api.pageName = 'LoginPage';
         $('.footerMenu').hide();
+
+        $(document).on('backbutton', () => {
+            navigator['app'].exitApp();
+        });
+
         this.api.storage.get('username').then((username) => {
             this.form.login.username.value = username;
             this.user.name = username;
@@ -192,7 +196,6 @@ export class LoginPage implements OnInit {
         if (this.fbId) {
             postData = JSON.stringify({facebook_id: this.fbId});
         }
-        console.log(this.setHeaders());
         this.api.http.post(this.api.openUrl + '/logins.json', postData, this.setHeaders()).subscribe(data => {
             this.validate(data);
         }, err => {
@@ -206,46 +209,14 @@ export class LoginPage implements OnInit {
 
     fingerAuthentication() {
         this.faio.show({
-            // clientId: 'Fingerprint-Demo',
-            // clientSecret: 'password', //Only necessary for Android
-            // disableBackup:true,  //Only for Android(optional)
-            // localizedFallbackTitle: 'Use Pin', //Only for iOS
-            // localizedReason: 'כניסה לגרינדייט באמצעות טביעת אצבע' //Only for iOS
-
             title: 'כניסה לפולידייט באמצעות טביעת אצבע',
-            // /**
-            //  * Subtitle in biometric Prompt (android only)
-            //  * @default null
-            //  */
-            // subtitle?: string;
-            // /**
-            //  * Description in biometric Prompt
-            //  * @default null
-            //  */
             description: 'כניסה לפולידייט באמצעות טביעת אצבע',
-            // /**
-            //  * Title of fallback button.
-            //  * @default "Use Pin"
-            //  */
-            // fallbackButtonTitle?: string;
-            // /**
-            //  * Title for cancel button on Android
-            //  * @default "Cancel"
-            //  */
-            // cancelButtonTitle?: string;
-            // /**
-            //  * Disable 'use backup' option.
-            //  * @default false
-            //  */
-            // disableBackup?: boolean;
         }).then((result: any) => {
             if (result) {
                 this.api.storage.get('fingerAuth').then((val) => {
                     if (val) {
-                        //  alert('in if val, '  + JSON.stringify(val));
                         this.form.login.username.value = val.username;
                         this.form.login.password.value = val.password;
-                        //  alert('form, ' + this.form.login.username.value + this.form.login.password.value)
                         this.formSubmit();
                     }
                 });
@@ -255,20 +226,17 @@ export class LoginPage implements OnInit {
 
     setHeaders() {
         let myHeaders = new HttpHeaders();
-        console.log(myHeaders);
         myHeaders = myHeaders.append('username', encodeURIComponent(this.form.login.username.value));
         myHeaders = myHeaders.append('password', encodeURIComponent(this.form.login.password.value));
         myHeaders = myHeaders.append('Content-type', 'application/json');
         myHeaders = myHeaders.append('Accept', '*/*');
         myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
-        console.log(myHeaders);
 
         const header = {
             headers: myHeaders
         };
         return header;
     }
-
 
     validate(response) {
         this.errors = '';
@@ -321,49 +289,11 @@ export class LoginPage implements OnInit {
                 this.api.sendPhoneId(deviceToken);
             }
         });
-
     }
-
-    // checkPayment() {
-    //   if (!this.api.isPay) {
-    //     let that = this;
-    //     this.iap.restorePurchases().then( (history) => {
-    //       // this.restore = data;
-    //       console.log('checkPayment: ' + JSON.stringify(history));
-    //       console.log(that.api.setHeaders(true));
-    //       that.api.http.post(that.this.api.apiUrl + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
-    //         console.log('Restore: ' + JSON.stringify(res));
-    //         if(res.payment == 1) {
-    //           this.api.isPay = true;
-    //         }
-    //       }, error => {
-    //         console.log('Restore: ' + error);
-    //       });
-    //     }).catch((err) => {
-    //       // console.log('Restore: ' + err);
-    //     });
-    //   }
-    // }
-
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad LoginPage');
-    }
-
-
-    ionViewDidEnter() {
-
-    }
-
 
     ionViewWillLeave() {
         this.api.footer = true;
-        console.log('login page will liiv');
         $('.footerMenu').show();
-
-    }
-
-    testfn() {
-        // alert(1);
     }
 
 }

@@ -6,6 +6,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {Platform} from '@ionic/angular';
 import * as $ from 'jquery';
+import {User} from '../interfaces/user';
+import {Photo} from '../interfaces/photo';
 
 /*
  Generated class for the Profile page.
@@ -26,10 +28,7 @@ export class ProfilePage implements OnInit {
 
   isAbuseOpen: any = false;
 
-  user: any = {
-      isAddBlackListed: false,
-      isAddVerify: true
-  };
+  user: User;
   texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
 
   formReportAbuse: { title: any, buttons: { cancel: any, submit: any }, text: { label: any, name: any, value: any } } =
@@ -38,6 +37,8 @@ export class ProfilePage implements OnInit {
   myId: any = false;
 
   myProfile = false;
+
+  userFormKeys: any;
 
   constructor(public api: ApiQuery,
               public router: Router,
@@ -51,17 +52,81 @@ export class ProfilePage implements OnInit {
 
 
     ngOnInit() {
+        this.user = {
+          age: 0,
+          canWriteTo: false,
+          form: {
+              about: undefined,
+              body: undefined,
+              children: undefined,
+              city: undefined,
+              distance: '',
+              gender: undefined,
+              height: undefined,
+              looking: '',
+              lookingFor: undefined,
+              nutrition: undefined,
+              origin: undefined,
+              region_name: undefined,
+              relationshipStatus: undefined,
+              relationshipType: undefined,
+              religion: undefined,
+              sexOrientation: undefined,
+              smoking: undefined,
+              zodiac: undefined
+          },
+          formReportAbuse: undefined,
+          hebrewUsername: false,
+          id: 0,
+          isAddBlackListed: false,
+          isAddFavorite: false,
+          isAddLike: false,
+          isAddVerify: false,
+          isNew: false,
+          isOnline: false,
+          isPaying: false,
+          isVerify: false,
+          isVip: false,
+          noPhoto: '',
+          photoStatus: '',
+          textCantWrite: '',
+          texts: undefined,
+          username: '',
+          photos: [],
+      };
         this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
-                this.user = JSON.parse(params.data).user;
+                const passedUser = JSON.parse(params.data).user;
+                if (this.api.usersCache[passedUser.id]) {
+                    this.user = this.api.usersCache[passedUser.id];
+                    this.userFormKeys = this.getKeys(this.user.form);
+                } else {
+                    this.user.photos = [
+                        {
+                            id: 0,
+                            isMain: true,
+                            isValid: true,
+                            url: passedUser.photo,
+                            face: '',
+                            isPrivate: false,
+                        }
+                    ];
+                    this.user.age = passedUser.age;
+                    this.user.username = passedUser.username;
+                    this.user.id = passedUser.id;
+                    this.user.canWriteTo = passedUser.canWriteTo;
+                    this.user.form.region_name = passedUser.region_name;
+                    this.user.form.distance = passedUser.distance;
+                    this.user.isPaying = passedUser.isPaying;
+                    this.user.isAddBlackListed = passedUser.isAddBlackListed;
+                    this.user.isAddFavorite = passedUser.isAddFavorite;
+                    this.user.isAddLike = passedUser.isAddLike;
+                    this.user.isNew = passedUser.isNew;
+                    this.user.isOnline = passedUser.isOnline;
+                    this.user.isPaying = passedUser.isPaying;
+                    this.user.isVerify = passedUser.isVerify;
+                }
 
-                this.user.photos = [
-                    {
-                        isMain: true,
-                        isValid: true,
-                        cropedImage: this.user.fullPhoto
-                    }
-                ];
                 console.log(this.user);
                 this.getUser();
             } else {
@@ -72,8 +137,11 @@ export class ProfilePage implements OnInit {
                     this.user.username = userData.username;
                     this.user.photos = [
                         {
+                            id: 0,
+                            face: '',
                             isMain: true,
                             isValid: true,
+                            isPrivate: false,
                             url: userData.user_photo
                         }
                     ];
@@ -120,25 +188,22 @@ export class ProfilePage implements OnInit {
     }
 
     getUser() {
-        console.log('this.user.id: ');
-        console.log(this.user.id);
-        if (typeof this.api.usersCache[this.user.id] !== 'undefined') {
-            this.user = this.api.usersCache[this.user.id];
-        }
-        let cropedImage0 = this.user['photos'][0].cropedImage;
-        let userId = this.user.id;
-        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data:any) => {
-            this.api.usersCache[this.user.id] = data;
-            if(this.user['photos'].length > 0 && this.myId != this.user.id){
-                data['photos'][0].cropedImage = cropedImage0;
-            }
-            this.user = data;
+        const userId = this.user.id;
+        console.log(userId);
+        console.log(this.api.usersCache);
 
-           this.user.formKeys = this.getKeys(data.form);
-           this.formReportAbuse = data.formReportAbuse;
-           this.changeRef.detectChanges();
-           this.user.privateText = data.texts.privatePhoto + ' <br> ' + data.texts[data.photoStatus];
-           console.log(this.user);
+        // const url = this.user.photos[0].url;
+
+        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data: any) => {
+            // if (this.user.photos.length > 0 && this.myId != userId) {
+            //     data.photos[0].url = url;
+            // }
+            this.api.usersCache[userId] = this.user = data;
+
+            this.userFormKeys = this.getKeys(data.form);
+            this.formReportAbuse = data.formReportAbuse;
+            this.changeRef.detectChanges();
+            console.log(this.user);
         });
 
     }
@@ -168,38 +233,24 @@ export class ProfilePage implements OnInit {
   }
 
   blockSubmit() {
-    if (this.user.isAddBlackListed == true) {
-      this.user.isAddBlackListed = false;
-      var action = 'delete';
-    } else {
-      this.user.isAddBlackListed = true;
-      var action = 'create';
-    }
-
-
-    let params = JSON.stringify({
-      list: 'BlackList',
-      action: action
-    });
-
-   this.api.http.post(this.api.apiUrl + '/lists/' + this.user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
-     this.api.toastCreate(data.success);
-    });
+      const params = JSON.stringify({
+        list: 'BlackList',
+        action: this.user.isAddBlackListed ? 'delete' : 'create',
+      });
+      this.user.isAddBlackListed = !this.user.isAddBlackListed;
+      this.api.http.post(this.api.apiUrl + '/lists/' + this.user.id, params, this.api.setHeaders(true))
+          .subscribe((data: any) => this.api.toastCreate(data.success));
   }
 
   addLike(user) {
     user.isAddLike = true;
     this.api.toastCreate(' עשית לייק ל' + user.username);
 
-    let params = JSON.stringify({
+    const params = JSON.stringify({
       toUser: user.id,
     });
 
-   this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-      console.log(data);
-    }, err => {
-      console.log('Oops!');
-    });
+    this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe();
 
   }
 
@@ -227,7 +278,6 @@ export class ProfilePage implements OnInit {
           this.api.http.post(this.api.apiUrl + '/shows/' + this.user.id, params, this.api.header).subscribe( (data: any) => {
              if (data.success) {
                  this.api.toastCreate(data.text);
-                 this.user.privateText = this.user.texts.privatePhoto + ' <br> ' + this.user.texts.waiting;
                  this.user.photoStatus = 'waiting';
              }
           });
@@ -276,9 +326,9 @@ export class ProfilePage implements OnInit {
     this.reportAbuseClose();
   }
 
-    toVideoChat() {
-        this.api.openVideoChat({id: this.user.userId, chatId: 0, alert: false, username: this.user.nickName});
-    }
+    // toVideoChat() {
+    //     this.api.openVideoChat({id: this.user.userId, chatId: 0, alert: false, username: this.user.nickName});
+    // }
 
   ionViewWillLeave() {
       this.keyboard.hide();

@@ -8,6 +8,9 @@ import {ActionSheetController, AlertController} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import * as $ from 'jquery';
+
+// declare var Camera: any;
+// declare var navigator: any;
  /*
  Generated class for the ChangePhotos page.
  See http://ionicframework.com/docs/v2/he/components/#navigation for more info on
@@ -29,7 +32,17 @@ export class ChangePhotosPage implements OnInit{
   password: any;
   new_user = false;
   checkImages: any;
-  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean, statusText: string}> };
+  dataPage: {
+    noPhoto: any,
+    texts: any,
+    photos: Array<{
+      _id: string,
+      face: string,
+      isValid: string,
+      isMain: boolean,
+      url: any,
+      isPrivate: boolean
+    }> };
   description: any;
   showOnHomepage: boolean;
 
@@ -278,11 +291,11 @@ export class ChangePhotosPage implements OnInit{
       height: 600,
       quality: 100
     };
-    //alert(JSON.stringify(options));
+    // alert(JSON.stringify(options));
     // this.imagePicker.getPictures(options).then((results) => {alert(results)});
 
 
-     this.imagePicker.getPictures({ maximumImagesCount: 1}).then(
+     this.imagePicker.getPictures(options).then(
         (file_uris) => {
          // alert('in ok');
           this.uploadPhoto(file_uris[0]);
@@ -323,11 +336,12 @@ export class ChangePhotosPage implements OnInit{
     // }, (err) => {
     //   console.log(err);
     // });
-    if (this.checkIfMax()) return;
+    if (this.checkIfMax()) { return; }
+
 
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       cameraDirection: this.camera.Direction.FRONT,
@@ -335,21 +349,49 @@ export class ChangePhotosPage implements OnInit{
       targetWidth: 900,
       targetHeight: 600,
       allowEdit: false,
-      sourceType: 1,
-      //saveToPhotoAlbum: true
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      saveToPhotoAlbum: true
     };
 
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
-      // let base64Image = 'data:image/jpeg;base64,' + imageData;
-     // alert(base64Image);
-     // alert(imageData);
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+     console.log(base64Image);
+      console.log(imageData);
       this.api.showLoad();
       this.uploadPhoto(imageData);
     }, (err) => {
       console.log('image data error: ' + err );
     });
+/*
+    let options = {
+      // Some common settings are 20, 50, and 100
+      quality: 90,
+      destinationType: Camera.DestinationType.FILE_URI,
+      // In this app, dynamically set the picture source, Camera or photo gallery
+      sourceType: Camera.PictureSourceType.CAMERA,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE,
+      allowEdit: false,
+      correctOrientation: true,
+      targetWidth: 900,
+      targetHeight: 600,
+      saveToPhotoAlbum: true
+    }
+
+    let that = this;
+
+    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+      console.log(imageUri);
+      that.uploadPhoto(imageUri);
+
+    }, function cameraError(error) {
+      console.debug("Unable to obtain picture: " + error, "app");
+
+    }, options);
+
+     */
   }
 
   safeHtml(el): any {
@@ -378,10 +420,11 @@ export class ChangePhotosPage implements OnInit{
         mimeType: 'image/jpg',
         headers: {
           ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
+          version: this.api.version.toString()
         },
       };
       const fileTransfer: FileTransferObject = this.transfer.create();
-     // alert(options);
+      // alert(url);
       fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {
         console.log({entry});
         if (entry.response.errorMessage) {

@@ -21,8 +21,10 @@ import 'core-js/es7/reflect';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 
-import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
+
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import {Deeplinks} from '@ionic-native/deeplinks/ngx';
+import {LoginPage} from './login/login.page';
 
 
 @Component({
@@ -127,6 +129,7 @@ export class AppComponent implements AfterViewInit {
             }
         });
 
+
         this.events.subscribe('status:login', () => {
             this.initPushNotification();
         });
@@ -134,8 +137,6 @@ export class AppComponent implements AfterViewInit {
         this.events.subscribe('statistics:updated', () => {
             this.getStatistics();
         });
-
-
     }
 
     requestPermit() {
@@ -184,7 +185,6 @@ export class AppComponent implements AfterViewInit {
 
         }
     }
-
 
     initPushNotification() {
         if (!this.platform.is('cordova')) {
@@ -349,7 +349,6 @@ export class AppComponent implements AfterViewInit {
         });
     }
 
-
     bannerStatus() {
 
         if ((this.is_login && this.banner && this.banner.hideLogin.includes(this.api.pageName))
@@ -362,7 +361,6 @@ export class AppComponent implements AfterViewInit {
         }
 
     }
-
 
     clearLocalStorage() {
         this.api.setHeaders(false, null, null);
@@ -539,7 +537,6 @@ export class AppComponent implements AfterViewInit {
         ];
     }
 
-
     menu1Active(bool = true) {
         this.activeMenu = 'menu1';
 
@@ -553,7 +550,6 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-
     menu2Active() {
 
 
@@ -564,7 +560,6 @@ export class AppComponent implements AfterViewInit {
         });
     }
 
-
     menu3Active() {
         this.menu.isOpen('menu1').then(isOpen => {
             if (isOpen) {
@@ -574,7 +569,6 @@ export class AppComponent implements AfterViewInit {
             }
         });
     }
-
 
     menuCloseAll() {
         if (this.activeMenu != 'menu1') {
@@ -587,7 +581,6 @@ export class AppComponent implements AfterViewInit {
             this.menu.toggle();
         }
     }
-
 
     initializeApp() {
 
@@ -642,7 +635,6 @@ export class AppComponent implements AfterViewInit {
 
     }
 
-
     swipeFooterMenu() {
         // console.log('in swipe footer function');
         if ($('.more-btn').hasClass('menu-left')) {
@@ -690,6 +682,7 @@ export class AppComponent implements AfterViewInit {
             } else {
                 window.location.href = this.banner.link;
             }
+
         });
         return false;
     }
@@ -719,6 +712,7 @@ export class AppComponent implements AfterViewInit {
             if (page.list == 'online') {
                 params = JSON.stringify({
                     action: 'online'
+
                 });
             } else if (page.list == 'distance') {
                 params = JSON.stringify({
@@ -851,27 +845,6 @@ export class AppComponent implements AfterViewInit {
         await alert.present();
     }
 
-    // checkPayment() {
-    //   if (!this.api.isPay) {
-    //     let that = this;
-    //     this.iap.restorePurchases().then( (history) => {
-    //       // this.restore = data;
-    //       console.log('checkPayment: ' + JSON.stringify(history));
-    //       console.log(that.api.setHeaders(true));
-    //       that.api.http.post(that.this.api.apiUrl + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
-    //         console.log('Restore: ' + JSON.stringify(res));
-    //         if (res.payment == 1) {
-    //           this.api.isPay = true;
-    //         }
-    //       }, error => {
-    //         console.log('Restore: ' + error);
-    //       });
-    //     }).catch((err) => {
-    //       // console.log('Restore: ' + err);
-    //     });
-    //   }
-    // }
-
     getAppVersion() {
 
         this.api.http.get(this.api.openUrl + '/version?version=' + this.api.version, this.api.header).subscribe((data: any) => {
@@ -937,7 +910,6 @@ export class AppComponent implements AfterViewInit {
         });
 
     }
-
 
     async callAlert(data) {
         if (this.api.callAlertShow == false && this.api.videoChat == null) {
@@ -1048,6 +1020,7 @@ export class AppComponent implements AfterViewInit {
             }
         });
 
-    }}
+    }
+}
 
 

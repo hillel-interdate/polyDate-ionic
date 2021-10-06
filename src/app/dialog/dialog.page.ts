@@ -7,6 +7,8 @@ import * as $ from 'jquery';
 import {ChangeDetectorRef} from '@angular/core';
 import {ActionSheetButton} from '@ionic/core';
 
+import {ShortUser} from '../interfaces/short-user';
+
 declare var Peer;
 
 @Component({
@@ -48,7 +50,7 @@ export class DialogPage implements OnInit {
     peerToUserApp: string;
 
     myPeer;
-
+    clicked: any = false;
 
     constructor(public api: ApiQuery,
                 public router: Router,
@@ -106,8 +108,8 @@ export class DialogPage implements OnInit {
             this.showCantWriteAlert();
         } else {
             this.scrollToBottom(100);
-            console.log('on open keyboard');
         }
+        this.clicked = true;
     }
 
     back() {
@@ -130,7 +132,10 @@ export class DialogPage implements OnInit {
         } else {
             this.showUl = !this.showUl;
             const buttons = this.quickMessages.map(message => {
-                return {text: message.text, handler: () => this.sendQuickMessage(message.id)} as (string | ActionSheetButton);
+                return {
+                    text: message.text,
+                    handler: () => this.sendQuickMessage(message.id)
+                } as (string | ActionSheetButton);
             });
             if (!this.showUl) {
                 const actionSheet = await this.actionSheetController.create({
@@ -146,7 +151,7 @@ export class DialogPage implements OnInit {
         }
     }
 
-    sendQuickMessage(id): boolean|void|Promise<boolean| void> {
+    sendQuickMessage(id): boolean | void | Promise<boolean | void> {
         this.checkedQm = id;
         // alert(1);
         // if (!this.cantWrite) {
@@ -311,20 +316,41 @@ export class DialogPage implements OnInit {
         }
     }
 
-
     ionViewWillLeave() {
         clearInterval(this.checkChat);
-        this.api.peerjs[this.myPeer].disconnect();
+        this.api.peerjs[this.myPeer].destroy();
+        delete this.api.peerjs[this.myPeer];
         $('.footerMenu').show();
         $(document).off();
         this.peerConnectionApp.close();
+        this.peerConnection.close();
+        delete this.peerConnectionApp;
+        delete this.peerConnection;
     }
 
     toProfilePage() {
+        const user: ShortUser = {
+            id: this.user.id,
+            age: 0,
+            canWriteTo: !this.cantWrite,
+            distance: '',
+            isAddBlackListed: false,
+            isAddFavorite: false,
+            isAddLike: false,
+            isNew: false,
+            isOnline: this.user.is_online,
+            isPaying: this.user.is_paying,
+            isVerify: false,
+            isVip: false,
+            photo: this.user.fullPhoto,
+            region_name: '',
+            username: this.user.nick_name
+        };
+        console.log(this.user);
         const navigationExtras: NavigationExtras = {
             queryParams: {
                 data: JSON.stringify({
-                    user: this.user
+                    user
                 })
             }
         };
@@ -404,23 +430,6 @@ export class DialogPage implements OnInit {
         }
     }
 
-    showCantWriteAlert() {
-        this.alertCtrl.create({
-            header: this.cantWriteMessage.messageHeader,
-            message: this.cantWriteMessage.messageText,
-            backdropDismiss: false,
-            buttons: [
-                {
-                    text: this.cantWriteMessage.btns.ok,
-                }
-            ]
-        }).then(alert => alert.present());
-    }
-
-
-    ionViewDidLoad() {
-    }
-
     peerInit() {
         this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {});
 
@@ -442,28 +451,40 @@ export class DialogPage implements OnInit {
 
     peerSubscribes() {
         if (this.peerConnectionApp) {
-           this.consumePeerSignal(this.peerConnectionApp);
-        }
-
-        if (this.peerConnection) {
-            this.consumePeerSignal(this.peerConnection);
+            this.peerConnectionApp.on('data', data => {
+                data = JSON.parse(data);
+                console.log('data: ', data);
+                if (data.action == 'new') {
+                    // this.showTyping = false;
+                    this.peerMessage(data);
+                } else if (data.action == 'read') {
+                    for (const message of this.messages) {
+                        if (message.id == data.id) {
+                            message.isRead = true;
+                            break;
+                        }
+                    }
+                }
+            });
         }
     }
 
-    private consumePeerSignal(connection: any): void {
-        connection.on('data', data => {
-            data = JSON.parse(data);
-            if (data.action === 'new') {
-                this.peerMessage(data);
-            } else if (data.action === 'read') {
-                for (const message of this.messages) {
-                    if (message.id === data.id) {
-                        message.isRead = true;
-                        break;
+    showCantWriteAlert() {
+        this.alertCtrl.create({
+            header: this.cantWriteMessage.messageHeader,
+            message: this.cantWriteMessage.messageText,
+            backdropDismiss: false,
+            buttons: [
+                {
+                    text: this.cantWriteMessage.btns.ok,
+                    handler: () => {
+                        if (this.cantWriteMessage.link && this.cantWriteMessage.link != '') {
+                            this.router.navigate([this.cantWriteMessage.link]);
+                        }
                     }
                 }
-            }
-        });
+            ]
+        }).then(alert => alert.present());
     }
 
     tryConnect() {
@@ -487,6 +508,7 @@ export class DialogPage implements OnInit {
 
     peerMessage(message) {
         message.allowedToRead = this.allowedToReadMessage;
+
         this.messages.push(message);
         this.scrollToBottom(300);
         if (this.allowedToReadMessage) {
@@ -497,5 +519,4 @@ export class DialogPage implements OnInit {
             this.helperSend(JSON.stringify({id: message.id, action: 'notRead'}));
         }
     }
-
 }

@@ -49,6 +49,7 @@
                         <!--          </ion-card-content>-->
                     </ion-col>
 
+
                     <ion-col class="date-col">
                         <ion-card-content class="date" item-right>
                             {{msg.dateTime}}
@@ -85,11 +86,5 @@
     <ion-infinite-scroll #scroll position="top" threshold="60%" (ionInfinite)="moreMessages($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-
 </ion-content>
-<!--<ion-list *ngIf="showUl" class="quickMessOpt">-->
-<!--    <ion-item tappable (click)="sendQuickMessage(qm.id)" *ngFor="let qm of quickMessages"-->
-<!--              [ngClass]="{'checked': qm.id == checkedQm}"> {{ qm.text }}-->
-<!--        &lt;!&ndash;  <ion-button  slot="end"> שלח </ion-button>&ndash;&gt;-->
-<!--    </ion-item>-->
-<!--</ion-list>-->
+

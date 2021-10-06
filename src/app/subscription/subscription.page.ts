@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {Platform} from "@ionic/angular";
+
+import {ModalController} from '@ionic/angular';
+import {VipModalPage} from '../vip-modal/vip-modal.page';
+import {SelectModalPage} from '../select-modal/select-modal.page';
 
 @Component({
   selector: 'app-subscription',
@@ -16,7 +19,11 @@ export class SubscriptionPage implements OnInit {
   coupon = '';
   couponMessage: string;
 
-  constructor(public api: ApiQuery, public plt: Platform) {
+
+  constructor(
+      public api: ApiQuery,
+      private modalController: ModalController
+  ) {
     this.api.http.get(api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
       this.page = data;
       // this.page = false;
@@ -26,17 +33,43 @@ export class SubscriptionPage implements OnInit {
   ngOnInit() {
   }
 
-  subscribe(payment) {
-    this.browser = this.api.iab.create(this.page.url + '&amount=1&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount)
-        + '&coupon=' + this.coupon);
-    this.checkPaymentInterval = setInterval(() => {
-      this.checkPayment();
-    }, 100000);
-    const that = this;
-    setTimeout(() => {
-      clearInterval(this.checkPaymentInterval);
-    }, 300000); // 300000 = 5 minute
-    return false;
+  async subscribe(payment) {
+
+    if (typeof payment.noVipAmount == 'undefined') {
+      payment.noVipAmount = payment.amount;
+    }
+    const modal = await this.modalController.create({
+      component: VipModalPage,
+      componentProps: {
+        vipTexts: this.page.vipTexts,
+        payment,
+        vipPricePerMonth: this.page.vipPricePerMonth,
+        texts: this.page.vipTexts.actionButtonsText,
+      }
+    });
+    modal.present().then();
+
+    modal.onDidDismiss().then((data: any) => {
+      const newPayment = data.data.newPayment;
+      console.log(data);
+      const payUrl = this.page.url + '&amount=1&payPeriod=' + newPayment.period + '&prc=' + btoa(newPayment.amount)
+          + '&coupon=' + this.coupon + '&isVip=' + Number(newPayment.isVip);
+      this.browser = this.api.iab.create(payUrl);
+
+      this.checkPaymentInterval = setInterval(() => {
+          this.checkPayment();
+
+       }, 10000);
+
+      const that = this;
+
+      setTimeout(() => {
+        clearInterval(that.checkPaymentInterval);
+      }, 300000); // 300000 = 5 minute
+
+      return false;
+
+    });
   }
 
   ionViewWillEnter() {
@@ -47,6 +80,7 @@ export class SubscriptionPage implements OnInit {
     this.api.http.get(this.api.apiUrl + '/user/paying', this.api.header).subscribe((res: any) => {
       if (res.paying) {
         this.browser.close();
+        clearInterval(this.checkPaymentInterval);
         this.api.route.navigate(['/home']);
       }
     });
