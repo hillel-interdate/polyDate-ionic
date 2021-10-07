@@ -117,8 +117,12 @@ export class SubscriptionPage implements OnInit {
                 if (history) {
                     this.api.http.post(this.api.apiUrl + '/subs',
                         {history}, this.api.setHeaders(true))
-                        .subscribe(data => {
-                            this.router.navigate(['/home']).then();
+                        .subscribe((data: any) => {
+                            if (!data.canSubscribe) {
+                                this.router.navigate(['/home']).then();
+                            } else {
+                                return;
+                            }
                         }, err => console.log(err));
                 }
             });
