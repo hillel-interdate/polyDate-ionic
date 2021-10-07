@@ -1,103 +1,150 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiQuery} from '../api.service';
 
-import {ModalController} from '@ionic/angular';
+import {ModalController, Platform} from '@ionic/angular';
 import {VipModalPage} from '../vip-modal/vip-modal.page';
-import {SelectModalPage} from '../select-modal/select-modal.page';
+import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-subscription',
-  templateUrl: './subscription.page.html',
-  styleUrls: ['./subscription.page.scss'],
+    selector: 'app-subscription',
+    templateUrl: './subscription.page.html',
+    styleUrls: ['./subscription.page.scss'],
 })
+
+/*
+    Handling app store subscriptions - we open the product, listen for a success, and then send
+    the data to the server. Also, we look for existing subscriptions upon opening this page,
+    and we do it also when running apiService.sendPhoneId().
+ */
+
 export class SubscriptionPage implements OnInit {
 
-  page: any;
-  // iframe: true;
-  browser: any;
-  checkPaymentInterval: any;
-  coupon = '';
-  couponMessage: string;
+    page: any;
+    // iframe: true;
+    browser: any;
+    checkPaymentInterval: any;
+    coupon = '';
+    couponMessage: string;
 
 
-  constructor(
-      public api: ApiQuery,
-      private modalController: ModalController
-  ) {
-    this.api.http.get(api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
-      this.page = data;
-      // this.page = false;
-    });
-  }
-
-  ngOnInit() {
-  }
-
-  async subscribe(payment) {
-
-    if (typeof payment.noVipAmount == 'undefined') {
-      payment.noVipAmount = payment.amount;
+    constructor(
+        public api: ApiQuery,
+        public plt: Platform,
+        public iap: InAppPurchase,
+        public router: Router,
+        private modalController: ModalController
+    ) {
+        this.api.http.get(api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
+            this.page = data;
+            // this.page = false;
+            if (this.plt.is('ios')) {
+                this.iap.getProducts(this.page.productsList)
+                    .then(prods => {
+                        this.page.payments = prods;
+                    })
+                    .catch(err => console.log({err}));
+            }
+        });
     }
-    const modal = await this.modalController.create({
-      component: VipModalPage,
-      componentProps: {
-        vipTexts: this.page.vipTexts,
-        payment,
-        vipPricePerMonth: this.page.vipPricePerMonth,
-        texts: this.page.vipTexts.actionButtonsText,
-      }
-    });
-    modal.present().then();
 
-    modal.onDidDismiss().then((data: any) => {
-      const newPayment = data.data.newPayment;
-      console.log(data);
-      const payUrl = this.page.url + '&amount=1&payPeriod=' + newPayment.period + '&prc=' + btoa(newPayment.amount)
-          + '&coupon=' + this.coupon + '&isVip=' + Number(newPayment.isVip);
-      this.browser = this.api.iab.create(payUrl);
+    ngOnInit() {
+    }
 
-      this.checkPaymentInterval = setInterval(() => {
-          this.checkPayment();
+    async subscribe(payment) {
 
-       }, 10000);
+        if (this.plt.is('ios')) {
+            this.iap.subscribe(payment.productId).then(async success => {
+                let history = 'quack';
+                history = await this.iap.restorePurchases();
+                console.log({history});
+                if (history) {
+                    this.api.http.post(this.api.apiUrl + '/subs',
+                        {history, month: 'new'}, this.api.setHeaders(true))
+                        .subscribe(data => {
+                            console.log({data});
+                            this.router.navigate(['/home']).then();
+                        }, err => console.log(err));
+                }
+            }).catch(err => console.log(err));
+        } else {
+            if (typeof payment.noVipAmount == 'undefined') {
+                payment.noVipAmount = payment.amount;
+            }
+            const modal = await this.modalController.create({
+                component: VipModalPage,
+                componentProps: {
+                    vipTexts: this.page.vipTexts,
+                    payment,
+                    vipPricePerMonth: this.page.vipPricePerMonth,
+                    texts: this.page.vipTexts.actionButtonsText,
+                }
+            });
+            modal.present().then();
 
-      const that = this;
+            modal.onDidDismiss().then((data: any) => {
+                const newPayment = data.data.newPayment;
+                console.log(data);
+                const payUrl = this.page.url + '&amount=1&payPeriod=' + newPayment.period + '&prc=' + btoa(newPayment.amount)
+                    + '&coupon=' + this.coupon + '&isVip=' + Number(newPayment.isVip);
+                this.browser = this.api.iab.create(payUrl);
 
-      setTimeout(() => {
-        clearInterval(that.checkPaymentInterval);
-      }, 300000); // 300000 = 5 minute
+                this.checkPaymentInterval = setInterval(() => {
+                    this.checkPayment();
 
-      return false;
+                }, 10000);
 
-    });
-  }
+                const that = this;
 
-  ionViewWillEnter() {
-    this.api.pageName = 'SubscriptionPage';
-  }
+                setTimeout(() => {
+                    clearInterval(that.checkPaymentInterval);
+                }, 300000); // 300000 = 5 minute
 
-  checkPayment() {
-    this.api.http.get(this.api.apiUrl + '/user/paying', this.api.header).subscribe((res: any) => {
-      if (res.paying) {
-        this.browser.close();
-        clearInterval(this.checkPaymentInterval);
-        this.api.route.navigate(['/home']);
-      }
-    });
-  }
+                return false;
 
-  sendCoupon() {
-    console.log(this.coupon);
-    this.api.http.get(this.api.apiUrl + '/coupon?coupon=' + this.coupon, this.api.header).subscribe((data: any) => {
-      console.log(data);
-      if (!data.newPayments) {
-        alert(data.errorMessage);
-        this.coupon = '';
-      } else {
-        this.page.payments = data.newPayments;
-        this.couponMessage = data.successMessage;
-      }
-    });
-  }
+            });
+        }
+    }
+
+    ionViewWillEnter() {
+        this.api.pageName = 'SubscriptionPage';
+        this.api.http.get(this.api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
+            this.page = data;
+            // this.page = false;
+        });
+        if (this.plt.is('ios')) {
+            this.iap.restorePurchases().then((history) => {
+                if (history) {
+                    this.api.http.post(this.api.apiUrl + '/subs',
+                        {history}, this.api.setHeaders(true))
+                        .subscribe(data => {
+                            this.router.navigate(['/home']).then();
+                        }, err => console.log(err));
+                }
+            });
+        }
+    }
+
+    checkPayment() {
+        this.api.http.get(this.api.apiUrl + '/user/paying', this.api.header).subscribe((res: any) => {
+            if (res.paying) {
+                this.browser.close();
+                clearInterval(this.checkPaymentInterval);
+                this.api.route.navigate(['/home']);
+            }
+        });
+    }
+
+    sendCoupon() {
+        this.api.http.get(this.api.apiUrl + '/coupon?coupon=' + this.coupon, this.api.header).subscribe((data: any) => {
+            if (!data.newPayments) {
+                alert(data.errorMessage);
+                this.coupon = '';
+            } else {
+                this.page.payments = data.newPayments;
+                this.couponMessage = data.successMessage;
+            }
+        });
+    }
 }
 

@@ -9,8 +9,9 @@ import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 
 import * as $ from 'jquery';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
-import {reject} from "q";
-import {Route, Router} from "@angular/router";
+import {reject} from 'q';
+import {Route, Router} from '@angular/router';
+import {InAppPurchase} from "@ionic-native/in-app-purchase/ngx";
 
 
 @Injectable({
@@ -68,6 +69,7 @@ export class ApiQuery {
                 public route: Router,
                 private sanitizer: DomSanitizer,
                 public iab: InAppBrowser,
+                public iap: InAppPurchase,
                 public events: Events,
     ) {
 
@@ -108,10 +110,21 @@ export class ApiQuery {
         this.http.post(this.apiUrl + '/phones', data, this.setHeaders(true)).subscribe(data => {
             // alert('data after send id: ' + JSON.stringify(data));
         }), err => console.log('error was in send phone: ' + err);
+
+        // check once on login if the ios subscription is valid
+        if (this.platform.is('ios')) {
+        this.iap.restorePurchases().then( history => {
+        if (history) {
+            this.http.post(this.apiUrl + '/subs',
+                {history}, this.setHeaders(true))
+                .subscribe(subscription => {
+                }, err => console.log(err));
+        }});
+    }
     }
 
     functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
-        for (var i = 0; i < arraytosearch.length; i++) {
+        for (let i = 0; i < arraytosearch.length; i++) {
             if (arraytosearch[i][key] == valuetosearch) {
                 return i;
             }
@@ -124,7 +137,7 @@ export class ApiQuery {
             message: mess,
             showCloseButton: duration == 60000 ? true : false,
             closeButtonText: 'אישור',
-            duration: duration,
+            duration,
             animated: true
         });
         await toast.present();
@@ -223,7 +236,7 @@ export class ApiQuery {
 
     setLocation() {
         this.geolocation.getCurrentPosition().then(pos => {
-            let params = {
+            const params = {
                 latitude: pos.coords.latitude,
                 longitude: pos.coords.longitude
             };
@@ -302,12 +315,12 @@ export class ApiQuery {
                             id: param.chatId
                         }, this.setHeaders(true)).subscribe((data: any) => {
                             // let res = data.json();
-                            alert(8)
+                            alert(8);
                         });
                         this.videoChat = null;
                     };
 
-                    alert(9)
+                    alert(9);
                     this.videoChat = document.createElement('iframe');
                     this.videoChat.setAttribute('id', 'video-iframe');
                     alert(JSON.stringify(data));
@@ -323,12 +336,12 @@ export class ApiQuery {
                     this.videoChat.style.zIndex = '999';
                     this.videoChat.style['text-align'] = 'center';
 
-                    alert(10)
+                    alert(10);
                     document.body.appendChild(this.videoChat);
                     document.body.appendChild(closeButton);
 
                     if (param.alert == false) {
-                        alert(11)
+                        alert(11);
                         this.checkVideoStatus(param);
                     }
                 }
@@ -395,7 +408,7 @@ export class ApiQuery {
             }
 
             if (this.videoChat != null || this.callAlert != null) {
-                let that = this;
+                const that = this;
                 setTimeout(() => {
                     that.checkVideoStatus(param);
                 }, 3000);
