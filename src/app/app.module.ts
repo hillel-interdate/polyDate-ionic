@@ -26,6 +26,7 @@ import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 import {Deeplinks} from '@ionic-native/deeplinks/ngx';
 import {VipModalPageModule} from './vip-modal/vip-modal.module';
 import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
+import {PipeBucketModule} from './pipes/pipe-bucket.module';
 
 @NgModule({
     declarations: [AppComponent, SocialComponent],
@@ -41,6 +42,7 @@ import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
         HttpClientModule,
         IonicStorageModule.forRoot(),
         SelectModalPageModule,
+        PipeBucketModule,
         VipModalPageModule,
     ],
     providers: [
