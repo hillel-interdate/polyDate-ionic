@@ -1,19 +1,22 @@
-.page{
+.page {
   padding-bottom: 60px;
 }
-h1{
+
+h1 {
   font-size: 24px;
   text-align: center;
   padding: 12px 20px;
   margin: 15px;
   border-bottom: 2px solid crimson;
 }
-.subscriptions{
+
+.subscriptions {
   text-align: center;
   clear: both;
   margin: 0 -1.5%;
 }
-.subscription{
+
+.subscription {
   display: inline-block;
   width: 48%;
   background: #fff;
@@ -22,11 +25,12 @@ h1{
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   box-shadow: #c5c5c4 4px 4px 4px;
-  -moz-box-shadow:    #c5c5c4 4px 4px 4px;
+  -moz-box-shadow: #c5c5c4 4px 4px 4px;
   -webkit-box-shadow: #c5c5c4 4px 4px 4px;
   margin: 0px .3% 35px;
 }
-.wrap-pay{
+
+.wrap-pay {
   padding: 10px;
   border: 1px #c5c5c4 dashed;
   -webkit-border: 1px #c5c5c4 dashed;
@@ -35,7 +39,8 @@ h1{
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
 }
-.subscription .chackbox{
+
+.subscription .chackbox {
   border: 2px #555658 solid;
   -webkit-border: 2px #555658 solid;
   -moz-border: 2px #555658 solid;
@@ -47,7 +52,8 @@ h1{
   margin: 0 auto;
   padding: 3px;
 }
-.subscription .chackbox > span{
+
+.subscription .chackbox > span {
   display: block;
   width: 100%;
   height: 100%;
@@ -56,27 +62,32 @@ h1{
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 }
-.subscription .chackbox.click > span{
+
+.subscription .chackbox.click > span {
   background: #f20022;
 }
-.subscription .title{
+
+.subscription .title {
   color: #414147;
   font-size: 24px;
   font-weight: bold;
   line-height: 36px;
 }
-.subscription .price{
+
+.subscription .price {
   font-size: 24px;
   font-weight: bold;
   color: #e5000f;
   margin-bottom: 20px;
 }
-.subscription .description{
+
+.subscription .description {
   color: #434349;
   font-size: 17px;
   margin-bottom: 15px;
 }
-.subscription .month-price{
+
+.subscription .month-price {
   background: #e5000f;
   color: #fff;
   border-radius: 50%;
@@ -90,27 +101,40 @@ h1{
   padding-top: 30px;
 }
 
-.subscription .month-price > span.dollar + span{
+.subscription .month-price > span.dollar + span {
   font-size: 30px;
 }
 
-.subscription .month-price > span.month{
+.ios .subscription .month-price> .price-number {
+  font-size: 18px;
+}
+
+.ios .dollar {
+  display: none;
+}
+
+.price-number {
+  white-space: nowrap;
+}
+
+.subscription .month-price > span.month {
   display: block;
 }
 
-.table-subs{
+.table-subs {
   width: 94%;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   box-shadow: #c5c5c4 4px 4px 4px;
-  -moz-box-shadow:    #c5c5c4 4px 4px 4px;
+  -moz-box-shadow: #c5c5c4 4px 4px 4px;
   -webkit-box-shadow: #c5c5c4 4px 4px 4px;
   background: #ffffff;
   margin: 0px auto;
   font-size: 16px;
 }
-.table-subs .header-table{
+
+.table-subs .header-table {
   padding: 15px 15px 10px;
   background: #e7e3dd;
   font-weight: bold;
@@ -119,36 +143,36 @@ h1{
   -moz-border-radius: 10px 10px 0px 0px;
 }
 
-.table-subs .cell{
+.table-subs .cell {
   display: inline-block;
   width: 70px;
   vertical-align: middle;
 }
 
-.table-subs .header-table .cell{
+.table-subs .header-table .cell {
   text-align: center;
   font-weight: bold;
   vertical-align: bottom;
 }
 
-.table-subs .header-table > .cell:first-child, .table-subs .line > .cell:first-child{
+.table-subs .header-table > .cell:first-child, .table-subs .line > .cell:first-child {
   width: calc(100% - 150px);
   color: #616267;
 }
 
-.table-subs .header-table > .cell:first-child + .cell{
+.table-subs .header-table > .cell:first-child + .cell {
   color: #fe002c;
 }
 
-.table-subs .header-table > .cell:first-child + .cell + .cell{
+.table-subs .header-table > .cell:first-child + .cell + .cell {
   color: #4c4d53;
 }
 
-.table-subs .body{
+.table-subs .body {
   padding: 10px 15px 5px;
 }
 
-.line{
+.line {
   padding: 7px 0px;
   border-top: 1px #cbcbcb dotted;
   -webkit-border-top: 1px #cbcbcb dotted;
@@ -156,27 +180,28 @@ h1{
   display: block;
 }
 
-.table-subs .body .line:first-child{
+.table-subs .body .line:first-child {
   border-top: none;
   -webkit-border-top: none;
   -moz-border-top: none;
 }
 
-.cell.check-red{
+.cell.check-red {
   height: 20px;
   background: url(https://www.nyrichdate.com/images/pay-red-v.png) no-repeat center;
 }
 
-.cell.check-grey{
+.cell.check-grey {
   height: 20px;
   background: url(https://www.nyrichdate.com/images/pay-grey-v.png) no-repeat center;
 
 }
-.mid_title{
+
+.mid_title {
   margin: 0px auto 30px;
 }
 
-.text{
+.text {
   margin: 0px 15px 25px;
   font-size: 16px;
 }
@@ -187,16 +212,16 @@ h1{
 }
 
 @media all and (max-width: 640px) {
-  .subscription{
+  .subscription {
     width: 90%;
   }
 
 
-  .table-subs .cell{
+  .table-subs .cell {
     width: 50px;
     font-size: 12px;
   }
-  .table-subs .header-table > .cell:first-child, .table-subs .line > .cell:first-child{
+  .table-subs .header-table > .cell:first-child, .table-subs .line > .cell:first-child {
     width: calc(100% - 110px);
     font-size: 14px;
   }

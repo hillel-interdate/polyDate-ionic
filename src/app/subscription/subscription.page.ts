@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, isDevMode, OnInit} from '@angular/core';
 import {ApiQuery} from '../api.service';
 
 import {ModalController, Platform} from '@ionic/angular';
@@ -42,8 +42,7 @@ export class SubscriptionPage implements OnInit {
                 this.iap.getProducts(this.page.productsList)
                     .then(prods => {
                         this.page.payments = prods;
-                    })
-                    .catch(err => console.log({err}));
+                    }).catch(err => console.log({err}));
             }
         });
     }
@@ -55,14 +54,11 @@ export class SubscriptionPage implements OnInit {
 
         if (this.plt.is('ios')) {
             this.iap.subscribe(payment.productId).then(async success => {
-                let history = 'quack';
                 history = await this.iap.restorePurchases();
-                console.log({history});
                 if (history) {
                     this.api.http.post(this.api.apiUrl + '/subs',
                         {history, month: 'new'}, this.api.setHeaders(true))
                         .subscribe(data => {
-                            console.log({data});
                             this.router.navigate(['/home']).then();
                         }, err => console.log(err));
                 }
@@ -127,6 +123,8 @@ export class SubscriptionPage implements OnInit {
                 }
             });
         }
+
+
     }
 
     checkPayment() {

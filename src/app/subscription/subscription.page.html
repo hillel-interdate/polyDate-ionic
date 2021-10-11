@@ -18,8 +18,9 @@
                     <div class="price">₪{{ payment.noVipAmount ? payment.noVipAmount : payment.amount }}</div>
                     <div class="description">{{ payment.text }}</div>
                     <div class="month-price">
-                        <span class="dollar">₪</span><span>{{ payment.price }}</span>
+                        <span class="dollar">₪</span><span class="price-number">{{ payment.price }}</span>
                         <span class="month">{{ payment.text_price }}</span>
+
                     </div>
                 </div>
             </div>
