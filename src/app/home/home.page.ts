@@ -324,9 +324,10 @@ export class HomePage implements OnInit {
                 if (data.users.length < 10) {
                     this.loader = false;
                 }
-                for (const person of data.users) {
-                    this.users.push(person);
-                }
+
+                // this should prevent users from appearing twice
+                data.users.filter(newUser => !this.users.some(existingUser => existingUser.id === newUser.id))
+                    .forEach(filteredUser => this.users.push(filteredUser));
             });
         }
     }
