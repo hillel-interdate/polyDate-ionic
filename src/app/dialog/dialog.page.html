@@ -69,8 +69,12 @@
                       name="flag"></ion-icon>
             <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
         </ion-card>
+        <ion-infinite-scroll #scroll position="bottom" threshold="60%" (ionInfinite)="moreMessages($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
-
+</ion-content>
+<ion-footer>
     <ion-toolbar *ngIf="messages && (allowedToReadMessage || !clicked)" id="form-dialog">
         <div class="flex">
             <ion-button class="send-msg" (click)="sendMessage()" color="danger"
@@ -89,8 +93,6 @@
     <div class="not-allowed" *ngIf="!allowedToReadMessage && clicked"
          routerLink="/subscription"
          [innerHTML]="(payment?.textHtml1|pressHere) + '<br>' + payment?.textHtml2"></div>
-    <ion-infinite-scroll #scroll position="top" threshold="60%" (ionInfinite)="moreMessages($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-</ion-content>
 
+
+</ion-footer>
