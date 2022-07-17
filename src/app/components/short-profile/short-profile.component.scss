@@ -7,28 +7,8 @@ ion-card {
   border-radius: 12px;
 }
 
-ion-card-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  background-color: black;
-  color: white;
-  height: 52px;
-
-  .row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    flex-grow: 0;
-    flex-basis: 100%;
-    align-items: center;
-    justify-content: flex-start;
-
-    span {
-      font-size: 16px;
-    padding-inline-start: 8px;
-    }
-  }
+.username-age {
+  height: 30px;
 }
 
 .vip {
@@ -38,10 +18,11 @@ ion-card-title {
   }
 
   ion-card-title {
-    background: #ffffff47;
-    color: black;
-    border-bottom: 1px solid darkgoldenrod;
-    border-top: 1px solid darkgoldenrod;
+    height: 91px;
+    background: url(https://polydate.co.il/images/backgroundgold.jpg);
+    text-align: right;
+    color: #000;
+    font-size: 35px;
   }
 
   .row {
@@ -54,7 +35,7 @@ ion-card-title {
   }
 
   .user-section:after {
-    background: url(https://polydate.co.il/images/backgroundgold.jpg);
+    background: #f8d559;
     content: ' ';
     position: absolute;
     z-index: -1;
@@ -68,11 +49,32 @@ ion-card-title {
 
 }
 
+.wrap {
+  //background-color: black;
+  color:white;
+
+  .location {
+    float: right;
+  }
+  .distance {
+    float: left;
+    margin-right: 15px;
+  }
+}
+
+.age {
+  font-size: 20px;
+  display: inline-block;
+  margin-right: 5px;
+  line-height: 32px;
+  font-weight: bold;
+}
+
 .online {
-  top: 7px;
-  right: 10px;
+  top: 9px;
+  left: 155px;
   height: 12px;
-  width: 12px !important;
+  width: 12px!important;
   background-color: #45d362;
   position: absolute;
   border-radius: 100%;
@@ -88,7 +90,7 @@ ion-card-title {
   float: left;
 }
 
-.new-user {
+.new-user{
   background: url(../../../assets/img/icons/new.png) no-repeat;
   width: 26px;
   height: 26px;
@@ -104,60 +106,83 @@ ion-card-title {
   border-top-right-radius: 12px;
 }
 
-.long-name {
-  font-size: 12px !important;
+.long-name{
+  font-size: 16px !important;
   margin: 0 0 0 -2px;
-  padding: 0 !important;
+  padding: 0!important;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: bold;
+  padding-right: 5px;
+  margin-right: 2px;
+  line-height: 31px;
+  max-height: 31px;
+  overflow: hidden;
+  float: right;
+}
+
+.location {
+  font-size: 20px;
+  padding-right: 5px;
+  clear: both;
+}
+
+.ion-card-title {
+  height: 91px;
+  background: #ededed;
+  text-align: right;
+  color: #000;
+  font-size: 35px;
 }
 
 
-.ion-card-title {
-  margin: 0;
-  padding: 10px;
+
+
+ion-card-title {
   height: 62px;
-  background: black;
   text-align: right;
 }
 
 #mobmsg {
   background: url(https://www.polydate.co.il/images/main/send-msg.png) center no-repeat;
-  width: 20px;
-  height: 20px;
+  width: 37px;
+  height: 37px;
   background-size: contain;
 }
 
 #add-green {
   background: url(../../../assets/img/icons/fav-red.png) center no-repeat;
-  width: 20px;
-  height: 20px;
+  width: 37px;
+  height: 37px;
   background-size: contain;
 }
-
 #remove-green {
   background: url(../../../assets/img/icons/cap.png) center no-repeat;
-  width: 20px;
-  height: 20px;
+  width: 37px;
+  height: 37px;
   background-size: contain;
 }
 
 #like-red {
   background: url(../../../assets/img/icons/like-red.png) center no-repeat;
-  width: 20px;
-  height: 20px;
+  width: 37px;
+  height: 37px;
   background-size: contain;
 }
 
 #cap {
   background: url(../../../assets/img/icons/cap.png) center no-repeat;
-  width: 27px;
-  height: 20px;
+  width: 37px;
+  height: 37px;
   background-size: contain;
 }
 
 #unblock {
   background: url(../../../assets/img/icons/unblock.png) center no-repeat;
-  width: 27px;
-  height: 20px;
+  width: 37px;
+  height: 37px;
   background-size: contain;
 }
 
@@ -175,11 +200,25 @@ ion-card-title {
   border-radius: 12px;
 }
 
+
+.distance {
+  font-weight: bold;
+  position: absolute;
+  left: 8px;
+  bottom: 9px;
+  line-height: 14px;
+  direction: rtl;
+  font-size:14px;
+}
+
 ul.profile-btn {
   height: 47px;
   padding: 8px 0;
   margin: 0;
   color: black;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 ul.profile-btn li {
@@ -205,27 +244,35 @@ ul.profile-btn .btn div {
 
 .user-section {
   position: relative;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .user-section > .wrap {
-  background: white;
+  background: #ededed;
   border-radius: 12px;
+  width: 58%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 33px;
+  padding: 0 10px;
 }
 
 .usr_profile .avatar {
-  width: 100%;
-  height: 192px;
-  background-size: contain;
-  background-position: center;
-  border-radius: 11px 11px 0 0;
+  width: 63%;
+  height: 190px;
+  background-position: left;
+  background-size: cover;
+  border-radius: 11px 0px 0px 11px;
 }
 
-#video-chat {
+#video-chat{
   background: url(../../../assets/img/video/camera.png) center 6px no-repeat;
   width: 20px;
   height: 20px;
   background-size: 14px;
-  background-color: rgba(0, 0, 0, .6);
+  background-color: rgba(0,0,0,.6);
   border-radius: 50%;
 }
 
@@ -233,14 +280,47 @@ ul {
   list-style: none;
   padding: 0;
 }
-
 .card-md + ion-card, .page-hello-ionic .card-ios + ion-card {
   margin-top: 0;
 }
 
+.row {
+  background-color: #ededed;
+  color: black;
+  font-size: 23px;
+  display: block;
+  width: fit-content;
+  height: fit-content;
+}
 
 ion-card.vip {
   //border: 2px solid #f1c722;
   box-shadow: 1px -1px 6px 1px;
   z-index: 1;
 }
+
+
+
+.vip .user-section > .wrap {
+  background: #f8d559;
+  box-shadow: inset -2px 1px 13px 0px black;
+  border-radius: 0;
+}
+
+.vip.usr_profile .avatar {
+  box-shadow: inset 7px -2px 13px 0px black;
+}
+
+.vip .user-section > .wrap {
+  background: #f8d559;
+  box-shadow: inset -4px -1px 13px 0px black;
+}
+
+.user-section > .wrap {
+  border-radius: 0;
+}
+
+.vip ion-card-title {
+  background: transparent;
+}
+

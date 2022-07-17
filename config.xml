@@ -129,4 +129,5 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="PolyDate would like to help you share your photos with other users" />
     </plugin>
     <plugin name="cordova-plugin-telerik-imagepicker" spec="^2.3.3" />
+    <engine name="android" spec="^8.1.0" />
 </widget>

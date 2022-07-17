@@ -5,6 +5,12 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {RouterModule, Routes} from '@angular/router';
 
+// const routes: Routes = [
+//     {
+//         path: 'vcfg',
+//         component: ShortProfileComponent
+//     }
+// ];‎
 @NgModule({
     declarations: [ShortProfileComponent],
     imports: [

@@ -109,87 +109,87 @@ export class LoginPage implements OnInit {
         this.api.hideLoad();
     }
 
-    loginFB() {
-        this.fb.getLoginStatus().then((
-            res: FacebookLoginResponse) => {
-            console.log('Logged into Facebook!', res);
-            if (res.status == 'connected') {
-                this.getFBData(res);
-            } else {
-                this.fb.login(['email']).then((
-                    fbres: FacebookLoginResponse) => {
-                    console.log('Logged into Facebook!', fbres);
-                    this.getFBData(fbres);
-                }).catch(e => console.log('Error logging into Facebook', e));
-            }
-        }).catch(e => console.log('Error logging into Facebook', e));
-    }
-
-    getFBData(status) {
-        this.fb.api('/me?fields=email,id', ['email']).then(
-            res => {
-                // alert(JSON.stringify(res));
-                this.checkBFData(res);
-            }).catch(e => console.log('Error getData into Facebook ' + e));
-    }
-
-    checkBFData(fbData) {
-        this.form.login.username.value = '';
-        this.form.login.password.value = '';
-        const postData = JSON.stringify({facebook_id: fbData.id});
-        this.api.http.post(this.api.openUrl + '/logins.json', postData, this.setHeaders()).subscribe((data: any) => {
-            if (data.user.login == '1') {
-                this.api.storage.set('user_data', {
-                    username: data.user.username,
-                    password: data.user.password,
-                    status: data.user.status,
-                    user_id: data.user.id,
-                    user_photo: data.user.photo
-                });
-                this.api.setHeaders(true, data.user.username, data.user.password);
-                this.router.navigate(['/home']);
-                this.api.storage.get('deviceToken').then((deviceToken) => {
-                    if (deviceToken) {
-                        this.api.sendPhoneId(deviceToken);
-                    }
-                });
-            } else {
-                this.alertCtrl.create({
-                    header: this.form.login.facebook.pop_header,
-                    message: this.form.login.facebook.pop_message,
-                    buttons: [
-                        {
-                            text: this.form.login.facebook.pop_button,
-                            handler: () => {
-                                const data = JSON.stringify({
-                                    user:
-                                        {
-                                            email: fbData.email,
-                                            facebook_id: fbData.id
-                                        },
-                                    step: 0
-                                });
-                                const navigationExtras: NavigationExtras = {
-                                    queryParams: {
-                                        params: data
-                                    }
-                                };
-                                this.router.navigate(['/registration'], navigationExtras);
-                            }
-                        },
-                        {
-                            text: this.form.login.facebook.pop_cancel,
-                            role: 'cancel',
-                            handler: () => this.fbId = fbData.id
-                        }
-                    ]
-                }).then(alert => alert.present());
-
-            }
-        }, err => {
-            console.log('login: ', err);
-        });
-    }
+    // loginFB() {
+    //     this.fb.getLoginStatus().then((
+    //         res: FacebookLoginResponse) => {
+    //         console.log('Logged into Facebook!', res);
+    //         if (res.status == 'connected') {
+    //             this.getFBData(res);
+    //         } else {
+    //             this.fb.login(['email']).then((
+    //                 fbres: FacebookLoginResponse) => {
+    //                 console.log('Logged into Facebook!', fbres);
+    //                 this.getFBData(fbres);
+    //             }).catch(e => console.log('Error logging into Facebook', e));
+    //         }
+    //     }).catch(e => console.log('Error logging into Facebook', e));
+    // }
+    //
+    // getFBData(status) {
+    //     this.fb.api('/me?fields=email,id', ['email']).then(
+    //         res => {
+    //             // alert(JSON.stringify(res));
+    //             this.checkBFData(res);
+    //         }).catch(e => console.log('Error getData into Facebook ' + e));
+    // }
+    //
+    // checkBFData(fbData) {
+    //     this.form.login.username.value = '';
+    //     this.form.login.password.value = '';
+    //     const postData = JSON.stringify({facebook_id: fbData.id});
+    //     this.api.http.post(this.api.openUrl + '/logins.json', postData, this.setHeaders()).subscribe((data: any) => {
+    //         if (data.user.login == '1') {
+    //             this.api.storage.set('user_data', {
+    //                 username: data.user.username,
+    //                 password: data.user.password,
+    //                 status: data.user.status,
+    //                 user_id: data.user.id,
+    //                 user_photo: data.user.photo
+    //             });
+    //             this.api.setHeaders(true, data.user.username, data.user.password);
+    //             this.router.navigate(['/home']);
+    //             this.api.storage.get('deviceToken').then((deviceToken) => {
+    //                 if (deviceToken) {
+    //                     this.api.sendPhoneId(deviceToken);
+    //                 }
+    //             });
+    //         } else {
+    //             this.alertCtrl.create({
+    //                 header: this.form.login.facebook.pop_header,
+    //                 message: this.form.login.facebook.pop_message,
+    //                 buttons: [
+    //                     {
+    //                         text: this.form.login.facebook.pop_button,
+    //                         handler: () => {
+    //                             const data = JSON.stringify({
+    //                                 user:
+    //                                     {
+    //                                         email: fbData.email,
+    //                                         facebook_id: fbData.id
+    //                                     },
+    //                                 step: 0
+    //                             });
+    //                             const navigationExtras: NavigationExtras = {
+    //                                 queryParams: {
+    //                                     params: data
+    //                                 }
+    //                             };
+    //                             this.router.navigate(['/registration'], navigationExtras);
+    //                         }
+    //                     },
+    //                     {
+    //                         text: this.form.login.facebook.pop_cancel,
+    //                         role: 'cancel',
+    //                         handler: () => this.fbId = fbData.id
+    //                     }
+    //                 ]
+    //             }).then(alert => alert.present());
+    //
+    //         }
+    //     }, err => {
+    //         console.log('login: ', err);
+    //     });
+    // }
 
     formSubmit() {
         let postData = '';

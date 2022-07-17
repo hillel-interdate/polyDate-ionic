@@ -11,9 +11,9 @@ import {ShortUser} from '../../interfaces/short-user';
 })
 export class ShortProfileComponent implements OnInit {
 
-  @Input() user: ShortUser;
-  @Input() params;
-  @Input() texts;
+  @Input('user') user: ShortUser;
+  @Input('params') params;
+  @Input('texts') texts;
 
   constructor(
       public api: ApiQuery,
@@ -42,7 +42,6 @@ export class ShortProfileComponent implements OnInit {
   }
 
   toDialog(user) {
-    // tslint:disable-next-line:no-string-literal
     this.api.data['user'] = user;
     this.api.route.navigate(['/dialog']);
   }
@@ -98,7 +97,7 @@ export class ShortProfileComponent implements OnInit {
     this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
       // this.loader = true;
       this.api.toastCreate(data.success, 2500);
-      console.log('in there');
+      // console.log('in there');
       if (data.users.length >= 9) {
         // this.loader = false;
       }
