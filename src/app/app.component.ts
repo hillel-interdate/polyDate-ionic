@@ -677,12 +677,12 @@ export class AppComponent implements AfterViewInit {
 
     goTo() {
         this.api.http.get(this.api.openUrl + '/banner/click?id=' + this.banner.id, this.api.header).subscribe(() => {
-            if (!(this.platform.is('cordova') && this.platform.is('ios'))) {
-                window.open(this.banner.link, '_system', );
-            } else {
-                window.location.href = this.banner.link;
-            }
-
+            const navigationExtras = {
+                queryParams: {
+                    url: this.banner.link,
+                }
+            };
+            this.router.navigate(['/iframe'], navigationExtras)
         });
         return false;
     }
