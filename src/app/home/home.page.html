@@ -25,11 +25,11 @@
     </div>
 
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
-    <div class="ion-list">
+    <ion-virtual-scroll [items]="users" class="ion-list">
 
-      <app-short-profile *ngFor="let user of users" [user]="user" [params]="params" [texts]="texts"></app-short-profile>
+        <app-short-profile *virtualItem="let user;" [user]="user" [params]="params" [texts]="texts"></app-short-profile>
 
-    </div>
+    </ion-virtual-scroll>
     <div *ngIf="loader && users != []" class="loader"><img src="../../assets/img/loader.gif"></div>
     <ion-infinite-scroll  threshold="300px"  (ionInfinite)="moreUsers($event)" >
         <ion-infinite-scroll-content loading-spinner="bubbles"></ion-infinite-scroll-content>
