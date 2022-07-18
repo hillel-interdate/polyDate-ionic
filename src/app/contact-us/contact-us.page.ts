@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ToastController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
 import * as $ from 'jquery';
+import { Device } from '@ionic-native/device/ngx';
 // declare var $: any;
 
 
@@ -13,7 +14,8 @@ import * as $ from 'jquery';
 @Component({
     selector: 'page-contact-us',
     templateUrl: 'contact-us.page.html',
-    styleUrls: ['contact-us.page.scss']
+    styleUrls: ['contact-us.page.scss'],
+    providers: [Device]
 })
 export class ContactUsPage {
 
@@ -29,7 +31,8 @@ export class ContactUsPage {
     };
 
     constructor(public api: ApiQuery,
-                public toastCtrl: ToastController) {
+                public toastCtrl: ToastController,
+                public device: Device) {
 
 
         this.api.http.get(this.api.openUrl + '/contact', api.header).subscribe((data: any) => {
@@ -79,7 +82,11 @@ export class ContactUsPage {
                 contact: {
                     email: this.user_id ? this.user_id : this.form.email.value,
                     text: this.form.text.value,
-                    subject: this.form.subject.value
+                    subject: this.form.subject.value,
+                    osVersion: this.device.version,
+                    model: this.device.model,
+                    manufacturer: this.device.manufacturer,
+                    uuid: this.device.uuid
                     //_token: this.form._token.value,
                 }
             };
