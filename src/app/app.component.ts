@@ -259,8 +259,12 @@ export class AppComponent implements AfterViewInit {
     pushHandler(data) {
         const pushExtraData = data.additionalData;
         if (pushExtraData.type == 'linkOut') {
-            // console.log('in if linkOut');
-            this.iap.create(pushExtraData.url);
+            const navigationExtras = {
+                queryParams: {
+                    url: pushExtraData.url,
+                }
+            };
+            this.router.navigate(['/iframe'], navigationExtras)
         } else {
 
             this.api.storage.get('user_data').then((val) => {

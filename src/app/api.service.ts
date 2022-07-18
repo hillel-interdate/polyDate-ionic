@@ -76,14 +76,14 @@ export class ApiQuery {
         this.url = 'https://polydate.co.il';
 
 
-        this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v5/he';
-        this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v5/he';
+        // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v5/he';
+        // this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v5/he';
         //
-        // this.apiUrl = 'https://polydate.co.il/api/v5/he';
-        // this.openUrl = 'https://polydate.co.il/open_api/v5/he';
+        this.apiUrl = 'https://polydate.co.il/api/v5/he';
+        this.openUrl = 'https://polydate.co.il/open_api/v5/he';
 
         this.footer = true;
-        this.version = this.platform.is('android') ? 17 : 2;
+        this.version = this.platform.is('android') ? 17 : 3;
 
     }
 
