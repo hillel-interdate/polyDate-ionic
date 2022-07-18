@@ -5,7 +5,6 @@ import {ApiQuery} from '../api.service';
 import {HttpHeaders} from '@angular/common/http';
 import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import {FingerprintAIO} from '@ionic-native/fingerprint-aio/ngx';
-import {Facebook, FacebookLoginResponse} from '@ionic-native/facebook/ngx';
 import * as $ from 'jquery';
 import {Events} from '@ionic/angular';
 import {AlertController} from '@ionic/angular';
@@ -24,7 +23,7 @@ import {Form, FormArray, FormGroup} from '@angular/forms';
     providers: [
         FingerprintAIO,
         Keyboard,
-        Facebook,
+        // Facebook,
         // InAppPurchase
     ]
 
@@ -48,7 +47,7 @@ export class LoginPage implements OnInit {
         private faio: FingerprintAIO,
         public router: Router,
         public events: Events,
-        public fb: Facebook,
+        // public fb: Facebook,
         public alertCtrl: AlertController,
         public route: ActivatedRoute,
         public splashScreen: SplashScreen,
