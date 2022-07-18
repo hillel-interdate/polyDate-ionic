@@ -1,5 +1,5 @@
 import {Component, ViewChild, OnInit, ElementRef} from '@angular/core';
-import {ToastController, Events, ModalController, IonRouterOutlet, NavController} from '@ionic/angular';
+import {ToastController, Events, ModalController, IonRouterOutlet, NavController, IonVirtualScroll} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from '@angular/router';
@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
     @ViewChild(IonContent, {static: false}) content: IonContent;
     @ViewChild(IonInfiniteScroll, {static: false}) infiniteScroll: IonInfiniteScroll;
     @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
+    @ViewChild(IonVirtualScroll, {static: false}) virtualScroll: IonVirtualScroll;
 
     public options: { filter: any } = {filter: 1};
     list: any;
@@ -311,7 +312,7 @@ export class HomePage implements OnInit {
     }
 
 
-    moreUsers(event) {
+     moreUsers(event) {
 
         if (this.loader) {
             this.params.page++;
@@ -328,6 +329,7 @@ export class HomePage implements OnInit {
                 // this should prevent users from appearing twice
                 data.users.filter(newUser => !this.users.some(existingUser => existingUser.id === newUser.id))
                     .forEach(filteredUser => this.users.push(filteredUser));
+                this.virtualScroll.checkEnd();
             });
         }
     }
