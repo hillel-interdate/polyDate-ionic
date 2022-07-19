@@ -54,11 +54,18 @@ export class SubscriptionPage implements OnInit {
 
         if (this.plt.is('ios')) {
             this.iap.subscribe(payment.productId).then(async success => {
+                console.log('success')
+                console.log(success)
                 history = await this.iap.restorePurchases();
                 if (history) {
+                    console.log('history')
+                    console.log(history)
                     this.api.http.post(this.api.apiUrl + '/subs',
                         {history, month: 'new'}, this.api.setHeaders(true))
                         .subscribe(data => {
+                            console.log('data')
+                            console.log(data)
+                            this.api.isPay = true;
                             this.router.navigate(['/home']).then();
                         }, err => console.log(err));
                 }
@@ -115,6 +122,7 @@ export class SubscriptionPage implements OnInit {
                         {history}, this.api.setHeaders(true))
                         .subscribe((data: any) => {
                             if (!data.canSubscribe) {
+                                this.api.isPay = true;
                                 this.router.navigate(['/home']).then();
                             } else {
                                 return;

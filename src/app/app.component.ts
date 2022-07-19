@@ -124,6 +124,7 @@ export class AppComponent implements AfterViewInit {
                     this.api.setLocation();
                     this.api.getThereForPopup();
 
+
                 });
 
             }

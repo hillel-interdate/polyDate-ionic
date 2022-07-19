@@ -117,7 +117,10 @@ export class ApiQuery {
         if (history) {
             this.http.post(this.apiUrl + '/subs',
                 {history}, this.setHeaders(true))
-                .subscribe(subscription => {
+                .subscribe((subscription: any) => {
+                    if (subscription.payment) {
+                        this.isPay = true;
+                    }
                 }, err => console.log(err));
         }});
     }

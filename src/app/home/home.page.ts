@@ -12,6 +12,7 @@ import {ChangeDetectorRef} from '@angular/core';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 
 import {ShortUser} from '../interfaces/short-user';
+import {InAppPurchase} from "@ionic-native/in-app-purchase/ngx";
 
 
 @Component({
@@ -59,7 +60,8 @@ export class HomePage implements OnInit {
                 public splashScreen: SplashScreen,
                 public platform: Platform,
                 public changeRef: ChangeDetectorRef,
-                public iap: InAppBrowser,
+                public iab: InAppBrowser,
+                public iap: InAppPurchase,
                 public navCtrl: NavController) {
 
 
@@ -140,6 +142,9 @@ export class HomePage implements OnInit {
             }
         });
 
+
+
+
     }
 
 
@@ -196,7 +201,29 @@ export class HomePage implements OnInit {
             this.getUsers();
         });
 
+
+        if (this.platform.is('ios')) {
+            this.iap.restorePurchases().then((history) => {
+                console.log(history)
+                if (history) {
+                    this.api.http.post(this.api.apiUrl + '/subs',
+                        {history}, this.api.setHeaders(true))
+                        .subscribe((data: any) => {
+                            alert(data)
+                            alert(JSON.stringify(data));
+                            if (data.payment) {
+                                this.api.isPay = true;
+                            }
+                                return;
+                            // }
+                        }, err => console.log(err));
+                }
+            });
+        }
+
         this.api.pageName = 'HomePage';
+
+
     }
 
     ionViewWillLeave() {
