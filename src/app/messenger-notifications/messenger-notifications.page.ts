@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiQuery} from "../api.service";
 import {ActivatedRoute, NavigationExtras} from "@angular/router";
 import {IonContent} from '@ionic/angular';
-
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-messenger-notifications',
@@ -28,13 +28,12 @@ export class MessengerNotificationsPage implements OnInit {
     this.activatedRoute.queryParams.subscribe((data) => {
       this.data = this.api.route.getCurrentNavigation().extras.state.notifications;
       this.notifications = this.data.notifications;
-      console.log(this.notifications);
     });
 
     this.setAsRead();
 
-    this.content.scrollToBottom().then(() => {});
   }
+
 
   openPage(notification) {
     if (notification.push) {
@@ -83,7 +82,15 @@ export class MessengerNotificationsPage implements OnInit {
 
   ionViewWillEnter() {
     this.api.pageName = 'MessengerNotifications';
+    this.scrollToBottom(500, 0);
+  }
 
+  scrollToBottom(t, s = 300) {
+    setTimeout(() => {
+      this.content.scrollToBottom(s).then(() => {
+      });
+      $('.content').scrollTop(99999);
+    }, t);
   }
 
 }

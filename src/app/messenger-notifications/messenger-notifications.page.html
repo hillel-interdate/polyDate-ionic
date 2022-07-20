@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content #ionContent>
+<ion-content [scrollEvents]="true">
 
 <!--  <div class="header">-->
 <!--    <h3> הודעות מערכת </h3>-->
@@ -17,7 +17,7 @@
     </ion-list>
   </ion-card>
 
-  <div class="content">
+  <div class="content" #content id="content" >
 
     <div (click)="api.onBack()" class="back-btn">
       <ion-icon name="ios-arrow-forward"></ion-icon>
