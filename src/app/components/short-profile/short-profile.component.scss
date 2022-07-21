@@ -3,8 +3,10 @@
 }
 
 ion-card {
+  padding: 4px;
   margin: 7px 5px;
-  border-radius: 12px;
+  border: 1px solid #404040;
+  border-radius: 24px;
 }
 
 .username-age {
@@ -18,7 +20,8 @@ ion-card {
   }
 
   ion-card-title {
-    height: 91px;
+    height: 56px;
+    width: 115px;
     background: url(https://polydate.co.il/images/backgroundgold.jpg);
     text-align: right;
     color: #000;
@@ -30,9 +33,7 @@ ion-card {
     color: black;
   }
 
-  .user-section > .wrap {
-    background: transparent;
-  }
+
 
   .user-section:after {
     background: #f8d559;
@@ -63,7 +64,7 @@ ion-card {
 }
 
 .age {
-  font-size: 20px;
+  font-size: 19px;
   display: inline-block;
   margin-right: 5px;
   line-height: 32px;
@@ -113,7 +114,7 @@ ion-card {
 }
 
 .name {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: bold;
   padding-right: 5px;
   margin-right: 2px;
@@ -124,9 +125,11 @@ ion-card {
 }
 
 .location {
-  font-size: 20px;
-  padding-right: 5px;
+  font-size: 14px;
+  padding-right: 6px;
   clear: both;
+  height: 34px;
+  line-height: 19px;
 }
 
 .ion-card-title {
@@ -195,20 +198,15 @@ ion-card-title {
 }
 
 
-.user-section {
-  border: 1px solid #404040;
-  border-radius: 12px;
-}
-
 
 .distance {
   font-weight: bold;
   position: absolute;
-  left: 8px;
-  bottom: 9px;
+  left: 6px;
+  bottom: 12px;
   line-height: 14px;
   direction: rtl;
-  font-size:14px;
+  font-size: 14px;
 }
 
 ul.profile-btn {
@@ -218,19 +216,12 @@ ul.profile-btn {
   color: black;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  flex-direction: column-reverse;
 }
 
-ul.profile-btn li {
-  margin-left: 15%;
-  float: none;
-  margin: 0 auto;
-}
 
 ul.profile-btn .btn {
-  margin-left: 3%;
-  width: 30%;
-  float: left;
+  margin: 3px auto;
 }
 
 ul.profile-btn .btn div {
@@ -253,18 +244,19 @@ ul.profile-btn .btn div {
   border-radius: 12px;
   width: 58%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  font-size: 33px;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  font-size: 37px;
   padding: 0 10px;
+  align-items: flex-end;
 }
 
 .usr_profile .avatar {
-  width: 63%;
+  width: 70%;
   height: 190px;
   background-position: left;
   background-size: cover;
-  border-radius: 11px 0px 0px 11px;
+  border-radius: 20px 0 0 20px;
 }
 
 #video-chat{
@@ -289,8 +281,8 @@ ul {
   color: black;
   font-size: 23px;
   display: block;
-  width: fit-content;
   height: fit-content;
+  width: 120px;
 }
 
 ion-card.vip {
