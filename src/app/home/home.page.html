@@ -25,9 +25,9 @@
     </div>
 
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
-    <ion-virtual-scroll [items]="users" class="ion-list">
+    <ion-virtual-scroll [items]="users" class="ion-list" approxItemHeight="2000px">
 
-        <app-short-profile *virtualItem="let user;" [user]="user" [params]="params" [texts]="texts"></app-short-profile>
+        <app-short-profile *virtualItem="let user;" [user]="user" [params]="params"  [texts]="texts"></app-short-profile>
 
     </ion-virtual-scroll>
     <div *ngIf="loader && users != []" class="loader"><img src="../../assets/img/loader.gif"></div>

@@ -113,17 +113,17 @@ export class ApiQuery {
 
         // check once on login if the ios subscription is valid
         if (this.platform.is('ios')) {
-        this.iap.restorePurchases().then( history => {
-        if (history) {
-            this.http.post(this.apiUrl + '/subs',
-                {history}, this.setHeaders(true))
-                .subscribe((subscription: any) => {
-                    if (subscription.payment) {
-                        this.isPay = true;
-                    }
-                }, err => console.log(err));
-        }});
-    }
+            this.iap.restorePurchases().then( history => {
+                if (history) {
+                    this.http.post(this.apiUrl + '/subs',
+                        {history}, this.setHeaders(true))
+                        .subscribe((subscription: any) => {
+                            if (subscription.payment) {
+                                this.isPay = true;
+                            }
+                        }, err => console.log(err));
+                }});
+        }
     }
 
     functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {

@@ -148,6 +148,10 @@ export class HomePage implements OnInit {
     }
 
 
+    ionViewDidEnter() {
+        window.dispatchEvent(new Event('resize'));
+    }
+
     ionViewWillEnter() {
 
 
@@ -209,12 +213,12 @@ export class HomePage implements OnInit {
                     this.api.http.post(this.api.apiUrl + '/subs',
                         {history}, this.api.setHeaders(true))
                         .subscribe((data: any) => {
-                            alert(data)
-                            alert(JSON.stringify(data));
+                            // alert(data)
+                            // alert(JSON.stringify(data));
                             if (data.payment) {
                                 this.api.isPay = true;
                             }
-                                return;
+                            return;
                             // }
                         }, err => console.log(err));
                 }
@@ -300,6 +304,7 @@ export class HomePage implements OnInit {
     }
 
     getUsers(test = false) {
+        // alert('getUsers')
         this.splashScreen.hide();
         if (!this.api.back || test === true) {
             if (!this.params.page) {
@@ -339,10 +344,14 @@ export class HomePage implements OnInit {
     }
 
 
-     moreUsers(event) {
+    moreUsers(event) {
 
+        // alert('moreUsers')
         if (this.loader) {
-            this.params.page++;
+            // if (!this.api.back) {
+            //     alert(this.api.back)
+                this.params.page++;
+            // }
             if (!this.params.page && !this.api.back) {
                 this.params.page = 2;
             }

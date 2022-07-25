@@ -208,4 +208,9 @@ export class SearchPage {
     window.removeEventListener('keyboardWillHide', this.onKeyboardHide);
   }
 
+
+  ionViewDidLeave() {
+    window.dispatchEvent(new Event('resize'));
+  }
+
 }

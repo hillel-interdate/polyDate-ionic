@@ -517,4 +517,8 @@ export class DialogPage implements OnInit {
             this.helperSend(JSON.stringify({id: message.id, action: 'notRead'}));
         }
     }
+
+    ionViewDidLeave() {
+        window.dispatchEvent(new Event('resize'));
+    }
 }
