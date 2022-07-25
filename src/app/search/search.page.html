@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content padding id="content">
+  <div (click)="api.onBack(true)" class="back-btn">
+    <div class="back-wrap">
+      <ion-icon name="ios-arrow-forward"></ion-icon>
+    </div>
+  </div>
   <div class="search-container" *ngIf="form">
     <div class="border-top">
       <div (click)="openSelect2('gender')" ngDefaultControl [(ngModel)]="form?.gender.value">
