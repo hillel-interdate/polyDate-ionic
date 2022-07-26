@@ -71,7 +71,7 @@ ion-card {
 
 .online {
   top: 9px;
-  left: 155px;
+  left: 205px;
   height: 12px;
   width: 12px!important;
   background-color: #45d362;
@@ -93,11 +93,21 @@ ion-card {
   background: url(../../../assets/img/icons/new.png) no-repeat;
   width: 26px;
   height: 26px;
-  position: absolute;
+  //position: absolute;
   background-size: cover;
-  left: 8px;
-  top: 2px;
+  //left: 8px;
+  //top: 2px;
   z-index: 99;
+}
+
+.paying {
+  position: unset!important;
+}
+
+.right-icons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 .user-section > img {
@@ -187,10 +197,10 @@ ion-card-title {
 
 .verify {
   background: url(../../../assets/img/icons/verify.png) center no-repeat;
-  height: 49px;
-  width: 50px;
-  position: absolute;
-  bottom: 107px;
+  height: 50px;
+  width: 39px;
+  //position: absolute;
+  //bottom: 107px;
 }
 
 
