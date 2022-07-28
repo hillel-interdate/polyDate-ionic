@@ -9,6 +9,7 @@ ion-card {
 
 .username-age {
   height: 30px;
+  margin-top: 19px;
 }
 
 .vip {
@@ -70,8 +71,8 @@ ion-card {
 }
 
 .online {
-  top: 9px;
-  left: 205px;
+  top: 16px;
+  left: 180px;
   height: 12px;
   width: 12px!important;
   background-color: #45d362;
@@ -127,9 +128,11 @@ ion-card {
   padding-right: 5px;
   margin-right: 2px;
   line-height: 31px;
-  max-height: 31px;
+  max-height: 29px;
   overflow: hidden;
-  float: right;
+  display: inline-block;
+  vertical-align: sub;
+  max-width: 100px;
 }
 
 .location {
@@ -152,6 +155,7 @@ ion-card {
 ion-card-title {
   height: 62px;
   text-align: right;
+  max-width: 90px;
 }
 
 #mobmsg {
@@ -214,8 +218,13 @@ ion-card-title {
   font-weight: bold;
   line-height: 14px;
   direction: rtl;
-  font-size:14px;
-  margin-top: 65px;
+  font-size: 14px;
+  position: absolute;
+  bottom: 32px;
+  width: 105px;
+  color: #000;
+  margin-right: 19px;
+  right: 54px;
 }
 
 ul.profile-btn {
@@ -225,7 +234,6 @@ ul.profile-btn {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  row-gap: 18px;
   padding: 23px 0;
 }
 
@@ -239,6 +247,7 @@ ul.profile-btn .btn {
   margin-left: 3%;
   width: 30%;
   float: left;
+  margin: 7px 0;
 }
 
 ul.profile-btn .btn div {
@@ -299,6 +308,8 @@ ul {
   display: block;
   width: fit-content;
   height: fit-content;
+  margin-right: 5px;
+
 }
 
 ion-card.vip {
