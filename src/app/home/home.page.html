@@ -25,7 +25,7 @@
     </div>
 
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
-    <ion-virtual-scroll [items]="users" class="ion-list" approxItemHeight="2000px">
+    <ion-virtual-scroll [items]="users" class="ion-list" approxItemHeight="200px">
 
         <app-short-profile *virtualItem="let user;" [user]="user" [params]="params"  [texts]="texts"></app-short-profile>
 

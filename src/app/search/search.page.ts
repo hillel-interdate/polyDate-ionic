@@ -206,11 +206,12 @@ export class SearchPage {
     $('.footerMenu').show();
     window.removeEventListener('keyboardWillShow', this.onKeyboardShow);
     window.removeEventListener('keyboardWillHide', this.onKeyboardHide);
+    // window.dispatchEvent(new Event('resize'));
   }
 
 
-  ionViewDidLeave() {
-    window.dispatchEvent(new Event('resize'));
-  }
+  // ionViewDidLeave() {
+  //   window.dispatchEvent(new Event('resize'));
+  // }
 
 }

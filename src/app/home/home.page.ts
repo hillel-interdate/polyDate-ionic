@@ -149,7 +149,9 @@ export class HomePage implements OnInit {
 
 
     ionViewDidEnter() {
-        window.dispatchEvent(new Event('resize'));
+        // setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        // }, 500)
     }
 
     ionViewWillEnter() {
@@ -355,6 +357,8 @@ export class HomePage implements OnInit {
             if (!this.params.page && !this.api.back) {
                 this.params.page = 2;
             }
+            // this.params.page = 2;
+            // alert(this.params.page)
             this.params_str = JSON.stringify(this.params);
             this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
                 event.target.complete();

@@ -519,6 +519,6 @@ export class DialogPage implements OnInit {
     }
 
     ionViewDidLeave() {
-        window.dispatchEvent(new Event('resize'));
+        // window.dispatchEvent(new Event('resize'));
     }
 }
