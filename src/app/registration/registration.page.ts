@@ -257,6 +257,9 @@ export class RegistrationPage implements OnInit {
             this.user.ageTo = this.form.ageTo.value ? this.form.ageTo.value : 99;
             this.user.ageFrom = this.form.ageFrom.value ? this.form.ageFrom.value : 18;
             this.user.agree = this.form.agree.value;
+            this.user.children = this.form.children.value;
+            this.user.nutrition = this.form.nutrition.value;
+            this.user.religion = this.form.religion.value;
 
             data = {
                 user: this.user,
@@ -267,6 +270,9 @@ export class RegistrationPage implements OnInit {
                     ageTo: this.form.ageTo.value ? this.form.ageTo.value : 18,
                     ageFrom: this.form.ageFrom.value ? this.form.ageFrom.value : 18,
                     agree: this.form.agree.value,
+                    children: this.form.children.value,
+                    nutrition: this.form.nutrition.value,
+                    religion: this.form.religion.value,
                 }
             };
             data = JSON.stringify(data);
