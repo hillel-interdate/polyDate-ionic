@@ -756,7 +756,7 @@ export class AppComponent implements AfterViewInit {
         const date = new Date();
         this.api.storage.get('bingoCheck').then(storageDate => {
             console.log({storageDate});
-            if (test || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
+            if (test || this.api.canCheckBingo || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
 
                 this.api.storage.get('user_data').then((val) => {
                     console.log({val});

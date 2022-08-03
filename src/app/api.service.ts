@@ -57,6 +57,7 @@ export class ApiQuery {
     peerjs: any = [];
     usersCache: any = [];
     location: any;
+    canCheckBingo: boolean;
 
     constructor(public storage: Storage,
                 public loadingCtrl: LoadingController,

@@ -250,8 +250,11 @@ export class ProfilePage implements OnInit {
       toUser: user.id,
     });
 
-    this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe();
-
+      this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe((res: any) => {
+          if (res === 'send_me') {
+              this.api.canCheckBingo = true;
+          }
+      });
   }
 
   addVerify() {

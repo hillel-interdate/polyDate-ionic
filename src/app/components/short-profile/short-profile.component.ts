@@ -57,7 +57,10 @@ export class ShortProfileComponent implements OnInit {
         toUser: user.id,
       });
 
-      this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
+      this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
+        if (data === 'send_me') {
+          this.api.canCheckBingo = true;
+        }
       }, err => {});
     }
   }
