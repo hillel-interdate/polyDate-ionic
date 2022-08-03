@@ -19,7 +19,7 @@
   <div (click)="api.onBack()" class="close">
     <img alt="close" src="../../assets/img/icons/psclose.png">
   </div>
-  <ion-slides>
+  <ion-slides #slides>
     <ion-slide *ngFor="let usr of user.photos">
       <img *ngIf="!usr.isPrivate || user.photoStatus == 'allow' || user.myProfile" src="{{  usr.url }}">
       <div *ngIf="usr.isPrivate && user.photoStatus != 'allow' && !user.myProfile" >

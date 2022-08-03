@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IonSlides, ToastController} from '@ionic/angular';
 
 import { ApiQuery } from '../api.service';
 import {Router} from "@angular/router";
@@ -18,7 +18,7 @@ export class FullScreenProfilePage implements OnInit{
   user:any;
   myId:any;
 
-
+  @ViewChild('slides', {static: true}) slides: IonSlides;
   constructor(public toastCtrl: ToastController,
               public router: Router,
               public api: ApiQuery) {}
@@ -27,6 +27,8 @@ export class FullScreenProfilePage implements OnInit{
 
   ngOnInit() {
     // this.user = navParams.get('user');
+    this.slides.slideTo(this.api.data['imageIndex']).then()
+
     this.user = this.api.data['user'];
     this.api.storage.get('user_id').then((val) => {
       if (val) {

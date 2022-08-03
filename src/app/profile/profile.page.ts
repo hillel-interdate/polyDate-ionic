@@ -269,10 +269,11 @@ export class ProfilePage implements OnInit {
       });
   }
 
-  fullPagePhotos(isPrivate) {
+  fullPagePhotos(isPrivate, i) {
       // alert(isPrivate);
       if (!isPrivate) {
           this.api.data['user'] = this.user;
+          this.api.data['imageIndex'] = i;
           this.router.navigate(['/full-screen-profile']);
       } else {
           let params = JSON.stringify({
