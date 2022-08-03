@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiQuery} from "../api.service";
-import {ActivatedRoute, NavigationExtras} from "@angular/router";
+import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {IonContent} from '@ionic/angular';
 import * as $ from 'jquery';
 
@@ -20,6 +20,7 @@ export class MessengerNotificationsPage implements OnInit {
   constructor(
       public api: ApiQuery,
       public activatedRoute: ActivatedRoute,
+      public router: Router,
   ) { }
 
   notifications: any;
@@ -38,9 +39,13 @@ export class MessengerNotificationsPage implements OnInit {
   openPage(notification) {
     if (notification.push) {
       const push = notification.push;
-
       if (push.type == 'linkOut') {
-        window.open(push.webAppLink);
+        const navigationExtras = {
+          queryParams: {
+            url: push.webAppLink,
+          }
+        };
+        this.router.navigate(['/iframe'], navigationExtras)
       } else {
         this.api.route.navigate([push.applink]);
       }
