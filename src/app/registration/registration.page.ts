@@ -254,8 +254,8 @@ export class RegistrationPage implements OnInit {
             this.user.about = this.form.about.value;
             this.user.looking = this.form.looking.value;
             this.user.contactGender = this.form.contactGender.value;
-            this.user.ageTo = this.form.ageTo.value;
-            this.user.ageFrom = this.form.ageFrom.value;
+            this.user.ageTo = this.form.ageTo.value ? this.form.ageTo.value : 99;
+            this.user.ageFrom = this.form.ageFrom.value ? this.form.ageFrom.value : 18;
             this.user.agree = this.form.agree.value;
 
             data = {
@@ -264,8 +264,8 @@ export class RegistrationPage implements OnInit {
                     about: this.form.about.value,
                     looking: this.form.looking.value,
                     contactGender: this.form.contactGender.value,
-                    ageTo: this.form.ageTo.value,
-                    ageFrom: this.form.ageFrom.value,
+                    ageTo: this.form.ageTo.value ? this.form.ageTo.value : 18,
+                    ageFrom: this.form.ageFrom.value ? this.form.ageFrom.value : 18,
                     agree: this.form.agree.value,
                 }
             };
@@ -347,8 +347,8 @@ export class RegistrationPage implements OnInit {
             } else if (this.form.step == 3) {
                 // this.form.agree = false;
                 // this.form.agree.label = this.sanitizer.bypassSecurityTrustHtml(this.form.agree.label);
-                this.usersChooses.ageFrom = response.user.form.ageFrom.value;
-                this.usersChooses.ageTo = response.user.form.ageTo.value;
+                this.usersChooses.ageFrom = response.user.form.ageFrom.value ? response.user.form.ageFrom.value : 18;
+                this.usersChooses.ageTo = response.user.form.ageTo.value ? response.user.form.ageTo.value : 99;
                 console.log('response: ' + JSON.stringify(response));
                 console.log('usersChooses: ' + JSON.stringify(this.usersChooses));
             }
