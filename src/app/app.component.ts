@@ -75,7 +75,7 @@ export class AppComponent implements AfterViewInit {
     newMessagesTimeout: any;
 
     canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
-    canEnterWithoutLogin = ['PasswordRecoveryPage', 'RegistrationPage', 'PagePage', 'ContactUsPage'];
+    canEnterWithoutLogin = ['PasswordRecoveryPage','PasswordRecoveryPhonePage', 'RegistrationPage', 'PagePage', 'ContactUsPage'];
 
     public safetyMenuItem: { _id: string; title: string; url: string };
 

@@ -27,7 +27,7 @@ export class PasswordRecoveryPage implements OnInit{
 
     ngOnInit() {
 
-        this.api.http.get(this.api.openUrl + '/password.json', this.api.header).subscribe((data: any) => {
+        this.api.http.get(this.api.openUrl + '/password/new.json', this.api.header).subscribe((data: any) => {
             this.form = data.form;
         }, err => {
             console.log('Oops!');
@@ -52,7 +52,7 @@ export class PasswordRecoveryPage implements OnInit{
                 }
             });
 
-            this.api.http.post(this.api.openUrl + '/passwords', data , this.api.setHeaders(false)).subscribe(data => this.validate(data));
+            this.api.http.post(this.api.openUrl + '/passwords/news', data , this.api.setHeaders(false)).subscribe(data => this.validate(data));
             console.log(data);
         } else {
             this.isClicked = false;

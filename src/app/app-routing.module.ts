@@ -148,8 +148,12 @@ const routes: Routes = [
         {
             path: 'vip-modal',
             loadChildren: () => import('./vip-modal/vip-modal.module').then(m => m.VipModalPageModule)
-        }
-        ,
+        },
+  {
+    path: 'password-recovery-phone',
+    loadChildren: () => import('./password-recovery-phone/password-recovery-phone.module').then( m => m.PasswordRecoveryPhonePageModule)
+  },
+
     ]
 ;
 
