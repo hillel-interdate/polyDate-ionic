@@ -64,7 +64,7 @@ ion-card {
 
 .age {
   font-size: 20px;
-  display: inline-block;
+  display: block;
   margin-right: 5px;
   line-height: 32px;
   font-weight: bold;
@@ -116,14 +116,8 @@ ion-card {
   border-top-right-radius: 12px;
 }
 
-.long-name{
-  font-size: 16px !important;
-  margin: 0 0 0 -2px;
-  padding: 0!important;
-}
-
 .name {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: bold;
   padding-right: 5px;
   margin-right: 2px;
@@ -147,6 +141,7 @@ ion-card {
   text-align: right;
   color: #000;
   font-size: 35px;
+  padding-right: 42px;
 }
 
 
@@ -231,10 +226,18 @@ ul.profile-btn {
   height: 47px;
   margin: 0;
   color: black;
+  display: -webkit-box;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
   flex-direction: column;
   flex-wrap: nowrap;
-  padding: 23px 0;
+  row-gap: 30px;
+  padding: 7px 0;
+  position: absolute;
+  z-index: 99;
+  top: 3px;
+  right: 10px;
 }
 
 ul.profile-btn li {
