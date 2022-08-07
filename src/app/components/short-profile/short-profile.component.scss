@@ -232,7 +232,7 @@ ul.profile-btn {
   -webkit-box-direction: normal;
   flex-direction: column;
   flex-wrap: nowrap;
-  row-gap: 30px;
+  row-gap: 12px;
   padding: 7px 0;
   position: absolute;
   z-index: 99;
@@ -340,6 +340,7 @@ ion-card.vip {
 
 .user-section > .wrap {
   border-radius: 0;
+  padding-right: 54px;
 }
 
 .vip ion-card-title {
