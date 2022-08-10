@@ -430,12 +430,21 @@ export class DialogPage implements OnInit {
     }
 
     peerInit() {
-        this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {});
+        this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
+            // host: "peerjs.wee.co.il",
+            // port: 9000,
+            // path: '/peerjs',
+            debug: 2
+        });
 
         this.api.peerjs[this.myPeer].on('open', (id) => {
+            console.log("rjs[this.myPeer].on('ope n) id" )
+            console.log(id)
             this.tryConnect();
         });
         this.api.peerjs[this.myPeer].on('connection', (connection => {
+            console.log("ection', (connection => {")
+            console.log(connection)
             if (connection.peer == this.peerToUserApp) {
                 this.peerConnectionApp = connection;
             } else {
@@ -444,7 +453,9 @@ export class DialogPage implements OnInit {
             this.peerSubscribes();
         }));
         this.api.peerjs[this.myPeer].on('error', (err => {
+            console.log('{err}');
             console.log({err});
+            this.tryConnect();
         }));
     }
 
