@@ -257,17 +257,7 @@ export class ProfilePage implements OnInit {
       });
   }
 
-  addVerify() {
-      this.user.isAddVerify = true;
-      this.api.http.post(this.api.apiUrl + '/verifies/' + this.user.id, {user: this.user.id}, this.api.header).subscribe((data: any) => {
-         console.log(data);
-         if (data.success) {
-             this.api.toastCreate(data.message);
-         } else {
-             this.user.isAddVerify = false;
-         }
-      });
-  }
+
 
   fullPagePhotos(isPrivate, i) {
       // alert(isPrivate);

@@ -224,7 +224,7 @@
   }
 
   .back-btn {
-    top: 60px;
+    top: 11%;
     right: 5px;
     height: 56px;
     width: 56px;
@@ -318,22 +318,6 @@
     width: 80%;
   }
 
-  .addVerify {
-    background: rgba(233, 232, 229, 0.8);
-    width: 49px;
-    height: 49px;
-    margin-bottom: 5px;
-    border-radius: 50%;
-    border: 2px solid #5b5b5b;
-    position: relative;
-  }
-
-  .addVerify .addVerify-image {
-    background-image: url(../../assets/img/icons/add-verify.png);
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
 
   .verify {
     background: url(../../assets/img/icons/verify.png) no-repeat;
@@ -410,4 +394,10 @@
 
   ion-content.vip {
     --background: url(https://polydate.co.il/images/backgroundgold.jpg);
+  }
+
+  app-user-actions-buttons {
+    position: absolute;
+    left: 65px;
+    top: 11%;
   }

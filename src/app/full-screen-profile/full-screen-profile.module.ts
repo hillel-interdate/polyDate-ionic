@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { FullScreenProfilePage } from './full-screen-profile.page';
+import {ShortComponentModule} from "../components/short-profile/short-component.module";
 
 const routes: Routes = [
   {
@@ -15,12 +16,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        ShortComponentModule
+    ],
   declarations: [FullScreenProfilePage]
 })
 export class FullScreenProfilePageModule {}

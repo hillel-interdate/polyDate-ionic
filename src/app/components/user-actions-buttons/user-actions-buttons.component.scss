@@ -1,0 +1,70 @@
+
+ul.profile-btn {
+  margin: 0;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 0;
+  position: absolute;
+  z-index: 99;
+  top: 1px;
+  right: 6px;
+  list-style: none;
+}
+
+ul.profile-btn li {
+  width: 50px;
+  background-size: contain!important;
+  padding-top: 87%; /* 1:1 Aspect Ratio */
+  border: 3px solid red;
+  border-radius: 50%;
+}
+
+ul.profile-btn .btn {
+  margin: 7px 0;
+}
+
+ul.profile-btn .btn div {
+  font-size: 12px;
+  text-align: center;
+}
+
+.profile-btn li:last-child {
+  margin: 0;
+}
+
+
+#mobmsg {
+  background: url(../../../assets/img/icons/send-msg.png) center no-repeat;
+  filter: drop-shadow(1px 2px 4px gray);
+}
+
+#add-green {
+  background: url(../../../assets/img/icons/fav-red.png) center no-repeat;
+}
+#remove-green {
+  background: url(../../../assets/img/icons/cap.png) center no-repeat;
+}
+
+#like-red {
+  background: url(../../../assets/img/icons/like-red.png) center no-repeat;
+}
+
+#cap {
+  background: url(../../../assets/img/icons/cap.png) center no-repeat;
+}
+
+#unblock {
+  background: url(../../../assets/img/icons/unblock.png) center no-repeat;
+}
+
+.addVerify {
+  background: rgba(233, 232, 229, 0.8);
+  border-radius: 50%;
+}
+
+
+.addVerify .addVerify-image {
+  background-image: url(../../../assets/img/icons/add-verify.png);
+}

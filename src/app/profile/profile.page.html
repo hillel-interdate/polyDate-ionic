@@ -13,28 +13,30 @@
 </ion-header>-->
 
 
-<div *ngIf="myId != user?.id" class="profile-buttons" [ngClass]="{'ios-btns': platform.is('ios')}">
-  <div class="online"></div>
-  <div *ngIf="user?.canWriteTo" (click)="toDialog(user)" class="message-profile-btn profiles-btn"><img src="../../assets/img/icons/pmsgbot.png"></div>
-  <div *ngIf="user?.isAddLike == false" (click)="addLike(user)" class="like-profile-btn profiles-btn"><img
-          src="../../assets/img/icons/plike.png"></div>
-  <div *ngIf="user?.isAddLike" class="disabled like-profile-btn profiles-btn"><img src="../../assets/img/icons/plike.png"></div>
+<!--<div *ngIf="myId != user?.id" class="profile-buttons" [ngClass]="{'ios-btns': platform.is('ios')}">-->
+<!--  <div class="online"></div>-->
+<!--  <div *ngIf="user?.canWriteTo" (click)="toDialog(user)" class="message-profile-btn profiles-btn"><img src="../../assets/img/icons/pmsgbot.png"></div>-->
+<!--  <div *ngIf="user?.isAddLike == false" (click)="addLike(user)" class="like-profile-btn profiles-btn"><img-->
+<!--          src="../../assets/img/icons/plike.png"></div>-->
+<!--  <div *ngIf="user?.isAddLike" class="disabled like-profile-btn profiles-btn"><img src="../../assets/img/icons/plike.png"></div>-->
 
-  <div *ngIf="user?.isAddFavorite == false && user?.id " (click)="addFavorites(user)"
-       class="favorite-profile-btn profiles-btn">
-    <img src="../../assets/img/icons/padd.png">
-  </div>
+<!--  <div *ngIf="user?.isAddFavorite == false && user?.id " (click)="addFavorites(user)"-->
+<!--       class="favorite-profile-btn profiles-btn">-->
+<!--    <img src="../../assets/img/icons/padd.png">-->
+<!--  </div>-->
 
-<!--  <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>-->
+<!--&lt;!&ndash;  <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>&ndash;&gt;-->
 
-  <div *ngIf="user?.isAddFavorite" class=" favorite-profile-btn remove" (click)="addFavorites(user)" ><img src="../../assets/img/icons/cap.png"></div>
-  
-  <div *ngIf="!user?.isAddVerify && !user?.isVerify" class="addVerify" (click)="addVerify()">
+<!--  <div *ngIf="user?.isAddFavorite" class=" favorite-profile-btn remove" (click)="addFavorites(user)" ><img src="../../assets/img/icons/cap.png"></div>-->
+<!--  -->
+<!--  <div *ngIf="!user?.isAddVerify && !user?.isVerify" class="addVerify" (click)="addVerify()">-->
 
-    <div class="addVerify-image"></div>
+<!--    <div class="addVerify-image"></div>-->
 
-  </div>
-</div>
+<!--  </div>-->
+<!--</div>-->
+
+<app-user-actions-buttons *ngIf="myId != user?.id" [user]="user"></app-user-actions-buttons>
 
 <div (click)="api.onBack(true)" class="back-btn">
   <div class="back-wrap">

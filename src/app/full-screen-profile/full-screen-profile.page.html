@@ -7,15 +7,7 @@
 
 
 <ion-content>
-  <div *ngIf="api.userId != user.id" class="profile-buttons">
-    <div *ngIf="user?.canWriteTo" (click)="toDialog(user)" class="message-profile-btn"><img src="../../assets/img/icons/pmsgbot.png"></div>
-    <div *ngIf="user.isAddLike == false" (click)="addLike(user)" class="like-profile-btn"><img src="../../assets/img/icons/plike.png"></div>
-    <div *ngIf="user.isAddLike" class="disabled like-profile-btn"><img src="../../assets/img/icons/plike.png"></div>
-    <div *ngIf="user.isAddFavorite == false" (click)="addFavorites(user)" class="favorite-profile-btn"><img src="../../assets/img/icons/padd.png"></div>
-    <div *ngIf="user.isAddFavorite" class="disabled favorite-profile-btn"><img src="../../assets/img/icons/padd.png"></div>
-    <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()">
-    </div>
-  </div>
+  <app-user-actions-buttons [user]="user"></app-user-actions-buttons>
   <div (click)="api.onBack()" class="close">
     <img alt="close" src="../../assets/img/icons/psclose.png">
   </div>

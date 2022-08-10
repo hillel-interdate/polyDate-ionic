@@ -1,0 +1,35 @@
+<ul class="profile-btn">
+  <div tappable class="btn" (click)="toDialog(user)">
+    <li id="mobmsg"></li>
+  </div>
+
+  <div  tappable class="btn" [ngClass]="{'disabled': user?.isAddLike }" (click)="addLike(user)">
+    <li id="like-red"></li>
+  </div>
+
+  <div *ngIf="!api.videoShow && params?.list != 'favorite_me' && params?.list != 'black'" class="btn" (click)="addFavorites(user)">
+    <li id="{{user?.isAddFavorite ? 'remove-green' :'add-green'}}"></li>
+  </div>
+
+  <!--is this is favorite_me list wee can only remove, cant add again-->
+  <div *ngIf="!api.videoShow && params?.list == 'favorite_me'" tappable  class="btn" (click)="!user?.isAddFavorite && addFavorites(user)">
+    <li id="add-green" [ngClass]="{'disabled': user?.isAddFavorite}"></li>
+  </div>
+
+  <div tappable *ngIf="params?.list == 'black'" class="btn blocked"
+       [ngClass]="{'disabled': !user?.isAddBlackListed }" (click)=block(user,false)>
+    <li id="unblock"></li>
+  </div>
+
+    <div *ngIf="showVerifyBtn && !user?.isAddVerify && !user?.isVerify" class="addVerify" (click)="addVerify()">
+
+      <li class="addVerify-image"></li>
+
+    </div>
+  <!--        <div *ngIf="api.videoShow" class="btn" (click)="toVideoChat(user)">-->
+  <!--          <li id="video-chat"></li>-->
+  <!--          <div>וידאו</div>-->
+  <!--        </div>-->
+
+  <!--Add-->
+</ul>
