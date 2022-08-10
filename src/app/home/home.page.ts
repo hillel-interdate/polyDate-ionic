@@ -312,6 +312,7 @@ export class HomePage implements OnInit {
             if (!this.params.page) {
                 this.params.page = 1;
             }
+            this.params_str = JSON.stringify(this.params);
             this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
 
                 this.users = data.users;
