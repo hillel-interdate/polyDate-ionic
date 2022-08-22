@@ -1,4 +1,4 @@
-<ul class="profile-btn">
+<ul class="profile-btn" [class.vip]="user.isVip">
   <div tappable class="btn" (click)="toDialog(user)">
     <li id="mobmsg"></li>
   </div>
