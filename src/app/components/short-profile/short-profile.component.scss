@@ -72,7 +72,7 @@ ion-card {
 
 .online {
   top: 16px;
-  left: 180px;
+  left: 48%;
   height: 12px;
   width: 12px!important;
   background-color: #45d362;
@@ -151,20 +151,15 @@ ion-card {
   background-position: center;
 }
 
-
 ion-card-title {
   height: 62px;
   text-align: right;
-  max-width: 90px;
+  max-width: 80px;
 }
-
-
 
 .user-section {
-  border: 1px solid #404040;
   border-radius: 12px;
 }
-
 
 .distance {
   font-weight: bold;
@@ -228,7 +223,7 @@ ul {
   display: block;
   width: fit-content;
   height: fit-content;
-  margin-right: 5px;
+  margin-right: 10px;
 
 }
 
