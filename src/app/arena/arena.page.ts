@@ -119,6 +119,8 @@ export class ArenaPage implements OnInit{
         if (data === 'send_me') {
           this.api.canCheckBingo = true;
         }
+      }, error => {
+        this.api.canCheckBingo = true;
       });
       // this.slides.slideTo(this.index ,300);
       this.renderUsers.splice(this.index, 1);

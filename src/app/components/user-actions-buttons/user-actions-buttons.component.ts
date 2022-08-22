@@ -42,7 +42,9 @@ export class UserActionsButtonsComponent implements OnInit {
         if (data === 'send_me') {
           this.api.canCheckBingo = true;
         }
-      }, err => {});
+      }, err => {
+        this.api.canCheckBingo = true;
+      });
     }
   }
 
