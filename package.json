@@ -28,7 +28,7 @@
     "@ionic-native/core": "^5.2.0",
     "@ionic-native/deeplinks": "^5.33.0",
     "@ionic-native/device": "^5.36.0",
-    "@ionic-native/file-transfer": "^4.20.0",
+    "@ionic-native/file-transfer": "^5.36.0",
     "@ionic-native/fingerprint-aio": "^5.20.0",
     "@ionic-native/geolocation": "^5.20.0",
     "@ionic-native/google-analytics": "^5.27.0",
