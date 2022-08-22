@@ -7,15 +7,6 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {Platform} from '@ionic/angular';
 import * as $ from 'jquery';
 import {User} from '../interfaces/user';
-import {Photo} from '../interfaces/photo';
-
-/*
- Generated class for the Profile page.
- See http://ionicframework.com/docs/v2/he/components/#navigation for more info on
- Ionic pages and navigation.
- */
-
-
 
 @Component({
   selector: 'page-profile',
@@ -25,19 +16,13 @@ import {Photo} from '../interfaces/photo';
 export class ProfilePage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
-
   isAbuseOpen: any = false;
-
   user: User;
   texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
-
   formReportAbuse: { title: any, buttons: { cancel: any, submit: any }, text: { label: any, name: any, value: any } } =
   {title: '', buttons: {cancel: '', submit: ''}, text: {label: '', name: '', value: ''}};
-
   myId: any = false;
-
   myProfile = false;
-
   userFormKeys: any;
 
   constructor(public api: ApiQuery,
@@ -46,10 +31,7 @@ export class ProfilePage implements OnInit {
               public keyboard: Keyboard,
               private changeRef: ChangeDetectorRef,
               public platform: Platform,
-              ) {
-
-  }
-
+              ) {}
 
     ngOnInit() {
         this.user = {
@@ -182,24 +164,13 @@ export class ProfilePage implements OnInit {
     }
 
     getKeys(obj) {
-
         return Object.keys(obj);
-
     }
 
     getUser() {
         const userId = this.user.id;
-        console.log(userId);
-        console.log(this.api.usersCache);
-
-        // const url = this.user.photos[0].url;
-
         this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data: any) => {
-            // if (this.user.photos.length > 0 && this.myId != userId) {
-            //     data.photos[0].url = url;
-            // }
             this.api.usersCache[userId] = this.user = data;
-
             this.userFormKeys = this.getKeys(data.form);
             this.formReportAbuse = data.formReportAbuse;
             this.changeRef.detectChanges();
@@ -208,31 +179,7 @@ export class ProfilePage implements OnInit {
 
     }
 
-
-
-
-  addFavorites(user) {
-      if (user.isAddFavorite == false) {
-          user.isAddFavorite = true;
-
-          var params = JSON.stringify({
-              list: 'Favorite'
-          });
-      } else {
-          user.isAddFavorite = false;
-          var params  = JSON.stringify({
-              list: 'Favorite',
-              action: 'delete'
-          });
-      }
-
-   this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
-      console.log(data);
-     this.api.toastCreate(data.success, 2500);
-    });
-  }
-
-  blockSubmit() {
+    blockSubmit() {
       const params = JSON.stringify({
         list: 'BlackList',
         action: this.user.isAddBlackListed ? 'delete' : 'create',
@@ -240,26 +187,9 @@ export class ProfilePage implements OnInit {
       this.user.isAddBlackListed = !this.user.isAddBlackListed;
       this.api.http.post(this.api.apiUrl + '/lists/' + this.user.id, params, this.api.setHeaders(true))
           .subscribe((data: any) => this.api.toastCreate(data.success));
-  }
+    }
 
-  addLike(user) {
-    user.isAddLike = true;
-    this.api.toastCreate(' עשית לייק ל' + user.username);
-
-    const params = JSON.stringify({
-      toUser: user.id,
-    });
-
-      this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe((res: any) => {
-          if (res === 'send_me') {
-              this.api.canCheckBingo = true;
-          }
-      });
-  }
-
-
-
-  fullPagePhotos(isPrivate, i) {
+    fullPagePhotos(isPrivate, i) {
       // alert(isPrivate);
       if (!isPrivate) {
           this.api.data['user'] = this.user;
@@ -276,15 +206,9 @@ export class ProfilePage implements OnInit {
              }
           });
       }
-  }
+    }
 
-  toDialog(user) {
-
-    this.api.data['user'] = user;
-    this.router.navigate(['/dialog']);
-  }
-
-  reportAbuseShow() {
+    reportAbuseShow() {
     this.isAbuseOpen = true;
       setTimeout(() => this.content.scrollToBottom(300), 300);
       $('.pmtitle.bottom').css(
@@ -292,37 +216,32 @@ export class ProfilePage implements OnInit {
               'margin-bottom': '0px',
           }
       );
-  }
+    }
 
-  reportAbuseClose() {
-    this.isAbuseOpen = false;
-    this.formReportAbuse.text.value = '';
-    this.keyboard.hide();
-    $('.footerMenu').show();
-    $('.pmtitle.bottom').css({'margin-bottom': '66px'});
-  }
-
+    reportAbuseClose() {
+        this.isAbuseOpen = false;
+        this.formReportAbuse.text.value = '';
+        this.keyboard.hide();
+        $('.footerMenu').show();
+        $('.pmtitle.bottom').css({'margin-bottom': '66px'});
+    }
 
     closeKeyboard() {
         this.keyboard.hide();
     }
 
-  abuseSubmit() {
+    abuseSubmit() {
 
-    const params = JSON.stringify({
-      text: this.formReportAbuse.text.value,
-    });
-    this.api.http.post(this.api.apiUrl + '/reports/' + this.user.id + '/abuses', params, this.api.setHeaders(true)).subscribe((data: any) => {
-    this.api.toastCreate(data.success);
-    }, err => {
-      console.log('Oops!');
-    });
-    this.reportAbuseClose();
-  }
-
-    // toVideoChat() {
-    //     this.api.openVideoChat({id: this.user.userId, chatId: 0, alert: false, username: this.user.nickName});
-    // }
+        const params = JSON.stringify({
+          text: this.formReportAbuse.text.value,
+        });
+        this.api.http.post(this.api.apiUrl + '/reports/' + this.user.id + '/abuses', params, this.api.setHeaders(true)).subscribe((data: any) => {
+        this.api.toastCreate(data.success);
+        }, err => {
+          console.log('Oops!');
+        });
+        this.reportAbuseClose();
+    }
 
   ionViewWillLeave() {
       this.keyboard.hide();
@@ -330,12 +249,7 @@ export class ProfilePage implements OnInit {
       setTimeout( () => {
           this.api.back = false;
       }, 8000);
-      // document.removeEventListener('backbutton', () => {
-      //     this.back();
-      // });
       $(document).off();
-      // window.removeEventListener'('keyboardWillShow', this.onOpenKeyboard);
-      // window.removeEventListener('keyboardWillHide', this.onHideKeyboard);
   }
 
 }
