@@ -10,10 +10,10 @@ import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
 import {ChangeDetectorRef} from '@angular/core';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
-
 import {ShortUser} from '../interfaces/short-user';
 import {InAppPurchase} from "@ionic-native/in-app-purchase/ngx";
-
+import {BehaviorSubject} from "rxjs";
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 
 @Component({
     selector: 'page-home',
@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
     @ViewChild(IonInfiniteScroll, {static: false}) infiniteScroll: IonInfiniteScroll;
     @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
     @ViewChild(IonVirtualScroll, {static: false}) virtualScroll: IonVirtualScroll;
+    @ViewChild(CdkVirtualScrollViewport, {static: false}) viewport: CdkVirtualScrollViewport;
 
     public options: { filter: any } = {filter: 1};
     list: any;
@@ -90,7 +91,7 @@ export class HomePage implements OnInit {
                     this.params.page = 1;
                 }
                 console.log(this.params);
-                this.content.scrollToTop(0);
+                this.viewport.scrollToOffset(0)
             } else if (!this.api.back) {
                 this.params = {
                     action: 'online',
@@ -148,23 +149,7 @@ export class HomePage implements OnInit {
     }
 
 
-    ionViewDidEnter() {
-        // setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-        // }, 500)
-    }
-
     ionViewWillEnter() {
-
-
-        // this.route.queryParams.subscribe((state => {
-        //     console.log(state);
-        //     if (state.fromLogin) {
-        //         this.ngOnInit();
-        //         this.getUsers();
-        //         return true;
-        //     }
-        // }));
 
         this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
             if ((this.api.pageName === 'LoginPage') || ((params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
@@ -186,7 +171,7 @@ export class HomePage implements OnInit {
 
         this.events.subscribe('logo:click', () => {
             if (this.params.filter === 'online' || this.params.filter === 'search') {
-                this.content.scrollToTop(200).then();
+                this.viewport.scrollToOffset(0)
 
             } else {
                 this.blocked_img = false;
@@ -301,7 +286,7 @@ export class HomePage implements OnInit {
         this.params_str = JSON.stringify(this.params);
         this.api.showLoad();
         this.api.back = false;
-        this.content.scrollToTop(500).then();
+        this.viewport.scrollToOffset(0)
         this.getUsers();
     }
 
@@ -329,7 +314,7 @@ export class HomePage implements OnInit {
 
                 this.changeRef.detectChanges();
                 this.api.hideLoad();
-                this.content.scrollToTop(0).then();
+                this.viewport.scrollToOffset(0)
             }, err => {
 
                 this.api.hideLoad();
@@ -347,34 +332,38 @@ export class HomePage implements OnInit {
     }
 
 
-    moreUsers(event) {
+    moreUsers(event = false) {
 
         // alert('moreUsers')
         if (this.loader) {
-            // if (!this.api.back) {
-            //     alert(this.api.back)
-                this.params.page++;
-            // }
+            this.params.page++;
             if (!this.params.page && !this.api.back) {
                 this.params.page = 2;
             }
-            // this.params.page = 2;
-            // alert(this.params.page)
             this.params_str = JSON.stringify(this.params);
             this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
-                event.target.complete();
                 if (data.users.length < 10) {
                     this.loader = false;
                 }
 
                 // this should prevent users from appearing twice
+                let newUsers = [];
                 data.users.filter(newUser => !this.users.some(existingUser => existingUser.id === newUser.id))
-                    .forEach(filteredUser => this.users.push(filteredUser));
-                this.virtualScroll.checkEnd();
+                        .forEach(filteredUser =>  newUsers.push(filteredUser));
+                this.changeRef.detectChanges()
+                this.users = [...this.users, ...newUsers]
+                this.changeRef.detectChanges()
             });
         }
     }
 
+    scrollEvent(): void {
+
+        if (this.viewport.measureScrollOffset('bottom') <= 400) {
+            this.moreUsers();
+        }
+
+    }
 
     onScroll(event) {
         this.scrolling = true;

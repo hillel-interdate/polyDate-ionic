@@ -25,11 +25,18 @@
     </div>
 
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
-    <ion-virtual-scroll [items]="users" class="ion-list" approxItemHeight="200px">
+    <cdk-virtual-scroll-viewport itemSize="207" minBufferPx="1000" maxBufferPx="1600" (scrolledIndexChange)="scrollEvent()">
+        <ion-list lines="none">
+            <ion-item no-padding *cdkVirtualFor="let user of users" style="padding:0 !important;">
+                <app-short-profile [user]="user" [params]="params" [texts]="texts"></app-short-profile>
+            </ion-item>
+        </ion-list>
+    </cdk-virtual-scroll-viewport>
+<!--    <ion-virtual-scroll [items]="users" class="ion-list" approxItemHeight="200px">-->
 
-        <app-short-profile *virtualItem="let user;" [user]="user" [params]="params"  [texts]="texts"></app-short-profile>
+<!--        <app-short-profile *virtualItem="let user;" [user]="user" [params]="params"  [texts]="texts"></app-short-profile>-->
 
-    </ion-virtual-scroll>
+<!--    </ion-virtual-scroll>-->
     <div *ngIf="loader && users != []" class="loader"><img src="../../assets/img/loader.gif"></div>
     <ion-infinite-scroll  threshold="300px"  (ionInfinite)="moreUsers($event)" >
         <ion-infinite-scroll-content loading-spinner="bubbles"></ion-infinite-scroll-content>

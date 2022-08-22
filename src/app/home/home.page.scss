@@ -322,3 +322,26 @@ ion-content {
 app-short-profile {
   width: 100%;
 }
+
+cdk-virtual-scroll-viewport {
+  height: 100%;
+  width: 100%;
+}
+
+app-short-profile {
+  width: 100%;
+}
+
+.list-md-lines-none .item {
+  --background: transparent;
+}
+
+ion-item {
+  --background: none;
+  opacity:1;
+  --ion-safe-area-right: 0;
+}
+
+ion-list {
+  background: transparent;
+}
