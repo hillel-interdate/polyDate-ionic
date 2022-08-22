@@ -186,6 +186,7 @@ export class DialogPage implements OnInit {
             this.api.http.post(this.api.apiUrl + '/sends/' + this.user.id + '/messages', params, this.api.setHeaders(true)).subscribe((data: any) => {
                 if (data.message) {
                     data.message.action = 'new';
+                    this.helperSend(JSON.stringify(data.message));
                     data.message.delivered = true;
                     this.messages[this.messData.message.messPoss] = data.message;
                     this.allowedToReadMessage = data.allowedToReadMessage;
@@ -194,8 +195,6 @@ export class DialogPage implements OnInit {
                     if (quickMessage > 0) {
                         data.message.quickMessage = true;
                     }
-
-                    this.helperSend(JSON.stringify(data.message));
                     this.sendPush();
                 } else {
                     this.api.toastCreate(data.errorMessage);
@@ -517,7 +516,11 @@ export class DialogPage implements OnInit {
 
     peerMessage(message) {
         message.allowedToRead = this.allowedToReadMessage;
-
+        if (this.messages[this.messages.length - 1].text == message.text
+            && this.messages[this.messages.length - 1].dateTime == message.dateTime
+            && this.messages[this.messages.length - 1].from == message.from) {
+            return false;
+        }
         this.messages.push(message);
         this.scrollToBottom(300);
         if (this.allowedToReadMessage) {
