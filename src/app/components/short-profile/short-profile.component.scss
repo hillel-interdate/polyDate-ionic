@@ -98,11 +98,10 @@ ion-card {
   background: url(../../../assets/img/icons/new.png) no-repeat;
   width: 26px;
   height: 26px;
-  //position: absolute;
   background-size: cover;
-  //left: 8px;
-  //top: 2px;
   z-index: 99;
+  position: absolute;
+  left: 9px;
 }
 
 .paying {
