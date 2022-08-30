@@ -106,13 +106,24 @@ ion-card {
 }
 
 .paying {
-  position: unset!important;
+  position: relative!important;
+  left: 4px;
 }
 
 .right-icons {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 0px;
+}
+
+.verify {
+  background: url(../../../assets/img/icons/verify.png) no-repeat;
+  width: 64px;
+  height: 64px;
+  background-size: contain;
+  position: relative;
+  left: -8px;
+  background-size: contain;
 }
 
 .user-section > img {
