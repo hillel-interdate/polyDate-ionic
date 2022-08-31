@@ -130,20 +130,23 @@ export class DialogPage implements OnInit {
         if (this.cantWrite) {
             this.showCantWriteAlert();
         } else {
+            console.log(this.showUl);
             this.showUl = !this.showUl;
+            console.log(this.showUl);
             const buttons = this.quickMessages.map(message => {
                 return {
                     text: message.text,
                     handler: () => this.sendQuickMessage(message.id)
                 } as (string | ActionSheetButton);
             });
-            if (!this.showUl) {
+            if (this.showUl) {
                 const actionSheet = await this.actionSheetController.create({
                     cssClass: 'floating',
                     // @ts-ignore
                     buttons
                 });
                 await actionSheet.present();
+                await actionSheet.onWillDismiss().then(() => this.showUl = false)
                 this.checkedQm = 0;
             } else {
                 this.checkIfCanWrite();
