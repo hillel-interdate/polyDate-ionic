@@ -126,7 +126,7 @@ export class RegistrationPage implements OnInit {
         this.alertCtrl.create({
             header: this.form.relationshipTypeHelper.header,
             message: this.form.relationshipTypeHelper.message,
-
+            cssClass: 'my-alert',
             buttons: [
                 {
                     text: this.form.relationshipTypeHelper.cancel

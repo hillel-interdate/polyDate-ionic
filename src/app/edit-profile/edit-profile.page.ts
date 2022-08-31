@@ -257,7 +257,7 @@ export class EditProfilePage implements OnInit {
         this.alertCtrl.create({
             header: this.relationshipTypeHelper.header,
             message: this.relationshipTypeHelper.message,
-
+            cssClass: 'my-alert',
             buttons: [
                 {
                     text: this.relationshipTypeHelper.cancel
