@@ -20,8 +20,15 @@
          <div class="choosenValue">{{ usersChooses.gender}}</div>
       </div>
     </div>
-    <div class="border-top" ngDefaultControl [(ngModel)]="form?.ageFrom.value" (click)="openSelect2('ageFrom')"> {{form?.ageFrom.label}} {{ form?.ageFrom.value }}</div>
-    <div class="border-top"  (click)="openSelect2('ageTo')">{{form?.ageTo.label}} {{ form?.ageTo.value }}</div>
+    <div class="border-top age-field" ngDefaultControl [(ngModel)]="form?.ageFrom.value"
+         (click)="openSelect2('ageFrom')">
+      <div class="label">{{form?.ageFrom.label}}</div>
+      <div class="value">{{ form?.ageFrom.value }}</div>
+    </div>
+    <div class="border-top age-field"  (click)="openSelect2('ageTo')">
+      <div class="label"> {{form?.ageTo.label}} </div>
+      <div class="value">{{ form?.ageTo.value }}</div>
+    </div>
 
     <div class="border-top" *ngIf="showThereFor">
       <div (click)="openSelect2('lookingFor')" ngDefaultControl [(ngModel)]="form?.lookingFor.value">
