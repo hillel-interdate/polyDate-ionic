@@ -133,142 +133,136 @@ ion-card {
 .name {
   font-size: 21px;
   font-weight: bold;
-  padding-right: 5px;
   margin-right: 2px;
-  line-height: 31px;
-  max-height: 29px;
-  overflow: hidden;
   display: inline-block;
   vertical-align: sub;
-  max-width: 100px;
 }
 
 .location {
-  font-size: 20px;
-  padding-right: 5px;
-  clear: both;
+font-size: 20px;
+padding-right: 5px;
+clear: both;
 }
 
 .ion-card-title {
-  height: 91px;
-  background: #ededed;
-  text-align: right;
-  color: #000;
-  font-size: 35px;
-  padding-right: 42px;
+height: 91px;
+background: #ededed;
+text-align: right;
+color: #000;
+font-size: 35px;
+padding-right: 42px;
 }
 
 .addVerify .addVerify-image {
-  background-image: url(../../../assets/img/icons/add-verify.png);
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+background-image: url(../../../assets/img/icons/add-verify.png);
+height: 100%;
+background-repeat: no-repeat;
+background-position: center;
 }
 
 ion-card-title {
-  height: 62px;
-  text-align: right;
-  max-width: 80px;
+height: 62px;
+text-align: right;
+max-width: 80px;
 }
 
 .user-section {
-  border-radius: 12px;
+border-radius: 12px;
 }
 
 .distance {
-  font-weight: bold;
-  line-height: 14px;
-  direction: rtl;
-  font-size: 14px;
-  position: absolute;
-  bottom: 32px;
-  width: 105px;
-  color: #000;
-  margin-right: 19px;
-  right: 54px;
+font-weight: bold;
+line-height: 14px;
+direction: rtl;
+font-size: 14px;
+position: absolute;
+bottom: 32px;
+width: 105px;
+color: #000;
+margin-right: 19px;
+right: 54px;
 }
 
 .user-section {
-  position: relative;
-  display: flex;
-  flex-direction: row-reverse;
+position: relative;
+display: flex;
+flex-direction: row-reverse;
 }
 
 .user-section > .wrap {
-  background: #ededed;
-  border-radius: 12px;
-  width: 58%;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  font-size: 33px;
-  padding: 0 10px;
+background: #ededed;
+border-radius: 12px;
+width: 58%;
+display: flex;
+flex-direction: row-reverse;
+justify-content: flex-end;
+font-size: 33px;
+padding: 0 10px;
 }
 
 .usr_profile .avatar {
-  width: 79%;
-  height: 190px;
-  background-position: left;
-  background-size: cover;
-  border-radius: 11px 0px 0px 11px;
+width: 79%;
+height: 190px;
+background-position: left;
+background-size: cover;
+border-radius: 11px 0px 0px 11px;
 }
 
 #video-chat{
-  background: url(../../../assets/img/video/camera.png) center 6px no-repeat;
-  width: 20px;
-  height: 20px;
-  background-size: 14px;
-  background-color: rgba(0,0,0,.6);
-  border-radius: 50%;
+background: url(../../../assets/img/video/camera.png) center 6px no-repeat;
+width: 20px;
+height: 20px;
+background-size: 14px;
+background-color: rgba(0,0,0,.6);
+border-radius: 50%;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+list-style: none;
+padding: 0;
 }
 .card-md + ion-card, .page-hello-ionic .card-ios + ion-card {
-  margin-top: 0;
+margin-top: 0;
 }
 
 .row {
-  background-color: #ededed;
-  color: black;
-  font-size: 23px;
-  display: block;
-  width: fit-content;
-  height: fit-content;
-  margin-right: 10px;
-
+background-color: #ededed;
+color: black;
+font-size: 23px;
+display: block;
+width: fit-content;
+height: fit-content;
+margin-right: 6px;
 }
 
 ion-card.vip {
-  //border: 2px solid #f1c722;
-  box-shadow: 1px -1px 6px 1px;
-  z-index: 1;
+//border: 2px solid #f1c722;
+box-shadow: 1px -1px 6px 1px;
+z-index: 1;
 }
 
 
 
 .vip .user-section > .wrap {
-  background: #f8d559;
-  box-shadow: inset -2px 1px 13px 0px black;
-  border-radius: 0;
+background: #f8d559;
+box-shadow: inset -2px 1px 13px 0px black;
+border-radius: 0;
 }
 
 .vip.usr_profile .avatar {
-  box-shadow: inset 7px -2px 13px 0px black;
+box-shadow: inset 7px -2px 13px 0px black;
 }
 
 .vip .user-section > .wrap {
-  background: #f8d559;
-  box-shadow: inset -4px -1px 13px 0px black;
+background: #f8d559;
+box-shadow: inset -4px -1px 13px 0px black;
 }
 
 .user-section > .wrap {
-  border-radius: 0;
-  padding-right: 54px;
+border-radius: 0;
+padding-right: 54px;
 }
 
 .vip ion-card-title {
-  background: transparent;
+background: transparent;
 }
