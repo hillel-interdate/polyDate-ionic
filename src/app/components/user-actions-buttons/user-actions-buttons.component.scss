@@ -27,7 +27,7 @@ ul.profile-btn li {
 
 }
 ul.profile-btn.vip li {
-  background-color: #c9171700!important;
+  background-color: #ecd15d!important;
   border: 3px solid #c1a135fc;
 }
 
@@ -55,6 +55,7 @@ ul.profile-btn .btn div {
   filter: drop-shadow(1px 2px 4px gray);
   background-position: 7px 6px !important;
 }
+
 #remove-green, #add-green {
   background-position: 5.4px 6px !important;
 }
@@ -79,6 +80,7 @@ ul.profile-btn .btn div {
 }
 
 .addVerify {
+  margin: 7px 0;
   background: rgba(233, 232, 229, 0.8);
   border-radius: 50%;
 }
