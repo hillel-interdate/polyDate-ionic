@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {IonContent} from '@ionic/angular';
+import {IonContent, IonSlides} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
@@ -15,6 +15,7 @@ import {User} from '../interfaces/user';
 })
 export class ProfilePage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
+  @ViewChild(IonSlides, {static: false}) slides: IonSlides;
 
   isAbuseOpen: any = false;
   user: User;
@@ -236,11 +237,15 @@ export class ProfilePage implements OnInit {
           text: this.formReportAbuse.text.value,
         });
         this.api.http.post(this.api.apiUrl + '/reports/' + this.user.id + '/abuses', params, this.api.setHeaders(true)).subscribe((data: any) => {
-        this.api.toastCreate(data.success);
-        }, err => {
+                if (data.success) {
+                    this.api.toastCreate(data.success);
+                    this.reportAbuseClose();
+                } else {
+                    this.api.toastCreate(data.error);
+                }
+            }, err => {
           console.log('Oops!');
         });
-        this.reportAbuseClose();
     }
 
   ionViewWillLeave() {
@@ -251,5 +256,11 @@ export class ProfilePage implements OnInit {
       }, 8000);
       $(document).off();
   }
+
+
+    slideChanged(event) {
+        console.log('slideChanged')
+        $('.content').css({'height': 'auto'})
+    }
 
 }
