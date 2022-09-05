@@ -5,8 +5,8 @@
   <div class="user-section" [ngClass]="{'disabled': !user?.canWriteTo}">
     <div *ngIf="user?.isOnline == true" class="online"></div>
     <div class="right-icons">
-      <div *ngIf="user?.isPaying" class="paying" [class.vip]="user?.isVip"></div>
       <div *ngIf="user?.isNew" class="new-user"></div>
+      <div *ngIf="user?.isPaying" class="paying" [class.vip]="user?.isVip"></div>
       <div *ngIf="user?.isVerify" class="verify"></div>
     </div>
     <div tappable="tappable" *ngIf="user?.photo == '/images/no_photo_2.jpg' || user?.photo == '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url('+ user?.photo + ')'}"

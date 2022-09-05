@@ -100,28 +100,28 @@ ion-card {
   height: 26px;
   background-size: cover;
   z-index: 99;
-  position: absolute;
-  left: 9px;
 }
 
 .paying {
-  position: relative!important;
-  left: 4px;
+  position: unset!important;
 }
 
 .right-icons {
   position: absolute;
   top: 10px;
-  left: 0px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 .verify {
-  background: url(../../../assets/img/icons/verify.png) no-repeat;
-  width: 64px;
-  height: 64px;
-  background-size: contain;
-  position: relative;
-  left: -8px;
+  background-image: url(../../../assets/img/icons/verify.png);
+  background-repeat: no-repeat;
+  height: 39px;
+  width: 34px;
   background-size: contain;
 }
 
