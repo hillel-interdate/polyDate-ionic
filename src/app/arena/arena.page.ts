@@ -80,16 +80,11 @@ export class ArenaPage implements OnInit{
 
   getUsers() {
     let rendered = this.renderedUserCount;
-    // console.log(this.realRenderedUserCount, this.renderedUserCount);
     const num = (this.users.length - this.renderedUserCount > 10) ? 10 : this.users.length - this.renderedUserCount;
     this.renderedUserCount += num;
     this.realRenderedUserCount += num;
     for(let x = rendered; x < this.renderedUserCount; x++)  {
       this.renderUsers.push(this.users[x]);
-      // console.log(this.users);
-      // console.log(this.renderUsers);
-      // console.log(this.renderedUserCount);
-      // console.log(this.realRenderedUserCount);
     }
 
     if (this.renderUsers.length > (this.users.length / 2)) {
@@ -101,7 +96,6 @@ export class ArenaPage implements OnInit{
 
   setNotifications() {
     this.events.subscribe('user:created', (notifications) => {
-      // console.log('Welcome', notifications, 'at');
       this.notifications = notifications;
     });
   }
@@ -122,19 +116,16 @@ export class ArenaPage implements OnInit{
       }, error => {
         this.api.canCheckBingo = true;
       });
-      // this.slides.slideTo(this.index ,300);
+
       this.renderUsers.splice(this.index, 1);
       this.realRenderedUserCount--;
       this.slideChanged();
-      // this.index++;
-
 
     } else {
 
       this.api.http.get(this.api.apiUrl + '/dislikes/' + user.id, this.api.header).subscribe(res => console.log(res));
 
       this.slides.isEnd().then(end => {
-       // alert(1);
         console.log('index befor slice: ' + this.index);
         this.renderUsers.splice(this.index, 1);
         console.log('index after slice: ' + this.index);

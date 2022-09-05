@@ -54,6 +54,7 @@
         <resource-file src="resources/android/sound/ding_dong.mp3" target="app/src/main/res/raw/ding_dong.mp3" />
     </platform>
     <platform name="ios">
+        <allow-navigation href="*" />
         <preference name="WKWebViewOnly" value="true" />
         <feature name="CDVWKWebViewEngine">
             <param name="ios-package" value="CDVWKWebViewEngine" />
