@@ -24,7 +24,7 @@
         <!--        end of sorting   -->
     </div>
 
-    <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
+    <div class="no_results" *ngIf="!users || users.length == 0">{{ texts?.no_results }}</div>
     <cdk-virtual-scroll-viewport itemSize="207" minBufferPx="1000" maxBufferPx="1600" (scrolledIndexChange)="scrollEvent()">
         <ion-list lines="none">
             <ion-item no-padding *cdkVirtualFor="let user of users" style="padding:0 !important;">

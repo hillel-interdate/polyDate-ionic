@@ -258,8 +258,14 @@ ion-card {
 
 .no_results {
   text-align: center;
-  margin-top: 50px;
   font-size: 18px;
+  position: absolute;
+  top: -200px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  height: 25px;
 }
 
 .label-md, .label-ios {
