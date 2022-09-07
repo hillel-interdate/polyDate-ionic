@@ -453,6 +453,7 @@ export class DialogPage implements OnInit {
                 this.peerConnection = connection;
             }
             this.peerSubscribes();
+            this.messages.forEach(message => message.isRead = true);
         }));
         this.api.peerjs[this.myPeer].on('error', (err => {
             console.log('{err}');
