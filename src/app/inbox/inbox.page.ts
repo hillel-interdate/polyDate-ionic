@@ -47,6 +47,7 @@ export class InboxPage {
 
 
     ionViewWillEnter() {
+        this.api.pageName = 'InboxPage';
         if (!this.api.back) {
             // this.api.showLoad();
         } else {
@@ -84,7 +85,7 @@ export class InboxPage {
                 });
             }
         }
-        this.api.pageName = 'InboxPage';
+
     }
 
     ionViewWillLeave() {
@@ -104,10 +105,7 @@ export class InboxPage {
     getDialogs() {
         this.prop.page = 1;
         this.api.http.get(this.api.apiUrl + '/inbox?perPage=' + this.prop.perPage + '&page=' + this.prop.page, this.api.setHeaders(true)).subscribe((data: any) => {
-            console.log(data);
-            if (data.dialogs.length < this.prop.perPage) {
-                this.loader = false;
-            }
+            this.loader = !data.dialogs.length < this.prop.perPage
             // this.dialogs = data.dialogs;
             this.dialogs = [];
             for (const person of data.dialogs) {
@@ -119,10 +117,10 @@ export class InboxPage {
             this.notifications = data.notifications;
             console.log(this.notifications);
             this.api.hideLoad();
-            const that = this;
             setTimeout(() => {
-                if (that.api.pageName === 'InboxPage') {
-                    that.moreUsers();
+
+                if (this.api.pageName === 'InboxPage') {
+                    this.moreUsers();
                 }
             }, 1000);
         }, err => this.api.hideLoad());
