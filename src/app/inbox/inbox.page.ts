@@ -143,7 +143,9 @@ export class InboxPage {
                 }
                 for (const person of data.dialogs) {
                     // if(person.visibleMessagesNumber > 0 && this.dialogs[this.dialogs.length - 1]['user']['userId'] != person['user']['userId']){
+                    if (this.dialogs[this.dialogs.length - 1].id !== person.id) {
                         this.dialogs.push(person);
+                    }
                     // }
                 }
 
