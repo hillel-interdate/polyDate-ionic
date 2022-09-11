@@ -12,6 +12,7 @@ import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {reject} from 'q';
 import {Route, Router} from '@angular/router';
 import {InAppPurchase} from "@ionic-native/in-app-purchase/ngx";
+import {error} from "util";
 
 
 @Injectable({
@@ -58,6 +59,7 @@ export class ApiQuery {
     usersCache: any = [];
     location: any;
     canCheckBingo: boolean;
+    canRequestItunes = true;
 
     constructor(public storage: Storage,
                 public loadingCtrl: LoadingController,
@@ -105,27 +107,41 @@ export class ApiQuery {
     }
 
     sendPhoneId(idPhone) {
-        //  alert('in send id , api page, id: ' + JSON.stringify(idPhone));
+         // alert('in send id , api page, id: ' + JSON.stringify(idPhone));
         // alert('in send phone id from api page  ,will send this: ' + idPhone);
         const data = JSON.stringify({phone_id: idPhone});
         this.http.post(this.apiUrl + '/phones', data, this.setHeaders(true)).subscribe(data => {
             // alert('data after send id: ' + JSON.stringify(data));
         }), err => console.log('error was in send phone: ' + err);
 
-        // check once on login if the ios subscription is valid
-        if (this.platform.is('ios')) {
-            this.iap.restorePurchases().then( history => {
-                if (history) {
-                    this.http.post(this.apiUrl + '/subs',
-                        {history}, this.setHeaders(true))
-                        .subscribe((subscription: any) => {
-                            if (subscription.payment) {
-                                this.isPay = true;
-                            }
-                        }, err => console.log(err));
-                }});
-        }
+
     }
+
+    restoreIosPurchase() {
+        // alert(432)
+        this.iap.restorePurchases().then(history => {
+            if (history) {
+                this.http.post(this.apiUrl + '/subs',
+                    {history}, this.setHeaders(true))
+                    .subscribe((subscription: any) => {
+                        if (subscription.payment) {
+                            this.isPay = true;
+                        }
+                    })
+            }
+
+        }, err => {
+            console.log('in error')
+            console.log(err);
+            console.log((err.errorCode));
+            // console.log((JSON.parse(err).errorCode));
+            // err = JSON.parse(err)
+            if (err.errorCode == 2) {
+                this.canRequestItunes = false;
+            }
+        });
+    }
+
 
     functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
         for (let i = 0; i < arraytosearch.length; i++) {
@@ -256,10 +272,9 @@ export class ApiQuery {
     }
 
     openVideoChat(param) {
-        alert('in open video chat');
+        // alert('in open video chat');
         console.log(param);
         this.storage.get('user_data').then((data) => {
-            alert(1);
             console.log(this.callAlert);
 
             if (this.callAlert && this.callAlert != null) {
@@ -273,9 +288,8 @@ export class ApiQuery {
                 message: 'call',
                 id: param.chatId
             }, this.setHeaders(true)).subscribe((res: any) => {
-                alert(3);
-                this.stopAudio();
-                alert(4);
+                // alert(3);
+                // this.stopAudio();
                 console.log('init');
                 console.log(res);
                 if (res.error != '') {
@@ -287,13 +301,12 @@ export class ApiQuery {
 
                 } else {
                     // /user/call/push/
-                    alert(5);
+                    // alert(5);
                     if (res.call.sendPush) {
                         this.http.post(this.url + '/calls/' + param.id + '/push/' + param.id, {}, this.setHeaders(true)).subscribe((data: any) => {
 
                         });
                     }
-                    alert(6);
                     param.chatId = res.call.callId;
                     $('#close-btn,#video-iframe').remove();
                     const closeButton = document.createElement('button');
@@ -311,7 +324,7 @@ export class ApiQuery {
                     closeButton.style.left = 'calc(50% - 25px)';
                     closeButton.style.zIndex = '9999';
                     closeButton.onclick = (e) => {
-                        alert(7);
+                        // alert(7);
                         console.log('close window');
                         $('#close-btn,#video-iframe').remove();
                         this.http.post(this.apiUrl + '/calls/' + param.id, {
@@ -319,15 +332,14 @@ export class ApiQuery {
                             id: param.chatId
                         }, this.setHeaders(true)).subscribe((data: any) => {
                             // let res = data.json();
-                            alert(8);
                         });
                         this.videoChat = null;
                     };
 
-                    alert(9);
+                    // alert(9);
                     this.videoChat = document.createElement('iframe');
                     this.videoChat.setAttribute('id', 'video-iframe');
-                    alert(JSON.stringify(data));
+                    // alert(JSON.stringify(data));
                     this.videoChat.setAttribute('src', 'https://m.richdate.co.il/video.html?id=' + data.user_id + '&to=' + param.id);
                     this.videoChat.setAttribute('allow', 'camera; microphone');
                     this.videoChat.style.position = 'absolute';
@@ -340,12 +352,10 @@ export class ApiQuery {
                     this.videoChat.style.zIndex = '999';
                     this.videoChat.style['text-align'] = 'center';
 
-                    alert(10);
                     document.body.appendChild(this.videoChat);
                     document.body.appendChild(closeButton);
 
                     if (param.alert == false) {
-                        alert(11);
                         this.checkVideoStatus(param);
                     }
                 }

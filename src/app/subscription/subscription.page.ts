@@ -117,6 +117,7 @@ export class SubscriptionPage implements OnInit {
         });
         if (this.plt.is('ios')) {
             this.iap.restorePurchases().then((history) => {
+                // alert(3)
                 if (history) {
                     this.api.http.post(this.api.apiUrl + '/subs',
                         {history}, this.api.setHeaders(true))

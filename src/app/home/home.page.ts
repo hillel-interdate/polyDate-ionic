@@ -143,13 +143,15 @@ export class HomePage implements OnInit {
             }
         });
 
-
-
-
     }
 
 
     ionViewWillEnter() {
+
+        if (this.platform.is('ios') && this.api.canRequestItunes && !this.api.isPay ) {
+            // alert(42)
+            this.api.restoreIosPurchase();
+        }
 
         this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
             if ((this.api.pageName === 'LoginPage') || ((params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
@@ -192,25 +194,6 @@ export class HomePage implements OnInit {
             this.getUsers();
         });
 
-
-        if (this.platform.is('ios')) {
-            this.iap.restorePurchases().then((history) => {
-                console.log(history)
-                if (history) {
-                    this.api.http.post(this.api.apiUrl + '/subs',
-                        {history}, this.api.setHeaders(true))
-                        .subscribe((data: any) => {
-                            // alert(data)
-                            // alert(JSON.stringify(data));
-                            if (data.payment) {
-                                this.api.isPay = true;
-                            }
-                            return;
-                            // }
-                        }, err => console.log(err));
-                }
-            });
-        }
 
         this.api.pageName = 'HomePage';
 
